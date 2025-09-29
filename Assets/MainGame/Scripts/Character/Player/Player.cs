@@ -1,43 +1,84 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public Animator animator;
-    private CharacterController controller;
+    [Header("Movement Settings")]
+    public float forwardSpeed = 5f;
+    public float laneDistance = 2.5f;
+    public float laneChangeSpeed = 10f;  
+    public float jumpForce = 8f;
+    public float gravity = -20f;
 
-    void Start()
+    [Header("Animation")]
+    [SerializeField] private Animator anim;
+    private string currentAnim;
+
+    private CharacterController controller;
+    private Vector3 moveDirection;
+    private float verticalVelocity;
+
+    private int currentLane = 1; 
+
+    private void Start()
     {
-        animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
     }
 
-    void Update()
+    private void Update()
     {
-        // Lấy input từ mũi tên
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");     
+        
+        moveDirection = Vector3.forward * forwardSpeed;
 
-        Vector3 move = new Vector3(horizontal, 0, vertical).normalized;
-
-        // Nếu có input → di chuyển
-        if (move.magnitude > 0f)
+   
+        if (controller.isGrounded)
         {
-            // di chuyển theo hướng camera nhìn
-            controller.Move(move * moveSpeed * Time.deltaTime);
+            ChangeAnim("Run");
 
-            // xoay nhân vật về hướng di chuyển
-            transform.forward = move;
-
-            // bật animation chạy
-            animator.SetBool("Run", true);
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            {
+                verticalVelocity = jumpForce;
+                ChangeAnim("Jump");
+            }
         }
         else
         {
-            // bật animation idle
-            animator.SetBool("Run", false);
+            verticalVelocity += gravity * Time.deltaTime;
         }
+
+        
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            if (currentLane > 0)
+            {
+                currentLane--;
+                ChangeAnim("RunLeft");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            if (currentLane < 2)
+            {
+                currentLane++;
+                ChangeAnim("RunRight");
+            }
+        }
+
+        
+        float targetX = (currentLane - 1) * laneDistance;
+
+        
+        float newX = Mathf.MoveTowards(transform.position.x, targetX, laneChangeSpeed * Time.deltaTime);
+        moveDirection.x = (newX - transform.position.x) / Time.deltaTime;
+        moveDirection.y = verticalVelocity;
+        controller.Move(moveDirection * Time.deltaTime);
+    }
+
+    private void ChangeAnim(string animName)
+    {
+        if (currentAnim == animName) return;
+
+        anim.ResetTrigger(currentAnim);
+        currentAnim = animName;
+        anim.SetTrigger(currentAnim);
     }
 }
