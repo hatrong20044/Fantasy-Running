@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float forwardSpeed = 5f;
-    public float laneDistance = 2.5f;
+    public float laneDistance = 3.5f;
     public float laneChangeSpeed = 10f;  
     public float jumpForce = 8f;
     public float gravity = -20f;
