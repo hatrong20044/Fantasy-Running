@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class ObjectPool : MonoBehaviour
         public int size;
         public Transform parent;
     }
-    
+
     private void Awake()
     {
         this.Setup();
@@ -45,7 +46,7 @@ public class ObjectPool : MonoBehaviour
             Queue<GameObject> objectsPool = new Queue<GameObject>();
             for (int i = 0; i < pool.size; i++)
             {
-                GameObject obj = Instantiate(pool.prefab,pool.parent);
+                GameObject obj = Instantiate(pool.prefab, pool.parent);
                 obj.SetActive(false);
                 objectsPool.Enqueue(obj);
             }
@@ -59,16 +60,25 @@ public class ObjectPool : MonoBehaviour
             Debug.LogWarning("Pool với tag " + tag + " không tồn tại!");
             return null;
         }
-
-        if (poolDictionary[tag].Count == 0)
+        GameObject obj;
+        if (poolDictionary[tag].Count > 0)
         {
-            Debug.LogWarning("Pool với tag " + tag + " đã hết object!");
-            return null;
+            obj = poolDictionary[tag].Dequeue();
+            obj.SetActive(true);
+            return obj;
         }
-
-        GameObject obj = poolDictionary[tag].Dequeue();
-        obj.SetActive(true);
-        return obj;
+        else
+        {
+            Pool pool = pools.Find(p => p.tag == tag);
+            if (pool == null)
+            {
+                Debug.LogWarning("Không tìm thấy pool với tag " + tag);
+                return null;
+            }
+            obj = Instantiate(pool.prefab, pool.parent);
+            obj.SetActive(true);
+            return obj;
+        }
     }
 
     public void ReturnToPool(string tag, GameObject obj)
@@ -83,6 +93,5 @@ public class ObjectPool : MonoBehaviour
         obj.SetActive(false);
         poolDictionary[tag].Enqueue(obj);
     }
-
 
 }
