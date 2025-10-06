@@ -7,7 +7,7 @@ public class PoolInfo
     public string poolName; // "Coin", "Winter", "Summer", "Obstacle",....
     public GameObject prefab;
     public int poolSize;
-  //  public int maxPoolSize;
+    public int maxPoolSize;
     public Transform parent;
 
 }
