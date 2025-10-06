@@ -1,34 +1,32 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 
-[System.Serializable]
-public class PoolInfo
-{
-    public string poolName; // "Coin", "Winter", "Summer", "Obstacle",....
-    public GameObject prefab;
-    public int poolSize;
-    public int maxPoolSize;
-    public Transform parent;
-
-}
 public class ObjectPool : MonoBehaviour
 {
-    [SerializeField] private static ObjectPool instance;
-    public static ObjectPool Instance => instance;
-    [SerializeField] private List<PoolInfo> poolInfos = new();
-    [SerializeField] private Dictionary<string, Queue<GameObject>> poolDictionary = new();
-    [SerializeField] private Dictionary<string, PoolInfo> poolInfoDictionary = new();
+    public static ObjectPool Instance;
+    public List<Pool> pools;
+    public Dictionary<string, Queue<GameObject>> poolDictionary;
+    [System.Serializable]
+    public class Pool
+    {
+        public string tag;
+        public GameObject prefab;
+        public int size;
+        public Transform parent;
+    }
 
     private void Awake()
     {
         this.Setup();
     }
-
     private void Setup()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject); // Không hủy ObjectPool khi chuyển scene;
         }
         else
@@ -37,62 +35,54 @@ public class ObjectPool : MonoBehaviour
             return;
 
         }
-        this.InitializePools();
+        this.InitalizePool();
     }
-
-    private void InitializePools()
+    void InitalizePool()
     {
-        foreach(var poolInfo in poolInfos)
+        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+
+        foreach (Pool pool in pools)
         {
-            Queue<GameObject> pool = new();
-            poolInfoDictionary.Add(poolInfo.poolName, poolInfo);
-            for(int i = 0; i < poolInfo.poolSize; i++)
+            Queue<GameObject> objectsPool = new Queue<GameObject>();
+            for (int i = 0; i < pool.size; i++)
             {
-                GameObject obj = Instantiate(poolInfo.prefab, poolInfo.parent);
+                GameObject obj = Instantiate(pool.prefab, pool.parent);
                 obj.SetActive(false);
-                pool.Enqueue(obj);
+                objectsPool.Enqueue(obj);
             }
-            poolDictionary.Add(poolInfo.poolName, pool);
+            poolDictionary.Add(pool.tag, objectsPool);
         }
-
     }
-
-    public GameObject GetObjectFromPools(string poolName)
+    public GameObject GetFromPool(string tag)
     {
-        if (!poolDictionary.ContainsKey(poolName))
+        if (!poolDictionary.ContainsKey(tag))
         {
-            Debug.Log($"Pool with name {poolName} doesn't exist.");
+            Debug.LogWarning("Pool với tag " + tag + " không tồn tại!");
             return null;
         }
-        Queue<GameObject> pool = poolDictionary[poolName];
-        GameObject obj;
-        
-        if(pool.Count > 0)
+
+        if (poolDictionary[tag].Count == 0)
         {
-            obj = pool.Dequeue();
+            Debug.LogWarning("Pool với tag " + tag + " đã hết object!");
+            return null;
         }
-        else
-        {
-            PoolInfo info = poolInfoDictionary[poolName];
-            obj = Instantiate (info.prefab, info.parent);
-            poolInfoDictionary[poolName].poolSize++;
-        }
+
+        GameObject obj = poolDictionary[tag].Dequeue();
         obj.SetActive(true);
-        obj.GetComponent<IPooledObject>()?.OnSpawn();
         return obj;
     }
 
-    public void ReturnToPool(string poolName, GameObject obj)
+    public void ReturnToPool(string tag, GameObject obj)
     {
-        if (!poolDictionary.ContainsKey(poolName))
+        if (!poolDictionary.ContainsKey(tag))
         {
-            Debug.LogError($"Pool with name {poolName} doesn't exist.");
+            Debug.LogWarning("Pool với tag " + tag + " không tồn tại!");
+            Destroy(obj);
             return;
         }
 
-        obj.GetComponent<IPooledObject>()?.OnReturn();
         obj.SetActive(false);
-        poolDictionary[poolName].Enqueue(obj);
+        poolDictionary[tag].Enqueue(obj);
     }
 
 }

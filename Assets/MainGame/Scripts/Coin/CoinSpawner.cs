@@ -42,7 +42,7 @@ public class CoinSpawner : MonoBehaviour
                     startPosition.y,
                     startPosition.z + player.position.z + (i * coinSpacing)
                 );
-                GameObject coin = ObjectPool.Instance.GetObjectFromPools("Coin");
+                GameObject coin = ObjectPool.Instance.GetFromPool("Coin");
                 if (coin != null)
                 {
                     coin.transform.SetPositionAndRotation(coinPosition, Quaternion.identity);
@@ -60,7 +60,7 @@ public class CoinSpawner : MonoBehaviour
                     startPosition.y,
                     startPosition.z + player.position.z
                 );
-                GameObject coin = ObjectPool.Instance.GetObjectFromPools("Coin");
+                GameObject coin = ObjectPool.Instance.GetFromPool("Coin");
                 if (coin != null)
                 {
                     coin.transform.SetPositionAndRotation(coinPosition, Quaternion.identity);

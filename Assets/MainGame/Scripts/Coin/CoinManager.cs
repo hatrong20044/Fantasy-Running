@@ -1,20 +1,11 @@
 
 using UnityEngine;
 
-public class CoinManager : MonoBehaviour, IPooledObject
+public class CoinManager : MonoBehaviour
 {
     [SerializeField] private int rotateSpeed = 1;
     [SerializeField] private AudioSource coinFX;
     [SerializeField] private int coin = 0;
-
-    public void OnSpawn()
-    {
-
-    }
-    public void OnReturn()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
