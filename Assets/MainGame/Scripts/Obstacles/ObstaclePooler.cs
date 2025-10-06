@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
+using UnityEngine.XR;
 
 public class ObstaclePooler : MonoBehaviour
 {
@@ -14,6 +17,7 @@ public class ObstaclePooler : MonoBehaviour
         this.poolDictionary = new Dictionary<string, Queue<GameObject>>();
     }
     
+    // create pool for obstaclePools
     public void generatePool()
     {
         foreach (ObstaclePool obstaclePool in this.obstaclePools)
@@ -36,13 +40,9 @@ public class ObstaclePooler : MonoBehaviour
     {
         if (!this.poolDictionary.ContainsKey(type)) return null;
 
-        if (this.poolDictionary[type].Count > 0)
-        {
-            GameObject obstacle = this.poolDictionary[type].Dequeue();
-            obstacle.SetActive(true);
-            this.poolDictionary[type].Enqueue(obstacle);
-            return obstacle;
-        }
-        else return null;
+        GameObject obstacle = this.poolDictionary[type].Dequeue();
+        obstacle.SetActive(true);
+        this.poolDictionary[type].Enqueue(obstacle);
+        return obstacle;
     }
 }

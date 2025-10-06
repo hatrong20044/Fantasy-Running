@@ -7,6 +7,8 @@ public class ObstaclePool
     public string type;
     public GameObject obstaclePrefab;
     public int size = 20;
+
+    // Initial Function
     public ObstaclePool(string type, GameObject obstaclePrefab, int size) 
     {
         this.type = type;

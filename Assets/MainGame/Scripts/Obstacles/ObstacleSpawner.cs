@@ -1,6 +1,5 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
@@ -21,11 +20,26 @@ public class ObstacleSpawner : MonoBehaviour
         this.Player = GameObject.Find("Player");
         this.obstaclePrefab = GameObject.Find("ObstaclePrefab");
         this.obstaclePooler = FindObjectOfType<ObstaclePooler>();
+    }
+
+    private void Start()
+    {
+        this.Init();
+        this.Spawn();
+    }
+
+    private void Update()
+    {
+        this.ResetObstacle();
+    }
+
+    // get all kind of obstacles and add them to obstaclePools to prepare to g
+    public void Init()
+    {
         foreach (Transform child in this.obstaclePrefab.transform)
         {
             foreach (Transform child2 in child.transform)
             {
-                Debug.Log(child2.name);
                 ObstaclePool obstaclePool = null;
                 if (child.name == "PassableObstacle")
                 {
@@ -47,37 +61,27 @@ public class ObstacleSpawner : MonoBehaviour
 
         this.obstaclePooler.generatePool();
     }
-    
-    private void Start()
-    {
-        this.spawn();
-    }
-
-    private void Update()
-    {
-        this.resetObstacle();
-    }
 
     //Generate a list obstacles include 2 nonpassable obstacle and 1 passable obstacle
-    public List<GameObject> generateSystemObstacle()
+    public List<GameObject> GenerateSystemObstacle()
     {
         List<GameObject> obstacles = new List<GameObject>();
         int randomIndex = 0;
         //create and add 2 random non passable obstacle and add to list
         for (int i = 0; i < 2; i++)
         {
-            randomIndex = Random.Range(0, this.nonPassableObstacleTags.Count);
+            randomIndex = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
             GameObject nonPassableObstacle = this.obstaclePooler.getObstacle(this.nonPassableObstacleTags[randomIndex]);
             obstacles.Add(nonPassableObstacle);
         }
         //create a passable obstacle and add to list
-        randomIndex = Random.Range(0, this.passableObstacleTags.Count);
+        randomIndex = UnityEngine.Random.Range(0, this.passableObstacleTags.Count);
         GameObject passableObstacle = this.obstaclePooler.getObstacle(this.passableObstacleTags[randomIndex]);
         obstacles.Add(passableObstacle);
 
         return obstacles;
     }
-    
+
     // set position for each obstacle in list obstacle to create a system obstcale
     // a obstacle system include 2 non passable obstacle and a passable obsatcle that was set on a horizontal row.
     public void SetPosObstacleSystem(List<GameObject> obstacles)
@@ -85,29 +89,29 @@ public class ObstacleSpawner : MonoBehaviour
         List<int> lanes = new List<int> { -1, 0, 1 };
         for (int i = 0; i < obstacles.Count; i++)
         {
-            int laneIndex = Random.Range(0, lanes.Count);
+            int laneIndex = UnityEngine.Random.Range(0, lanes.Count);
             obstacles[i].transform.position = new Vector3(this.laneDistance * lanes[laneIndex], obstacles[i].transform.position.y, this.currentObstaclePosZ);
             lanes.RemoveAt(laneIndex);
         }
     }
 
     // spawn obstacle systems when start game
-    public void spawn()
+    public void Spawn()
     {
         for (int i = 0; i < this.maxSystemObstacle; i++)
         {
-            List<GameObject> obstacles = this.generateSystemObstacle();
+            List<GameObject> obstacles = this.GenerateSystemObstacle();
             SetPosObstacleSystem(obstacles);
             this.currentObstaclePosZ += distanceObtacle;
         }
     }
 
     // reuse the obstacle systems that player overcame
-    public void resetObstacle()
+    public void ResetObstacle()
     {
         if (this.Player.transform.position.z > this.currentResetPosZ)
         {
-            List<GameObject> obstacles = this.generateSystemObstacle();
+            List<GameObject> obstacles = this.GenerateSystemObstacle();
             SetPosObstacleSystem(obstacles);
             this.currentResetPosZ += this.distanceObtacle;
             this.currentObstaclePosZ += distanceObtacle;
