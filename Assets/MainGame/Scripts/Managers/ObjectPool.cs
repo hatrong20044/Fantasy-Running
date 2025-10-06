@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
+    //Them Dictionary<string, Pool> poolInfoDictionary
     public static ObjectPool Instance;
     public List<Pool> pools;
     public Dictionary<string, Queue<GameObject>> poolDictionary;
@@ -69,15 +70,7 @@ public class ObjectPool : MonoBehaviour
         }
         else
         {
-            Pool pool = pools.Find(p => p.tag == tag);
-            if (pool == null)
-            {
-                Debug.LogWarning("Không tìm thấy pool với tag " + tag);
-                return null;
-            }
-            obj = Instantiate(pool.prefab, pool.parent);
-            obj.SetActive(true);
-            return obj;
+            return null;
         }
     }
 
@@ -94,4 +87,9 @@ public class ObjectPool : MonoBehaviour
         poolDictionary[tag].Enqueue(obj);
     }
 
+    public int GetCoinPoolSize()
+    {
+        Pool pool = pools.Find(p => p.tag == "Coin");
+        return pool.size;
+    }
 }

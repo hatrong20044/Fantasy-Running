@@ -315,7 +315,7 @@ MonoBehaviour:
   pools:
   - tag: Coin
     prefab: {fileID: 2128353169}
-    size: 5
+    size: 100
     parent: {fileID: 1164277190}
   - tag: SummerMap
     prefab: {fileID: 231719845911995490, guid: 93f1508d16216e64eaa00d04618bbf72, type: 3}
@@ -350,6 +350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 828670631}
   - component: {fileID: 828670630}
+  - component: {fileID: 828670632}
   m_Layer: 0
   m_Name: CoinSpawner
   m_TagString: Untagged
@@ -370,10 +371,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1737416679}
-  startPosition: {x: 0, y: 1.2, z: 10}
-  coinSpacing: 2
-  spawnDistance: 20
-  dir: 0
+  patternManager: {fileID: 828670632}
+  lastSpawn: {x: 0, y: 0, z: 0}
+  destroyDistance: 10
 --- !u!4 &828670631
 Transform:
   m_ObjectHideFlags: 0
@@ -389,6 +389,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &828670632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828670629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf248574b745444cad4eb8dc3937132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns: []
+  laneDistance: 2.5
+  coinSpacing: 2
 --- !u!1 &883480027
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +514,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &888142515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 888142517}
+  - component: {fileID: 888142516}
+  m_Layer: 0
+  m_Name: CoinManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &888142516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888142515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bacda669def3343ba3dddfc9cfd772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coin: 0
+--- !u!4 &888142517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888142515}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00000011920929, y: 1, z: -0.2838159}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1164277189
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,9 +650,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4860115075093684193, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: jumpForce
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+      propertyPath: forwardSpeed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: laneDistance
@@ -968,7 +1036,8 @@ SceneRoots:
   - {fileID: 1627823371}
   - {fileID: 555845530}
   - {fileID: 1164277190}
+  - {fileID: 1937675090}
+  - {fileID: 888142517}
   - {fileID: 1678454410}
   - {fileID: 828670631}
-  - {fileID: 1937675090}
   - {fileID: 1390791734}

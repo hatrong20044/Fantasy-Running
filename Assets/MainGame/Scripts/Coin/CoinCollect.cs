@@ -1,24 +1,21 @@
 
 using UnityEngine;
 
-public class CoinManager : MonoBehaviour
+public class CoinCollect : MonoBehaviour
 {
     [SerializeField] private int rotateSpeed = 1;
     [SerializeField] private AudioSource coinFX;
-    [SerializeField] private int coin = 0;
-
+    
     private void OnTriggerEnter(Collider other)
     {
-        coinFX.Play();
-        ObjectPool.Instance.ReturnToPool("Coin", gameObject);
-        this.UpdateCoin();
+        if (other.CompareTag("Player"))
+        {
+            coinFX.Play();
+            ObjectPool.Instance.ReturnToPool("Coin", gameObject);
+            CoinManager.Instance.AddCoin();
+        }
+        
     }
-
-    public void UpdateCoin()
-    {
-        coin++;
-    }
-
     void Update()
     {
         transform.Rotate(0, rotateSpeed, 0, Space.World);
