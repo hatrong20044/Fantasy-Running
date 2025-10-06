@@ -5,17 +5,39 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
+    public static ObjectPool Instance;
+    public List<Pool> pools;
+    public Dictionary<string, Queue<GameObject>> poolDictionary;
     [System.Serializable]
     public class Pool
     {
         public string tag;
         public GameObject prefab;
         public int size;
+        public Transform parent;
     }
-    public static ObjectPool Instance;
+    
     private void Awake()
     {
-        Instance = this;
+        this.Setup();
+    }
+    private void Setup()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Không hủy ObjectPool khi chuyển scene;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+
+        }
+        this.InitalizePool();
+    }
+    void InitalizePool()
+    {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
         foreach (Pool pool in pools)
@@ -23,18 +45,13 @@ public class ObjectPool : MonoBehaviour
             Queue<GameObject> objectsPool = new Queue<GameObject>();
             for (int i = 0; i < pool.size; i++)
             {
-                GameObject obj = Instantiate(pool.prefab);
+                GameObject obj = Instantiate(pool.prefab,pool.parent);
                 obj.SetActive(false);
                 objectsPool.Enqueue(obj);
             }
             poolDictionary.Add(pool.tag, objectsPool);
         }
     }
-
-    public List<Pool> pools;
-    public Dictionary<string, Queue<GameObject>> poolDictionary;
-
- 
     public GameObject GetFromPool(string tag)
     {
         if (!poolDictionary.ContainsKey(tag))
