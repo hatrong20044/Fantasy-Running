@@ -590,9 +590,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4860115075093684193, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: jumpForce
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+      propertyPath: forwardSpeed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: laneDistance
