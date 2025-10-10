@@ -26,11 +26,11 @@ public class ObstaclePooler : MonoBehaviour
 
             for (int i = 0; i < obstaclePool.size; i++)
             {
-                GameObject obstacle = Instantiate(obstaclePool.obstaclePrefab);
+                GameObject obstacle = Instantiate(obstaclePool.obstaclePrefab, transform);
                 obstacle.SetActive(false);
                 pool.Enqueue(obstacle);
             }
-
+             
             this.poolDictionary.Add(obstaclePool.type, pool);
         }
     }

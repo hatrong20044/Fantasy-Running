@@ -13,6 +13,7 @@ public class ObstacleSpawner : MonoBehaviour
     public float laneDistance = 2.5f; // distance between lanes (Left, Middle, Right)
     public float currentObstaclePosZ = 10f; // the final position of the system obstacle was spawn
     public float currentResetPosZ = 15f; // if player overcome this position, reuse obsctacle system and spawn 
+    public string curentSeason;
     public GameObject Player;
 
     private void Awake()
@@ -20,6 +21,8 @@ public class ObstacleSpawner : MonoBehaviour
         this.Player = GameObject.Find("Player");
         this.obstaclePrefab = GameObject.Find("ObstaclePrefab");
         this.obstaclePooler = FindObjectOfType<ObstaclePooler>();
+        this.curentSeason = "Summer";
+        AssetCollector.instance.LoadSeason(this.curentSeason);
     }
 
     private void Start()
@@ -66,17 +69,22 @@ public class ObstacleSpawner : MonoBehaviour
     public List<GameObject> GenerateSystemObstacle()
     {
         List<GameObject> obstacles = new List<GameObject>();
-        int randomIndex = 0;
+        int randomBaseObstacle = 0;
+        int randomApperanceObstacle = 0;
         //create and add 2 random non passable obstacle and add to list
         for (int i = 0; i < 2; i++)
         {
-            randomIndex = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
-            GameObject nonPassableObstacle = this.obstaclePooler.getObstacle(this.nonPassableObstacleTags[randomIndex]);
+            randomBaseObstacle = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
+            randomApperanceObstacle = UnityEngine.Random.Range(0, AssetCollector.instance.currentNonPassable.Count);
+            GameObject nonPassableObstacle = this.obstaclePooler.getObstacle(this.nonPassableObstacleTags[randomBaseObstacle]);
+            this.ApplyMeshAndMeshRenderer(nonPassableObstacle, randomApperanceObstacle, AssetCollector.instance.currentNonPassable);
             obstacles.Add(nonPassableObstacle);
         }
         //create a passable obstacle and add to list
-        randomIndex = UnityEngine.Random.Range(0, this.passableObstacleTags.Count);
-        GameObject passableObstacle = this.obstaclePooler.getObstacle(this.passableObstacleTags[randomIndex]);
+        randomBaseObstacle = UnityEngine.Random.Range(0, this.passableObstacleTags.Count);
+        randomApperanceObstacle = UnityEngine.Random.Range(0, AssetCollector.instance.currentPassable.Count);
+        GameObject passableObstacle = this.obstaclePooler.getObstacle(this.passableObstacleTags[randomBaseObstacle]);
+        this.ApplyMeshAndMeshRenderer(passableObstacle, randomApperanceObstacle, AssetCollector.instance.currentPassable);
         obstacles.Add(passableObstacle);
 
         return obstacles;
@@ -93,6 +101,20 @@ public class ObstacleSpawner : MonoBehaviour
             obstacles[i].transform.position = new Vector3(this.laneDistance * lanes[laneIndex], obstacles[i].transform.position.y, this.currentObstaclePosZ);
             lanes.RemoveAt(laneIndex);
         }
+    }
+
+    // apply prefab's mesh and prefab's mesh renderer to obstacle (apply apperance)
+    public void ApplyMeshAndMeshRenderer(GameObject gameObject, int randomIndex, List<ObstacleAsset> obstacleAssets)
+    {
+        MeshFilter filter2 = gameObject.GetComponent<MeshFilter>();
+        MeshRenderer meshRenderer2 = gameObject.GetComponent<MeshRenderer>();
+        if (filter2 == null && meshRenderer2 == null) return;
+        
+        filter2.transform.localScale = obstacleAssets[randomIndex].prefab.transform.localScale;
+        filter2.transform.rotation = obstacleAssets[randomIndex].prefab.transform.rotation;
+        filter2.transform.position = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
+        filter2.sharedMesh = obstacleAssets[randomIndex].prefab.GetComponent<MeshFilter>().mesh;
+        meshRenderer2.sharedMaterials = obstacleAssets[randomIndex].prefab.GetComponent<MeshRenderer>().materials;
     }
 
     // spawn obstacle systems when start game
