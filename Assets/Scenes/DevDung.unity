@@ -1327,6 +1327,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+      propertyPath: forwardSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: laneDistance
       value: 2.5
       objectReference: {fileID: 0}
@@ -2624,7 +2628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passableObstacleTags: []
   nonPassableObstacleTags: []
-  obstaclePooler: {fileID: 0}
+  obstaclePooler: {fileID: 1973629640}
   obstaclePrefab: {fileID: 0}
   distanceObtacle: 10
   maxSystemObstacle: 10
