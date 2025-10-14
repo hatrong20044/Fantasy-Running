@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     private bool isSliding = false;
     private float slideTimer = 0f;
 
-    // Lưu giá trị ban đầu
+    
     private float normalHeight;
     private Vector3 normalCenter;
     private float capsuleNormalHeight;
@@ -47,7 +47,6 @@ public class Player : MonoBehaviour
         controller = GetComponent<CharacterController>();
         capsuleCollider = GetComponent<CapsuleCollider>();
 
-        // Lưu giá trị ban đầu của Character Controller
         normalHeight = controller.height;
         normalCenter = controller.center;
 
@@ -73,13 +72,13 @@ public class Player : MonoBehaviour
                 isJumping = false;
             }
 
-            // Chỉ đổi animation về Run khi không slide và không jump
+            
             if (!isSliding && !isJumping)
             {
                 ChangeAnim("Run");
             }
 
-            // Jump - không thể jump khi đang slide
+            
             if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || swipeUp) && !isSliding)
             {
                 verticalVelocity = jumpForce;
@@ -87,13 +86,13 @@ public class Player : MonoBehaviour
                 ChangeAnim("Jump");
             }
 
-            // Slide - nhấn Down hoặc S hoặc swipe down
+            
             if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || swipeDown) && !isJumping && !isSliding)
             {
                 StartSlide();
             }
 
-            // Giữ player "dính" xuống đất khi không jump
+            
             if (!isJumping)
             {
                 verticalVelocity = -2f;
@@ -179,11 +178,10 @@ public class Player : MonoBehaviour
         isSliding = true;
         slideTimer = slideDuration;
 
-        // Thay đổi Character Controller
+       
         controller.height = slideHeight;
         controller.center = new Vector3(0, slideCenter, 0);
 
-        // Thay đổi Capsule Collider (visual) cùng thông số
         if (capsuleCollider != null)
         {
             capsuleCollider.height = slideHeight;

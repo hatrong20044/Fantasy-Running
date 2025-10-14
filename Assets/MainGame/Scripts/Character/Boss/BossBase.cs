@@ -6,7 +6,7 @@ public abstract class BossBase : MonoBehaviour
     protected bool isActive;
     protected float timer;
 
-    protected Player player; // <-- thêm dòng này
+    protected Player player; 
 
     public void Initialize(Player playerRef)
     {

@@ -12,7 +12,7 @@ public class ReverseControlBoss : BossBase
         if (player != null)
         {
             player.ReverseInput(true);
-            Debug.Log("⚡ ReverseControlBoss xuất hiện! Điều khiển bị đảo ngược!");
+           
         }
     }
 
@@ -32,7 +32,7 @@ public class ReverseControlBoss : BossBase
         if (player != null)
         {
             player.ReverseInput(false);
-            Debug.Log("🌀 ReverseControlBoss biến mất, điều khiển trở lại bình thường.");
+            
         }
     }
 
