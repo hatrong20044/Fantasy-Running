@@ -827,9 +827,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maps:
-  - tag: SummerMap
-    length: 38
   - tag: WinterMap
+    length: 35
+  - tag: Market_1
     length: 35
   spawnPerMap: 10
 --- !u!4 &556138775
@@ -1327,6 +1327,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+      propertyPath: forwardSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: laneDistance
       value: 2.5
       objectReference: {fileID: 0}
@@ -1383,12 +1387,12 @@ MonoBehaviour:
     prefab: {fileID: 22063753}
     size: 100
     parent: {fileID: 389746730}
-  - tag: SummerMap
-    prefab: {fileID: 231719845911995490, guid: 93f1508d16216e64eaa00d04618bbf72, type: 3}
-    size: 5
-    parent: {fileID: 1264640004}
   - tag: WinterMap
     prefab: {fileID: 6767620066589187286, guid: 896c14215cacdb84a9c660eea3844112, type: 3}
+    size: 5
+    parent: {fileID: 1264640004}
+  - tag: Market_1
+    prefab: {fileID: 2368773709264388371, guid: 99e411332f2de6e4c98882b104e8e68c, type: 3}
     size: 5
     parent: {fileID: 1264640004}
 --- !u!4 &766391610
@@ -2609,7 +2613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1452034202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3225,7 +3229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1973629640
 MonoBehaviour:
   m_ObjectHideFlags: 0
