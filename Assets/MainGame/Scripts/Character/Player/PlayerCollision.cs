@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCollision : MonoBehaviour
 {
     private bool isInvincible = false;
+    [SerializeField]private GameObject  canvas;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -27,6 +30,6 @@ public class PlayerCollision : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("Game over");
+        canvas.SetActive(true);
     }
 }
