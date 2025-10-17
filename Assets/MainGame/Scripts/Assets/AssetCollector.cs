@@ -6,25 +6,31 @@ public class ObstacleAsset
 {
     public string name;
     public GameObject prefab;
+    public ObstacleType.ObstacleSubType subType;
 }
 
 public class AssetCollector : MonoBehaviour
 {
     public static AssetCollector instance;
-    public List<ObstacleAsset> currentPassable; //Store Obstacles's Mesh of current season (map's season)
-    public List<ObstacleAsset> currentNonPassable; //Store Obstacles's Mesh Renderer of current season (map's season)
+    private Dictionary<ObstacleType.ObstacleSubType, List<ObstacleAsset>> passableObstacles = new Dictionary<ObstacleType.ObstacleSubType, List<ObstacleAsset>>();
+    private Dictionary<ObstacleType.ObstacleSubType, List<ObstacleAsset>> nonPassableObstacles = new Dictionary<ObstacleType.ObstacleSubType, List<ObstacleAsset>>();
 
     void Awake()
     {
         AssetCollector.instance = this;
-        this.currentPassable = new List<ObstacleAsset>();
-        this.currentNonPassable = new List<ObstacleAsset>();
     }
 
     public void LoadSeason(string season)
     {
-        this.currentPassable.Clear();
-        this.currentNonPassable.Clear();
+        this.passableObstacles.Clear();
+        this.nonPassableObstacles.Clear();
+
+        // Khởi tạo các key trong Dictionary để tránh lỗi null
+        foreach (ObstacleType.ObstacleSubType subType in System.Enum.GetValues(typeof(ObstacleType.ObstacleSubType)))
+        {
+            passableObstacles[subType] = new List<ObstacleAsset>();
+            nonPassableObstacles[subType] = new List<ObstacleAsset>();
+        }
 
         Transform seasonRoot = transform.Find(season);
         if (seasonRoot == null) return;
@@ -32,27 +38,37 @@ public class AssetCollector : MonoBehaviour
         Transform passable = seasonRoot.Find("Passable");
         Transform nonPassable = seasonRoot.Find("NonPassable");
 
-        CollectMeshes(passable, this.currentPassable);
-        CollectMeshes(nonPassable, this.currentNonPassable);
+        CollectMeshes(passable, true);
+        CollectMeshes(nonPassable, false);
     }
 
-    void CollectMeshes(Transform parent, List<ObstacleAsset> list)
+    void CollectMeshes(Transform parent, bool isPassable)
     {
         if (parent == null) return;
         foreach (Transform child in parent)
         {
             MeshFilter filter = child.GetComponent<MeshFilter>();
             MeshRenderer renderer = child.GetComponent<MeshRenderer>();
+            ObstacleType obstacleType = child.GetComponent<ObstacleType>();
 
-            if (filter && renderer)
+            if (filter && renderer && obstacleType)
             {
                 var asset = new ObstacleAsset
                 {
                     name = child.name,
-                    prefab = child.gameObject
+                    prefab = child.gameObject,
+                    subType = obstacleType.subType
                 };
-                list.Add(asset);
+                if (isPassable) 
+                    this.passableObstacles[asset.subType].Add(asset);
+                else 
+                    this.nonPassableObstacles[asset.subType].Add(asset);
             }
         }
+    }
+
+    public List<ObstacleAsset> GetAssetsBySubType(bool isPassable, ObstacleType.ObstacleSubType subType)
+    {
+        return isPassable ? this.passableObstacles[subType] : this.nonPassableObstacles[subType];
     }
 }
