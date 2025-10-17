@@ -831,7 +831,17 @@ MonoBehaviour:
     length: 35
   - tag: Market_1
     length: 35
-  spawnPerMap: 10
+  - tag: Market_2
+    length: 35
+  - tag: Winter_1
+    length: 40
+  - tag: Winter_2
+    length: 40
+  - tag: Winter_3
+    length: 40
+  - tag: Winter_4
+    length: 40
+  spawnPerMap: 5
 --- !u!4 &556138775
 Transform:
   m_ObjectHideFlags: 0
@@ -1393,6 +1403,26 @@ MonoBehaviour:
     parent: {fileID: 1264640004}
   - tag: Market_1
     prefab: {fileID: 2368773709264388371, guid: 99e411332f2de6e4c98882b104e8e68c, type: 3}
+    size: 5
+    parent: {fileID: 1264640004}
+  - tag: Market_2
+    prefab: {fileID: 3322127891921367051, guid: 95ce9807ca515994681bbd66a035d255, type: 3}
+    size: 5
+    parent: {fileID: 1264640004}
+  - tag: Winter_1
+    prefab: {fileID: 7599224944904824686, guid: a2e30e1d43f054a4b8350f96945c0067, type: 3}
+    size: 5
+    parent: {fileID: 1264640004}
+  - tag: Winter_2
+    prefab: {fileID: 1696255129059200367, guid: 1cc07ea7cf72957479ec41a5a4938f60, type: 3}
+    size: 5
+    parent: {fileID: 1264640004}
+  - tag: Winter_3
+    prefab: {fileID: 7750901153845331857, guid: 7185a7cc9b4de7a4e97cdc2789694e7d, type: 3}
+    size: 5
+    parent: {fileID: 1264640004}
+  - tag: Winter_4
+    prefab: {fileID: 6551388163696026744, guid: 17edc73660d3e7c4292f2f6e315df29a, type: 3}
     size: 5
     parent: {fileID: 1264640004}
 --- !u!4 &766391610
@@ -2613,7 +2643,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1452034202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3229,7 +3259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1973629640
 MonoBehaviour:
   m_ObjectHideFlags: 0
