@@ -1321,7 +1321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maps:
   - tag: SummerMap
-    length: 38
+    length: 33
   - tag: WinterMap
     length: 35
   spawnPerMap: 10
