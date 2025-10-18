@@ -13,7 +13,6 @@ public class CoinSpawner : MonoBehaviour
 
     private void Start()
     {
-
         SpawnCoins(player.position.z + 20f);
     }
 
