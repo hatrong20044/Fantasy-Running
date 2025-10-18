@@ -82,9 +82,9 @@ public class ObstacleSpawner : MonoBehaviour
             randomApperanceObstacle = UnityEngine.Random.Range(0, passableObstacleAssets.Count);
             this.ApplyMeshAndMeshRenderer(passableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, passableObstacleAssets);
             obstacles.Add(passableObstacle);
-            this.obstaclePositions.Add(new(passableObstacle.transform.position, passableObstacleType));
-            this.activeObstacles.Add(passableObstacle);
         }
+        this.obstaclePositions.Add(new(passableObstacle.transform.position, passableObstacleType));
+        this.activeObstacles.Add(passableObstacle);
 
         return obstacles;
     }
@@ -145,9 +145,9 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < this.activeObstacles.Count; i++)
         {
             GameObject obstacle = this.activeObstacles[i];
-            if (obstacle != null && obstacle.activeSelf && obstacle.transform.position.z < this.Player.transform.position.z - this.destroyDistance)
+            if (obstacle.activeSelf && obstacle.transform.position.z < this.Player.transform.position.z - this.destroyDistance)
             {
-                Debug.Log(obstacle.name);
+                Debug.Log(obstacle.name.Replace("(Clone)", ""));
                 ObjectPool.Instance.ReturnToPool(obstacle.name.Replace("(Clone)",""), obstacle);
                 this.activeObstacles.RemoveAt(i);
             }
