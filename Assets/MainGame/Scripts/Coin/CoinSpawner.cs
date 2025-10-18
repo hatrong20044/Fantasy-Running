@@ -8,7 +8,7 @@ public class CoinSpawner : MonoBehaviour
     [SerializeField] private Transform player; 
     [SerializeField] private PatternManager patternManager; 
     [SerializeField] private Vector3 lastSpawn;
-    [SerializeField] private float destroyDistance = 2f;
+   [SerializeField] private float destroyDistance = 2f;
     private List<GameObject> activeCoins = new();
 
     private void Start()
@@ -20,7 +20,7 @@ public class CoinSpawner : MonoBehaviour
     private void Update()
     {
         this.CheckandSpawnCoin();
-        this.DestroyCoin();
+        // this.DestroyCoin();
     }
 
     // Spawn coin moi khi player di chuyen du khoang cach
