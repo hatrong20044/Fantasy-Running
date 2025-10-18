@@ -5,17 +5,23 @@ using UnityEngine;
 [System.Serializable]
 public class MapInfo
 {
-    public string tag;        // Tag của pool (vd: "Map1", "Map2")
+    public string tag;        // Tag của pool (vd: "winter_1", "winter_2")
     public float length;      // Chiều dài của map
+}
+
+[System.Serializable]
+public class Theme
+{
+    public string name;       // Tên chủ đề (vd: "Winter", "Sea")
+    public List<MapInfo> maps;
+    public int spawnPerTheme = 10; // Số lần spawn random trong chủ đề này trước khi chuyển
 }
 
 public class GroundSpawner : MonoBehaviour
 {
-    public List<MapInfo> maps;
-    private int currentMapIndex = 0;
+    public List<Theme> themes;
+    private int currentThemeIndex = 0;
     private int spawnCounter = 0;
-
-    public int spawnPerMap = 10; // cố định 10 lần mỗi map
     private Vector3 nextSpawnPoint = Vector3.zero;
 
     void Start()
@@ -29,9 +35,15 @@ public class GroundSpawner : MonoBehaviour
 
     public void SpawnTile()
     {
-        if (maps.Count == 0) return;
+        if (themes.Count == 0) return;
 
-        MapInfo currentMap = maps[currentMapIndex];
+        Theme currentTheme = themes[currentThemeIndex];
+
+        if (currentTheme.maps.Count == 0) return;
+
+        // Random chọn một map từ list maps của chủ đề hiện tại
+        int randomIndex = Random.Range(0, currentTheme.maps.Count);
+        MapInfo currentMap = currentTheme.maps[randomIndex];
 
         // Lấy từ pool
         GameObject tile = ObjectPool.Instance.GetFromPool(currentMap.tag);
@@ -59,18 +71,14 @@ public class GroundSpawner : MonoBehaviour
         // Cập nhật điểm spawn tiếp theo dựa vào chiều dài map
         nextSpawnPoint += Vector3.forward * currentMap.length;
 
-        // Đếm số lần spawn map hiện tại
+        // Đếm số lần spawn trong chủ đề hiện tại
         spawnCounter++;
 
-        // Nếu đủ 10 lần thì chuyển map
-        if (spawnCounter >= spawnPerMap)
+        // Nếu đủ số lần thì chuyển chủ đề
+        if (spawnCounter >= currentTheme.spawnPerTheme)
         {
             spawnCounter = 0;
-            currentMapIndex++;
-
-            // Nếu hết map thì quay lại map đầu
-            if (currentMapIndex >= maps.Count)
-                currentMapIndex = 0;
+            currentThemeIndex = (currentThemeIndex + 1) % themes.Count;
         }
     }
 }
