@@ -2106,7 +2106,7 @@ MonoBehaviour:
     parent: {fileID: 1973629641}
   - tag: Obstacle1
     prefab: {fileID: 355590623}
-    size: 10
+    size: 20
     parent: {fileID: 1973629641}
   - tag: Obstacle2
     prefab: {fileID: 233820153}
@@ -2118,7 +2118,7 @@ MonoBehaviour:
     parent: {fileID: 1973629641}
   - tag: Obstacle4
     prefab: {fileID: 629085637}
-    size: 10
+    size: 20
     parent: {fileID: 1973629641}
 --- !u!4 &766391610
 Transform:
@@ -2689,7 +2689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 763987138}
-  offset: {x: 0, y: 4, z: -2}
+  offset: {x: 0, y: 4, z: -6}
   smoothTimeX: 0.15
   smoothTimeY: 0.1
   smoothTimeZ: 0.05
@@ -3738,15 +3738,16 @@ MonoBehaviour:
   nonPassableObstacleTags:
   - Obstacle1
   - Obstacle4
-  obstaclePooler: {fileID: 0}
   obstaclePrefab: {fileID: 0}
   distanceObtacle: 30
   maxSystemObstacle: 10
   laneDistance: 2.5
   currentObstaclePosZ: 30
   currentResetPosZ: 35
+  destroyDistance: 2
   curentSeason: 
   Player: {fileID: 0}
+  activeObstacles: []
 --- !u!4 &1452034203
 Transform:
   m_ObjectHideFlags: 0
