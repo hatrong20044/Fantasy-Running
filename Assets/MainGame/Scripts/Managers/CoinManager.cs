@@ -1,11 +1,12 @@
 ﻿
 using UnityEngine;
+using static System.Net.Mime.MediaTypeNames;
 
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
     [SerializeField] private int coin = 0;
-
+    [SerializeField] GameObject coinDisplay;
     private void Awake()
     {
         if (Instance == null)
@@ -23,10 +24,12 @@ public class CoinManager : MonoBehaviour
     public void AddCoin(int mount = 1)
     {
         coin += mount;
-        Debug.Log("Coin: " + coin);
-        // Save game;
+       
     }
-
+    public void DisPlayCoin()
+    {
+        coinDisplay.GetComponent<TMPro.TMP_Text>().text = "Coin: " + coin;
+    }
     public int GetCoin()
     {
         return coin;

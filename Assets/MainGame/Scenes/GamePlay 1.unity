@@ -1319,42 +1319,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ea89618885714e91757151a09b53c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  themes:
-  - name: SummerMap
-    maps:
-    - tag: SummerMap_1
-      length: 28
-    - tag: SummerMap_2
-      length: 28
-    spawnPerTheme: 5
-  - name: Desert
-    maps:
-    - tag: Desert_1
-      length: 35
-    - tag: Desert_2
-      length: 35
-    spawnPerTheme: 5
-  - name: Market
-    maps:
-    - tag: Market_1
-      length: 28
-    - tag: Market_2
-      length: 28
-    spawnPerTheme: 5
-  - name: Winter
-    maps:
-    - tag: Winter_1
-      length: 28
-    - tag: Winter_2
-      length: 28
-    spawnPerTheme: 5
-  - name: Sea
-    maps:
-    - tag: Sea_1
-      length: 90
-    - tag: Sea_2
-      length: 90
-    spawnPerTheme: 5
+  maps:
+  - tag: SummerMap
+    length: 33
+  - tag: WinterMap
+    length: 35
+  spawnPerMap: 10
 --- !u!4 &556138775
 Transform:
   m_ObjectHideFlags: 0
@@ -2045,46 +2015,14 @@ MonoBehaviour:
   pools:
   - tag: Coin
     prefab: {fileID: 22063753}
-    size: 30
+    size: 100
     parent: {fileID: 389746730}
-  - tag: SummerMap_1
+  - tag: SummerMap
     prefab: {fileID: 231719845911995490, guid: 93f1508d16216e64eaa00d04618bbf72, type: 3}
     size: 5
     parent: {fileID: 1264640004}
-  - tag: SummerMap_2
-    prefab: {fileID: 6312185764355658872, guid: 27e3c6e2099c6d34496c0320e7d8f9b4, type: 3}
-    size: 5
-    parent: {fileID: 1264640004}
-  - tag: Desert_1
-    prefab: {fileID: 4542649263097468205, guid: fbc6ea5c8f646b24d84ec36f014c80ca, type: 3}
-    size: 5
-    parent: {fileID: 1264640004}
-  - tag: Desert_2
-    prefab: {fileID: 1802058642391666796, guid: bda67d7da41abd948a2447c2310577f0, type: 3}
-    size: 5
-    parent: {fileID: 1264640004}
-  - tag: Market_1
-    prefab: {fileID: 2368773709264388371, guid: 99e411332f2de6e4c98882b104e8e68c, type: 3}
-    size: 5
-    parent: {fileID: 1264640004}
-  - tag: Market_2
-    prefab: {fileID: 3322127891921367051, guid: 95ce9807ca515994681bbd66a035d255, type: 3}
-    size: 5
-    parent: {fileID: 1264640004}
-  - tag: Winter_1
-    prefab: {fileID: 7599224944904824686, guid: a2e30e1d43f054a4b8350f96945c0067, type: 3}
-    size: 5
-    parent: {fileID: 1264640004}
-  - tag: Winter_2
-    prefab: {fileID: 1696255129059200367, guid: 1cc07ea7cf72957479ec41a5a4938f60, type: 3}
-    size: 5
-    parent: {fileID: 1264640004}
-  - tag: Sea_1
-    prefab: {fileID: 5124686278274002506, guid: ced271e0840c26c4b88330095c3a1fad, type: 3}
-    size: 5
-    parent: {fileID: 1264640004}
-  - tag: Sea_2
-    prefab: {fileID: 8306280603143543851, guid: a47907da867cc504a8adcce8cde92d1c, type: 3}
+  - tag: WinterMap
+    prefab: {fileID: 6767620066589187286, guid: 896c14215cacdb84a9c660eea3844112, type: 3}
     size: 5
     parent: {fileID: 1264640004}
 --- !u!4 &766391610

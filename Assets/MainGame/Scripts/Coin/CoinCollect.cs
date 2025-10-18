@@ -13,6 +13,7 @@ public class CoinCollect : MonoBehaviour
             coinFX.Play();
             ObjectPool.Instance.ReturnToPool("Coin", gameObject);
             CoinManager.Instance.AddCoin();
+            CoinManager.Instance.DisPlayCoin();
         }
     }
     void Update()
