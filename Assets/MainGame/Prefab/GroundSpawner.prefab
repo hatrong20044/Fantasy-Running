@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5663252156276101412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2425335369776345184}
+  - component: {fileID: 5268411031965375389}
+  m_Layer: 0
+  m_Name: GroundSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2425335369776345184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5663252156276101412}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5268411031965375389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5663252156276101412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d39ea89618885714e91757151a09b53c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  themes:
+  - name: SummerMap
+    maps:
+    - tag: SummerMap_1
+      length: 28
+    - tag: SummerMap_2
+      length: 28
+    spawnPerTheme: 10
+  - name: Desert
+    maps:
+    - tag: Desert_1
+      length: 35
+    - tag: Desert_2
+      length: 35
+    spawnPerTheme: 10
+  - name: Market
+    maps:
+    - tag: Market_1
+      length: 35
+    - tag: Market_2
+      length: 35
+    spawnPerTheme: 10
+  - name: Winter
+    maps:
+    - tag: Winter_1
+      length: 35
+    - tag: Winter_2
+      length: 35
+    - tag: Winter_3
+      length: 35
+    - tag: Winter_4
+      length: 35
+    spawnPerTheme: 10
+  - name: Sea
+    maps:
+    - tag: Sea_1
+      length: 90
+    - tag: Sea_2
+      length: 90
+    - tag: Sea_3
+      length: 90
+    - tag: Sea_4
+      length: 28
+    spawnPerTheme: 8
