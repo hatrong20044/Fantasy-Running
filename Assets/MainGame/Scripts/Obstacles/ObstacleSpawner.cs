@@ -49,6 +49,7 @@ public class ObstacleSpawner : MonoBehaviour
     {
         this.ResetObstacle();
         this.UpdateActiveObstaclesPosition();
+        this.DestroyObstacles();
     }
 
     //Generate a list obstacles include 2 nonpassable obstacle and 1 passable obstacle
@@ -62,6 +63,7 @@ public class ObstacleSpawner : MonoBehaviour
         {
             randomBaseObstacle = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
             GameObject nonPassableObstacle = ObjectPool.Instance.GetFromPool(this.nonPassableObstacleTags[randomBaseObstacle]);
+            //Debug.Log(nonPassableObstacle.name);
             ObstacleType nonPassabeObstacleType = nonPassableObstacle.GetComponent<ObstacleType>();
             List<ObstacleAsset> nonPassableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(false, nonPassabeObstacleType.subType);
             randomApperanceObstacle = UnityEngine.Random.Range(0, nonPassableObstacleAssets.Count);
@@ -143,9 +145,10 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < this.activeObstacles.Count; i++)
         {
             GameObject obstacle = this.activeObstacles[i];
-            if (obstacle != null && obstacle.activeSelf && obstacle.transform.position.z - this.Player.transform.position.z < this.destroyDistance)
+            if (obstacle != null && obstacle.activeSelf && obstacle.transform.position.z < this.Player.transform.position.z - this.destroyDistance)
             {
-                ObjectPool.Instance.ReturnToPool(obstacle.name, obstacle);
+                Debug.Log(obstacle.name);
+                ObjectPool.Instance.ReturnToPool(obstacle.name.Replace("(Clone)",""), obstacle);
                 this.activeObstacles.RemoveAt(i);
             }
         }
