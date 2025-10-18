@@ -8,11 +8,11 @@ public class ObstacleSpawner : MonoBehaviour
     public List<string> nonPassableObstacleTags; // include the name of non passable obstacles
     public ObstaclePooler obstaclePooler; // Use object pooling to spawn obstacle systems
     public GameObject obstaclePrefab; // obstcale prefab
-    public float distanceObtacle = 10f; // distance between obsatcles when we spawn
+    public float distanceObtacle = 20f; // distance between obsatcles when we spawn
     public int maxSystemObstacle = 10; // max obstacle system we have
     public float laneDistance = 2.5f; // distance between lanes (Left, Middle, Right)
     public float currentObstaclePosZ = 10f; // the final position of the system obstacle was spawn
-    public float currentResetPosZ = 15f; // if player overcome this position, reuse obsctacle system and spawn 
+    public float currentResetPosZ = 25f; // if player overcome this position, reuse obsctacle system and spawn 
     public string curentSeason;
     public GameObject Player;
 
@@ -75,17 +75,24 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             randomBaseObstacle = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
-            randomApperanceObstacle = UnityEngine.Random.Range(0, AssetCollector.instance.currentNonPassable.Count);
             GameObject nonPassableObstacle = this.obstaclePooler.getObstacle(this.nonPassableObstacleTags[randomBaseObstacle]);
-            this.ApplyMeshAndMeshRenderer(nonPassableObstacle, randomApperanceObstacle, AssetCollector.instance.currentNonPassable);
+            ObstacleType nonPassabeObstacleType = nonPassableObstacle.GetComponent<ObstacleType>();
+            List<ObstacleAsset> nonPassableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(false, nonPassabeObstacleType.subType);
+            randomApperanceObstacle = UnityEngine.Random.Range(0, nonPassableObstacleAssets.Count);
+            this.ApplyMeshAndMeshRenderer(nonPassableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, nonPassableObstacleAssets);
             obstacles.Add(nonPassableObstacle);
         }
         //create a passable obstacle and add to list
         randomBaseObstacle = UnityEngine.Random.Range(0, this.passableObstacleTags.Count);
-        randomApperanceObstacle = UnityEngine.Random.Range(0, AssetCollector.instance.currentPassable.Count);
         GameObject passableObstacle = this.obstaclePooler.getObstacle(this.passableObstacleTags[randomBaseObstacle]);
-        this.ApplyMeshAndMeshRenderer(passableObstacle, randomApperanceObstacle, AssetCollector.instance.currentPassable);
-        obstacles.Add(passableObstacle);
+        ObstacleType passableObstacleType = passableObstacle.GetComponent<ObstacleType>();
+        if (passableObstacleType != null)
+        {
+            List<ObstacleAsset> passableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(true, passableObstacleType.subType);
+            randomApperanceObstacle = UnityEngine.Random.Range(0, passableObstacleAssets.Count);
+            this.ApplyMeshAndMeshRenderer(passableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, passableObstacleAssets);
+            obstacles.Add(passableObstacle);
+        }
 
         return obstacles;
     }
@@ -112,9 +119,10 @@ public class ObstacleSpawner : MonoBehaviour
         
         filter2.transform.localScale = obstacleAssets[randomIndex].prefab.transform.localScale;
         filter2.transform.rotation = obstacleAssets[randomIndex].prefab.transform.rotation;
-        filter2.transform.position = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
-        filter2.sharedMesh = obstacleAssets[randomIndex].prefab.GetComponent<MeshFilter>().mesh;
-        meshRenderer2.sharedMaterials = obstacleAssets[randomIndex].prefab.GetComponent<MeshRenderer>().materials;
+        filter2.transform.position = gameObject.transform.parent.position;
+
+        filter2.sharedMesh = obstacleAssets[randomIndex].prefab.GetComponent<MeshFilter>().sharedMesh;
+        meshRenderer2.sharedMaterials = obstacleAssets[randomIndex].prefab.GetComponent<MeshRenderer>().sharedMaterials;
     }
 
     // spawn obstacle systems when start game

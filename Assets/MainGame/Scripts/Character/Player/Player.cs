@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     private bool isDirectionReversed = false;
     private bool isJumping = false;
     private bool isSliding = false;
+    private bool isDead = false;
+
     private float slideTimer = 0f;
 
     
@@ -60,6 +62,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (isDead) return;
         HandleSwipe();
         HandleSlide();
 
@@ -237,6 +240,21 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    public void Die()
+    {
+        if (isDead) return; 
+        isDead = true;
+
+        forwardSpeed = 0f;
+        moveDirection = Vector3.zero;
+        verticalVelocity = 0f;
+        ChangeAnim("Die");
+        controller.enabled = false;
+        Debug.Log("Player Died!");
+        
+    }
+
 
     public void ReverseInput(bool reversed)
     {
