@@ -1319,12 +1319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ea89618885714e91757151a09b53c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maps:
-  - tag: SummerMap
-    length: 33
-  - tag: WinterMap
-    length: 35
-  spawnPerMap: 10
+  themes: []
 --- !u!4 &556138775
 Transform:
   m_ObjectHideFlags: 0
@@ -2017,7 +2012,7 @@ MonoBehaviour:
     prefab: {fileID: 22063753}
     size: 100
     parent: {fileID: 389746730}
-  - tag: SummerMap
+  - tag: SummerMap_1
     prefab: {fileID: 231719845911995490, guid: 93f1508d16216e64eaa00d04618bbf72, type: 3}
     size: 5
     parent: {fileID: 1264640004}
