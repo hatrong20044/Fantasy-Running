@@ -17,7 +17,6 @@ public class ObjectPool : MonoBehaviour
         public GameObject prefab;
         public int size;
         public Transform parent;
-      //  public Transform parentPrefab;
     }
 
     private void Awake()
@@ -48,7 +47,7 @@ public class ObjectPool : MonoBehaviour
             Queue<GameObject> objectsPool = new Queue<GameObject>();
             for (int i = 0; i < pool.size; i++)
             {
-                GameObject obj = Instantiate(pool.prefab, pool.parent, transform);
+                GameObject obj = Instantiate(pool.prefab, pool.parent);
                 obj.SetActive(false);
                 objectsPool.Enqueue(obj);
             }
