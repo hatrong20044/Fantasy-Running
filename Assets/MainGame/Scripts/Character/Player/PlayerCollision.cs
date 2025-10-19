@@ -16,7 +16,7 @@ public class PlayerCollision : MonoBehaviour
         Debug.Log(other.gameObject.name);
         if (other.gameObject.name == "Collision")
         {
-            //this.handleObstacleCollision(other);
+            this.handleObstacleCollision(other);
         }
         else if (other.gameObject.name == "Activation")
         {
