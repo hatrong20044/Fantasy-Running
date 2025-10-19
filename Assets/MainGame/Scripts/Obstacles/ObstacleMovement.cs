@@ -17,16 +17,22 @@ public class ObstacleMovement : MonoBehaviour
         {
             warningImage.gameObject.SetActive(false);
         }
-        // B?t ??u c?nh báo tr??c khi di chuy?n
-        StartCoroutine(ActivateWarning());
+    }
+
+    public void Act()
+    {
+        StartCoroutine(this.ActivateWarning());
     }
 
     private IEnumerator ActivateWarning()
     {
+        Debug.Log("ActivateWarning started");
         if (warningImage != null)
         {
+            Debug.Log("Showing warning image");
             warningImage.gameObject.SetActive(true);
             yield return StartCoroutine(BlinkWarning());
+            Debug.Log("BlinkWarning finished");
             warningImage.gameObject.SetActive(false);
         }
         isMoving = true; // B?t ??u di chuy?n sau c?nh báo

@@ -8,6 +8,7 @@ public class ObstacleType : MonoBehaviour
     {
         Jumpable,
         Slideable,
+        Empty,
         NonPassableStatic,
         NonPassableDynamic
     }

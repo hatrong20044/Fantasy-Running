@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct ObstaclePosition
+[System.Serializable]
+public class ObstaclePosition
 {
     public Vector3 Position; // Vị trí của obstacle
     public ObstacleType Type; // Loại obstacle
@@ -37,6 +38,7 @@ public class ObstacleSpawner : MonoBehaviour
         this.obstaclePrefab = GameObject.Find("ObstaclePrefab");
         this.curentSeason = "Summer";
         this.obstaclePositions = new List<ObstaclePosition>();
+        this.activeObstacles = new List<GameObject>();
         AssetCollector.instance.LoadSeason(this.curentSeason);
     }
 
@@ -69,22 +71,20 @@ public class ObstacleSpawner : MonoBehaviour
             randomApperanceObstacle = UnityEngine.Random.Range(0, nonPassableObstacleAssets.Count);
             this.ApplyMeshAndMeshRenderer(nonPassableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, nonPassableObstacleAssets);
             obstacles.Add(nonPassableObstacle);
-            this.obstaclePositions.Add(new(nonPassableObstacle.transform.position, nonPassabeObstacleType));
             this.activeObstacles.Add(nonPassableObstacle);
         }
         //create a passable obstacle and add to list
         randomBaseObstacle = UnityEngine.Random.Range(0, this.passableObstacleTags.Count);
         GameObject passableObstacle = ObjectPool.Instance.GetFromPool(this.passableObstacleTags[randomBaseObstacle]);
         ObstacleType passableObstacleType = passableObstacle.GetComponent<ObstacleType>();
-        if (passableObstacleType != null)
+        if (passableObstacleType.subType != ObstacleType.ObstacleSubType.Empty)
         {
             List<ObstacleAsset> passableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(true, passableObstacleType.subType);
             randomApperanceObstacle = UnityEngine.Random.Range(0, passableObstacleAssets.Count);
             this.ApplyMeshAndMeshRenderer(passableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, passableObstacleAssets);
-            obstacles.Add(passableObstacle);
         }
-        this.obstaclePositions.Add(new(passableObstacle.transform.position, passableObstacleType));
         this.activeObstacles.Add(passableObstacle);
+        obstacles.Add(passableObstacle);
 
         return obstacles;
     }
@@ -99,6 +99,9 @@ public class ObstacleSpawner : MonoBehaviour
             int laneIndex = UnityEngine.Random.Range(0, lanes.Count);
             obstacles[i].transform.position = new Vector3(this.laneDistance * lanes[laneIndex], obstacles[i].transform.position.y, this.currentObstaclePosZ);
             lanes.RemoveAt(laneIndex);
+            this.obstaclePositions.Add(new(obstacles[i].transform.position, obstacles[i].GetComponent<ObstacleType>()));
+            //Debug.Log(this.obstaclePositions[obstaclePositions.Count - 1].Position);
+            //Debug.Log(this.obstaclePositions.Count);
         }
     }
 
@@ -108,7 +111,6 @@ public class ObstacleSpawner : MonoBehaviour
         MeshFilter filter2 = gameObject.GetComponent<MeshFilter>();
         MeshRenderer meshRenderer2 = gameObject.GetComponent<MeshRenderer>();
         if (filter2 == null && meshRenderer2 == null) return;
-        
         filter2.transform.localScale = obstacleAssets[randomIndex].prefab.transform.localScale;
         filter2.transform.rotation = obstacleAssets[randomIndex].prefab.transform.rotation;
         filter2.transform.position = gameObject.transform.parent.position;
@@ -133,7 +135,7 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < this.obstaclePositions.Count; i++)
         {
             ObstaclePosition obstaclePosition = this.obstaclePositions[i];
-            if(obstaclePosition.Position.z - this.Player.transform.position.z < this.destroyDistance)
+            if(obstaclePosition.Position.z < this.Player.transform.position.z - this.destroyDistance)
             {
                 this.obstaclePositions.RemoveAt(i);
             }
@@ -147,7 +149,6 @@ public class ObstacleSpawner : MonoBehaviour
             GameObject obstacle = this.activeObstacles[i];
             if (obstacle.activeSelf && obstacle.transform.position.z < this.Player.transform.position.z - this.destroyDistance)
             {
-                Debug.Log(obstacle.name.Replace("(Clone)", ""));
                 ObjectPool.Instance.ReturnToPool(obstacle.name.Replace("(Clone)",""), obstacle);
                 this.activeObstacles.RemoveAt(i);
             }

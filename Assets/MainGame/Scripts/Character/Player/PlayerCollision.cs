@@ -9,17 +9,27 @@ public class PlayerCollision : MonoBehaviour
     private bool isInvincible = false;
     [SerializeField]private GameObject  canvas;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        this.GameOver();
-    }
 
     // handle event when player collide obstacle
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.gameObject.name);
         if (other.gameObject.name == "Collision")
         {
-            this.handleObstacleCollision(other);
+            //this.handleObstacleCollision(other);
+        }
+        else if (other.gameObject.name == "Activation")
+        {
+            ObstacleMovement obstacleMovement = other.GetComponentInParent<ObstacleMovement>();
+            Debug.Log(obstacleMovement.gameObject.name);
+            if (obstacleMovement != null)
+            {
+                obstacleMovement.Act();
+            }
+            else
+            {
+                Debug.LogError("ObstacleMovement is null for " + other.gameObject.name);
+            }
         }
     }
 

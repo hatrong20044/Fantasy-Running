@@ -3640,6 +3640,7 @@ MonoBehaviour:
   destroyDistance: 5
   curentSeason: 
   Player: {fileID: 0}
+  obstaclePositions: []
   activeObstacles: []
 --- !u!4 &1452034203
 Transform:
@@ -5039,7 +5040,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2569551917213081937, guid: 10e763ee220ab594897ae6d9ef740629, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2137940463}
   m_SourcePrefab: {fileID: 100100000, guid: 10e763ee220ab594897ae6d9ef740629, type: 3}
 --- !u!4 &2137940461 stripped
 Transform:
@@ -5051,6 +5055,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2569551917213081937, guid: 10e763ee220ab594897ae6d9ef740629, type: 3}
   m_PrefabInstance: {fileID: 2137940460}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2137940463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137940462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0a4ebede8063e4f94958dc48be1627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subType: 2
 --- !u!1001 &394369200991458351
 PrefabInstance:
   m_ObjectHideFlags: 0
