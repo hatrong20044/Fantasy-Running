@@ -3,28 +3,23 @@
 public class EndTriggerHandler : MonoBehaviour
 {
     private GroundSpawner spawner;
-    private string poolTag;
-    private GameObject mapTile;
+    private string mapTag;
+    private GameObject tile;
 
-    public void Init(GroundSpawner spawner, string poolTag, GameObject mapTile)
+    public void Init(GroundSpawner spawner, string mapTag, GameObject tile)
     {
         this.spawner = spawner;
-        this.poolTag = poolTag;
-        this.mapTile = mapTile;
+        this.mapTag = mapTag;
+        this.tile = tile;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player")) // Giả sử player có tag "Player"
         {
-            // Spawn map mới
             spawner.SpawnTile();
-
-            // Return map cũ về pool
-            ObjectPool.Instance.ReturnToPool(poolTag, mapTile);
-
-            // Xoá handler để không chạy lại
-            Destroy(this);
+            // Có thể thêm logic để trả map về pool nếu cần
+            ObjectPool.Instance.ReturnToPool(mapTag, tile);
         }
     }
 }
