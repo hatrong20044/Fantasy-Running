@@ -7,6 +7,7 @@ public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private Transform cameraTransf;
     [SerializeField] private PatternManager patternManager;
+    [SerializeField] private ZoneManager zoneManager;
     [SerializeField] private float lastSpawnZ;
     [SerializeField] private int maxActiveCoins = 30;
     [SerializeField] private List<GameObject> activeCoins;
@@ -21,11 +22,11 @@ public class CoinSpawner : MonoBehaviour
     private void Update()
     {
         this.RecycleCoins();
-        this.SpawnPatternCoin();
+        this.SpawnRandomPattern();
        
     }
 
-    private void SpawnPatternCoin()
+    public void SpawnRandomPattern()
     {
         if (activeCoins.Count + limitCoins >= maxActiveCoins)
         {
@@ -50,13 +51,22 @@ public class CoinSpawner : MonoBehaviour
             );
             GameObject coin = ObjectPool.Instance.GetFromPool("Coin");
             coin.transform.position = spawnPos;
+            zoneManager.RegisterCoin(spawnPos);
             activeCoins.Add(coin);
             
         }
         lastSpawnZ = spawnPos.z;
     }
 
-    
+    public void SpawnPattern(PatternManager.CoinPattern pattern)
+    {
+
+    }
+  
+    public void SpawnCoinForPattern()
+    {
+
+    }
 
     private void RecycleCoins()
     {
@@ -65,6 +75,7 @@ public class CoinSpawner : MonoBehaviour
             if (activeCoins[i].activeSelf && activeCoins[i].transform.position.z < cameraTransf.position.z)
             {
                 ObjectPool.Instance.ReturnToPool("Coin", activeCoins[i]);
+                zoneManager.RegisterCoin(activeCoins[i].transform.position);
                 activeCoins.Remove(activeCoins[i]);
                 Debug.Log(activeCoins.Count);
             }
@@ -84,8 +95,4 @@ public class CoinSpawner : MonoBehaviour
     {
         this.patternManager = transform.GetComponent<PatternManager>();
     }
-
-
-    
-
 }

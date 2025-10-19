@@ -656,6 +656,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6964131168651963452, guid: a6e621d19cf484a4f9e3ca09eb979d68, type: 3}
   m_PrefabInstance: {fileID: 958384141}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &230378890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 230378891}
+  - component: {fileID: 230378892}
+  m_Layer: 0
+  m_Name: ZoneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &230378891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230378890}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -41.110985, y: 8.589797, z: 98.355156}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &230378892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230378890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3b3ef2d9e383ac468e5f7d7767acf57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoneSize: 40
+  cameraTranf: {fileID: 986015819}
+  positionLimit: 1
 --- !u!1001 &233820151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4616,7 +4663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1973629641
 Transform:
   m_ObjectHideFlags: 0
@@ -4864,6 +4911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransf: {fileID: 986015819}
   patternManager: {fileID: 2014493254}
+  zoneManager: {fileID: 230378892}
   lastSpawnZ: 0
   maxActiveCoins: 40
   activeCoins: []
@@ -5491,3 +5539,4 @@ SceneRoots:
   - {fileID: 574087749}
   - {fileID: 1535113883}
   - {fileID: 176703823}
+  - {fileID: 230378891}

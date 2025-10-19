@@ -21,6 +21,7 @@ public class ObstacleSpawner : MonoBehaviour
     public List<string> passableObstacleTags; // include the name of passable obstacles
     public List<string> nonPassableObstacleTags; // include the name of non passable obstacles
     public GameObject obstaclePrefab; // obstcale prefab
+    public ZoneManager zoneManager;
     public float distanceObtacle = 30f; // distance between obsatcles when we spawn
     public int maxSystemObstacle = 10; // max obstacle system we have
     public float laneDistance = 2.5f; // distance between lanes (Left, Middle, Right)
@@ -99,7 +100,9 @@ public class ObstacleSpawner : MonoBehaviour
             int laneIndex = UnityEngine.Random.Range(0, lanes.Count);
             obstacles[i].transform.position = new Vector3(this.laneDistance * lanes[laneIndex], obstacles[i].transform.position.y, this.currentObstaclePosZ);
             lanes.RemoveAt(laneIndex);
-            this.obstaclePositions.Add(new(obstacles[i].transform.position, obstacles[i].GetComponent<ObstacleType>()));
+            ObstaclePosition obstaclePos = new(obstacles[i].transform.position, obstacles[i].GetComponent<ObstacleType>()); // chinh sua
+            this.obstaclePositions.Add(obstaclePos);
+            zoneManager.RegisterObstacle(obstaclePos); // dang ki voi ZoneManager
             Debug.Log(this.obstaclePositions[obstaclePositions.Count - 1].Position);
             Debug.Log(this.obstaclePositions.Count);
         }
@@ -138,6 +141,7 @@ public class ObstacleSpawner : MonoBehaviour
             ObstaclePosition obstaclePosition = this.obstaclePositions[i];
             if (obstaclePosition.Position.z < this.Player.transform.position.z - this.destroyDistance)
             {
+                zoneManager.RegisterObstacle(obstaclePosition); // Xoa khoi ZoneManager
                 this.obstaclePositions.RemoveAt(i);
             }
         }
