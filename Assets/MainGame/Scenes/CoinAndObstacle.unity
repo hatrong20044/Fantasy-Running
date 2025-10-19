@@ -701,8 +701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneSize: 40
-  cameraTranf: {fileID: 986015819}
-  positionLimit: 1
+  distanceThresold: 3
 --- !u!1001 &233820151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -958,6 +957,10 @@ PrefabInstance:
     - target: {fileID: 4682029792721282938, guid: af8236c9136a7e9488465cdc25468fa2, type: 3}
       propertyPath: m_TagString
       value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5292188773087105253, guid: af8236c9136a7e9488465cdc25468fa2, type: 3}
+      propertyPath: subType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6087280594826399718, guid: af8236c9136a7e9488465cdc25468fa2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2220,7 +2223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &830619921
 Transform:
   m_ObjectHideFlags: 0
@@ -3713,7 +3716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1452034202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3733,6 +3736,7 @@ MonoBehaviour:
   nonPassableObstacleTags:
   - Obstacle1
   obstaclePrefab: {fileID: 0}
+  zoneManager: {fileID: 230378892}
   distanceObtacle: 30
   maxSystemObstacle: 10
   laneDistance: 2.5
@@ -4663,7 +4667,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1973629641
 Transform:
   m_ObjectHideFlags: 0

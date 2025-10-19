@@ -6,7 +6,7 @@ public class PatternManager : MonoBehaviour
     [System.Serializable]
     public class CoinPattern
     {
-        public string name;
+        public string namePattern;
         public Vector3[] positions;
     }
 
@@ -65,7 +65,7 @@ public class PatternManager : MonoBehaviour
         {
             string namePattern = "Vertical" + i;
             Vector3[] pos = VerticalPosition(i);
-            patterns.Add(new CoinPattern { name = namePattern, positions = pos });
+            patterns.Add(new CoinPattern { namePattern = namePattern, positions = pos });
         }    
     }
 
@@ -73,7 +73,7 @@ public class PatternManager : MonoBehaviour
     {
         patterns.Add(new CoinPattern
         {
-            name = "Horizontal1",
+            namePattern = "Horizontal1",
             positions = new Vector3[]
                     {
                         new Vector3(-laneDistance, 1, 0),
@@ -85,7 +85,7 @@ public class PatternManager : MonoBehaviour
 
         patterns.Add(new CoinPattern
         {
-            name = "Horizontal2",
+            namePattern = "Horizontal2",
             positions = new Vector3[]
                     {
                         new Vector3(-laneDistance, 1, 0),
@@ -101,7 +101,7 @@ public class PatternManager : MonoBehaviour
     {
         patterns.Add(new CoinPattern
         {
-            name = "Parabola5",
+            namePattern = "Parabola5",
             positions = CalculateParabolaPositions(6, false)
         });
     }

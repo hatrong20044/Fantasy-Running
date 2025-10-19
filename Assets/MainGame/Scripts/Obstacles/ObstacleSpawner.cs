@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -73,7 +74,7 @@ public class ObstacleSpawner : MonoBehaviour
             this.ApplyMeshAndMeshRenderer(nonPassableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, nonPassableObstacleAssets);
             obstacles.Add(nonPassableObstacle);
             this.activeObstacles.Add(nonPassableObstacle);
-        }
+        } 
         //create a passable obstacle and add to list
         randomBaseObstacle = UnityEngine.Random.Range(0, this.passableObstacleTags.Count);
         GameObject passableObstacle = ObjectPool.Instance.GetFromPool(this.passableObstacleTags[randomBaseObstacle]);
@@ -103,8 +104,8 @@ public class ObstacleSpawner : MonoBehaviour
             ObstaclePosition obstaclePos = new(obstacles[i].transform.position, obstacles[i].GetComponent<ObstacleType>()); // chinh sua
             this.obstaclePositions.Add(obstaclePos);
             zoneManager.RegisterObstacle(obstaclePos); // dang ki voi ZoneManager
-            Debug.Log(this.obstaclePositions[obstaclePositions.Count - 1].Position);
-            Debug.Log(this.obstaclePositions.Count);
+           // Debug.Log(this.obstaclePositions[obstaclePositions.Count - 1].Position);
+           // Debug.Log(this.obstaclePositions.Count);
         }
     }
 
