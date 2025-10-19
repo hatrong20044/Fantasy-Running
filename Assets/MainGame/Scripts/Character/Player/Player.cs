@@ -3,19 +3,19 @@
 public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float forwardSpeed = 5f;
-    public float laneDistance = 2.5f;
-    public float laneChangeSpeed = 10f;
-    public float jumpForce = 8f;
-    public float gravity = -20f;
-    public float jumpForwardBoost = 2f;
+    public float forwardSpeed;// = 5f;
+    public float laneDistance;// = 2.5f;
+    public float laneChangeSpeed;// = 10f;
+    public float jumpForce;// = 8f;
+    public float gravity;// = -20f;
+    public float jumpForwardBoost;// = 2f;
 
     [Header("Slide Settings")]
-    public float slideDuration = 1f;
+    public float slideDuration;// = 1f;
     [Tooltip("Chiều cao khi slide (cả Controller và visual Collider)")]
-    public float slideHeight = 1.4f;
+    public float slideHeight;// = 1.4f;
     [Tooltip("Center Y khi slide")]
-    public float slideCenter = -0.4f;
+    public float slideCenter;// = -0.4f;
 
     [Header("Animation")]
     [SerializeField] private Animator anim;
@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
 
     private float slideTimer = 0f;
 
-    
     private float normalHeight;
     private Vector3 normalCenter;
     private float capsuleNormalHeight;
@@ -43,7 +42,18 @@ public class Player : MonoBehaviour
     private Vector2 touchStart;
     private Vector2 touchEnd;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown;
-
+    private void Reset()
+    {
+        forwardSpeed = GameSetting.Instance.ForwardSpeed;
+        laneDistance = GameSetting.Instance.LaneDistance;
+        laneChangeSpeed = GameSetting.Instance.LaneChangeSpeed;
+        jumpForce = GameSetting.Instance.JumpForce;
+        gravity = GameSetting.Instance.Gravity;
+        jumpForwardBoost = GameSetting.Instance.JumpForwardBoost;
+        slideDuration = GameSetting.Instance.SlideDuration;
+        slideHeight = GameSetting.Instance.SlideHeight;
+        slideCenter = GameSetting.Instance.SlideCenter;
+    }
     private void Start()
     {
         controller = GetComponent<CharacterController>();

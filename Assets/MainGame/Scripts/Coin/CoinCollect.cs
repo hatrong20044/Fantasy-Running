@@ -15,6 +15,7 @@ public class CoinCollect : MonoBehaviour
             CoinManager.Instance.AddCoin();
             CoinManager.Instance.DisPlayCoin();
         }
+       
     }
     void Update()
     {
