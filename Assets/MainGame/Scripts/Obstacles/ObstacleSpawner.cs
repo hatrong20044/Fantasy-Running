@@ -30,7 +30,7 @@ public class ObstacleSpawner : MonoBehaviour
     public float destroyDistance = 2f;
     public string curentSeason;
     public GameObject Player;
-    public List<ObstaclePosition> obstaclePositions;
+    public List<ObstaclePosition> obstaclePositions; // Khong can lay list nua
     public List<GameObject> activeObstacles;
 
     private void Awake()

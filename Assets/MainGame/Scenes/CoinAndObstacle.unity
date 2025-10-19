@@ -702,7 +702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoneSize: 40
   cameraTranf: {fileID: 986015819}
-  positionLimit: 1
+  distanceThresold: 1
 --- !u!1001 &233820151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2081,7 +2081,7 @@ MonoBehaviour:
   pools:
   - tag: Coin
     prefab: {fileID: 22063753}
-    size: 40
+    size: 100
     parent: {fileID: 389746730}
   - tag: SummerMap_1
     prefab: {fileID: 231719845911995490, guid: 93f1508d16216e64eaa00d04618bbf72, type: 3}
@@ -2220,7 +2220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &830619921
 Transform:
   m_ObjectHideFlags: 0
@@ -3713,7 +3713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1452034202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3733,7 +3733,8 @@ MonoBehaviour:
   nonPassableObstacleTags:
   - Obstacle1
   obstaclePrefab: {fileID: 0}
-  distanceObtacle: 30
+  zoneManager: {fileID: 230378892}
+  distanceObtacle: 40
   maxSystemObstacle: 10
   laneDistance: 2.5
   currentObstaclePosZ: 30
@@ -4663,7 +4664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1973629641
 Transform:
   m_ObjectHideFlags: 0
@@ -4913,7 +4914,7 @@ MonoBehaviour:
   patternManager: {fileID: 2014493254}
   zoneManager: {fileID: 230378892}
   lastSpawnZ: 0
-  maxActiveCoins: 40
+  maxActiveCoins: 60
   activeCoins: []
   randomSpacePattern: 0
   limitCoins: 10
