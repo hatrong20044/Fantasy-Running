@@ -149,6 +149,8 @@ public class ObstacleSpawner : MonoBehaviour
             GameObject obstacle = this.activeObstacles[i];
             if (obstacle.activeSelf && obstacle.transform.position.z < this.Player.transform.position.z - this.destroyDistance)
             {
+                ObstacleMovement obstacleMovement = obstacle.GetComponent<ObstacleMovement>();
+                if (obstacleMovement != null) obstacleMovement.resetMoving();
                 ObjectPool.Instance.ReturnToPool(obstacle.name.Replace("(Clone)",""), obstacle);
                 this.activeObstacles.RemoveAt(i);
             }

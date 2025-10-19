@@ -58,6 +58,11 @@ public class ObstacleMovement : MonoBehaviour
         }
     }
 
+    public void resetMoving()
+    {
+        this.isMoving = false;
+    }
+
     // Xóa xe khi ra kh?i màn hình (tùy ch?n)
     void OnBecameInvisible()
     {
