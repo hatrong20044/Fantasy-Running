@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.UI;
 
 public class CoinSpawner : MonoBehaviour
 {
@@ -50,18 +49,10 @@ public class CoinSpawner : MonoBehaviour
                 pos.z + startZ
 
             );
-            if(zoneManager.CanPlaceCoin(spawnPos))
-            {
-                GameObject coin = ObjectPool.Instance.GetFromPool("Coin");
-                coin.transform.position = spawnPos;
-                zoneManager.RegisterCoin(spawnPos);
-                activeCoins.Add(coin);
-            }
-            else
-            {
-                Debug.Log("khong thay key ");
-                return;
-            }
+            GameObject coin = ObjectPool.Instance.GetFromPool("Coin");
+            coin.transform.position = spawnPos;
+            zoneManager.RegisterCoin(spawnPos);
+            activeCoins.Add(coin);
             
         }
         lastSpawnZ = spawnPos.z;

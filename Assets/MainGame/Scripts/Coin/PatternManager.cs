@@ -44,7 +44,7 @@ public class PatternManager : MonoBehaviour
         {
             patterns = new List<CoinPattern>();
           //  CreateVerticalPos();
-           // CreateHorizontalPos();
+          //  CreateHorizontalPos();
             CreateParabolaPos();
         }
     }
@@ -102,7 +102,7 @@ public class PatternManager : MonoBehaviour
         patterns.Add(new CoinPattern
         {
             name = "Parabola5",
-            positions = CalculateParabolaPositions(5, false)
+            positions = CalculateParabolaPositions(6, false)
         });
     }
 
