@@ -1,25 +1,23 @@
-using System.Collections;
+
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ZoneManager : MonoBehaviour
 {
     [SerializeField] private float zoneSize = 40f;
-   // [SerializeField] private Transform cameraTranf;
     [SerializeField] private float distanceThresold = 5.0f;
-
     private Dictionary<int, List<Vector3>> coinZones;
     private Dictionary<int, List<ObstaclePosition>> obstacleZones;
 
+    [SerializeField] private float recycleInterval = 0.5f;
+    [SerializeField] private float recycleTimer = 0f;
     public void Awake()
     {
         coinZones = new();
         obstacleZones = new();
     }
-    private void Update()
-    {
-        this.RemoveZones();
-    }
+
     public void RemoveCoin(Vector3 coinPos)
     {
         int zoneIndex = Mathf.FloorToInt(coinPos.z / zoneSize);
@@ -53,7 +51,7 @@ public class ZoneManager : MonoBehaviour
         obstacleZones[zoneIndex].Add(obsPos);
     }
 
-    public void RemoveOstacle(ObstaclePosition obsPos)
+    public void RemoveObstacle(ObstaclePosition obsPos)
     {
         int zoneIndex = Mathf.FloorToInt(obsPos.Position.z / zoneSize);
         if (obstacleZones.ContainsKey(zoneIndex))
@@ -85,23 +83,57 @@ public class ZoneManager : MonoBehaviour
                             );
                         if(distance < distanceThresold)
                         {
-                            Debug.Log("tai vi tri o: " + obsPos.Position + " voi khoang cach: " + distance);
+                         
                             return false;
                         }
                     }
                     
                 }
             }
-            else
-            {
-                Debug.Log("chua co key nay o zone");
-            }
+            
         }
         return true;
     }
-
-    public void RemoveZones()
+    public void UpdateWithCameraPosition(float cameraZ)
     {
-
+        this.RemoveZone(cameraZ);
+        this.RecycleObjectByTime(cameraZ);
     }
+
+    protected void RemoveZone(float cameraZ)
+    {
+        int zoneIndex = Mathf.FloorToInt(cameraZ / zoneSize);
+        if(coinZones != null)
+        {
+            coinZones = coinZones.Where(pair => pair.Key >= zoneIndex).ToDictionary(pair => pair.Key, pair => pair.Value);
+        }
+        if(obstacleZones != null)
+        {
+            obstacleZones = obstacleZones.Where(pair => pair.Key >= zoneIndex).ToDictionary(pair => pair.Key, pair => pair.Value);
+        }
+       // Debug.Log("coin zone: " + coinZones.Count + " ob zone: " +  obstacleZones.Count);
+    }
+
+    protected void RecycleObjectByTime(float cameraZ)
+    {
+        recycleTimer += Time.deltaTime;
+        if (recycleTimer >= recycleInterval)
+        {
+            RecycleObjects("Coin",cameraZ);
+            recycleTimer = 0f;
+        }
+    }
+    protected void RecycleObjects(string tag, float cameraZ)
+    {
+        List<GameObject> activeObjects = ObjectPool.Instance.GetActiveObjects(tag);
+        for (int i = activeObjects.Count - 1; i >= 0; i--)
+        {
+            if (activeObjects[i] != null && activeObjects[i].transform.position.z < cameraZ)
+            {
+                ObjectPool.Instance.ReturnToPoolQuynh(tag, activeObjects[i]);
+            }
+        }
+    }
+
+
 }

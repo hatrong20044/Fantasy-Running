@@ -3857,6 +3857,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1452034203}
+  - component: {fileID: 1452034202}
   m_Layer: 0
   m_Name: ObstaclePrefab
   m_TagString: Untagged
@@ -3864,6 +3865,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1452034202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452034201}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87428fc0ff303aa4c9a05acf0a21703c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passableObstacleTags:
+  - Obstacle
+  - Obstacle2
+  - Obstacle3
+  nonPassableObstacleTags:
+  - Obstacle1
+  obstaclePrefab: {fileID: 0}
+  zoneManager: {fileID: 230378892}
+  distanceObtacle: 30
+  maxSystemObstacle: 10
+  laneDistance: 2.5
+  currentObstaclePosZ: 30
+  currentResetPosZ: 40
+  destroyDistance: 5
+  curentSeason: 
+  Player: {fileID: 0}
+  activeObstacles: []
 --- !u!4 &1452034203
 Transform:
   m_ObjectHideFlags: 0
@@ -4980,6 +5010,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subType: 0
+--- !u!1 &2014493253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2014493256}
+  - component: {fileID: 2014493255}
+  - component: {fileID: 2014493254}
+  m_Layer: 0
+  m_Name: CoinSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &2014493254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014493253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf248574b745444cad4eb8dc3937132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns: []
+  forwardSpeed: 15
+  laneDistance: 2.5
+  jumpForce: 8
+  gravity: -20
+  jumpForwardBoost: 2
+  coinSpacing: 2
+  maxVertical: 5
+  minVertical: 3
+--- !u!114 &2014493255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014493253}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ae02ed073eaf4d4ab7be7a0910edcc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternManager: {fileID: 2014493254}
+  zoneManager: {fileID: 230378892}
+  levelManager: {fileID: 0}
+  lastSpawnZ: 0
+  maxActiveCoins: 30
+  randomSpacePattern: 0
+  limitCoins: 10
+--- !u!4 &2014493256
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014493253}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00092190504, y: 1.2, z: 3.00145}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2073377044
 GameObject:
   m_ObjectHideFlags: 0
@@ -5578,6 +5681,7 @@ SceneRoots:
   - {fileID: 1264640004}
   - {fileID: 389746730}
   - {fileID: 1215947432}
+  - {fileID: 2014493256}
   - {fileID: 766391610}
   - {fileID: 1661307778}
   - {fileID: 1452034203}

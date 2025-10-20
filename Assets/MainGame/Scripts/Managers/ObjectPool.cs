@@ -10,6 +10,7 @@ public class ObjectPool : MonoBehaviour
     public static ObjectPool Instance;
     public List<Pool> pools;
     public Dictionary<string, Queue<GameObject>> poolDictionary;
+    public Dictionary<string, List<GameObject>> activeObjects;
     [System.Serializable]
     public class Pool
     {
@@ -36,8 +37,86 @@ public class ObjectPool : MonoBehaviour
             return;
 
         }
-        this.InitalizePool();
+      //  this.InitalizePool();
+        this.InitalizePoolQuynh();
     }
+
+    private void Start()
+    {
+        CoinEvent.Instance.OnCoinCollected += coin => ReturnToPoolQuynh("Coin", coin);
+      
+    }
+
+    private void OnDestroy()
+    {
+        CoinEvent.Instance.OnCoinCollected -= coin => ReturnToPoolQuynh("Coin", coin);
+      
+    }
+
+
+    void InitalizePoolQuynh()
+    {
+        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        activeObjects = new();
+        foreach (Pool pool in pools)
+        {
+            Queue<GameObject> objectsPool = new Queue<GameObject>();
+            activeObjects[pool.tag] = new();
+            for (int i = 0; i < pool.size; i++)
+            {
+                GameObject obj = Instantiate(pool.prefab, pool.parent);
+                obj.SetActive(false);
+                objectsPool.Enqueue(obj);
+            }
+            poolDictionary.Add(pool.tag, objectsPool);
+        }
+    }
+
+    public GameObject GetFromPoolQuynh(string tag)
+    {
+        if (!poolDictionary.ContainsKey(tag))
+        {
+            Debug.LogWarning("Pool với tag " + tag + " không tồn tại!");
+            return null;
+        }
+        GameObject obj;
+        if (poolDictionary[tag].Count > 0)
+        {
+            obj = poolDictionary[tag].Dequeue();
+            obj.SetActive(true);
+            activeObjects[tag].Add(obj);
+            return obj;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void ReturnToPoolQuynh(string tag, GameObject obj)
+    {
+        if (!poolDictionary.ContainsKey(tag))
+        {
+            Debug.LogWarning("Pool với tag " + tag + " không tồn tại!");
+            Destroy(obj);
+            return;
+        }
+
+        obj.SetActive(false);
+        poolDictionary[tag].Enqueue(obj);
+        activeObjects[tag].Remove(obj);
+    }
+
+    public int GetActiveCount(string tag)
+    {
+        return activeObjects.ContainsKey(tag) ? activeObjects[tag].Count : 0;
+    }
+
+    public List<GameObject> GetActiveObjects(string tag)
+    {
+        return activeObjects.ContainsKey(tag) ? activeObjects[tag] : null;
+    }
+
     void InitalizePool()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
