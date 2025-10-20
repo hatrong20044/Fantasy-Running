@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using UnityEngine.Rendering;
 using static System.Net.Mime.MediaTypeNames;
 
 public class CoinManager : MonoBehaviour
@@ -12,26 +13,39 @@ public class CoinManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
-            return;
         }
     }
 
+    private void Start()
+    {
+        // Đăng kí sự kiện khi thu thập coin
+        CoinEvent.Instance.OnCoinCollected += HandleCoinCollected;
+    }
+
+    private void OnDestroy()
+    {
+        // Hủy đăng kí sự kiện
+        CoinEvent.Instance.OnCoinCollected -= HandleCoinCollected;
+    }
     public void AddCoin(int mount = 1)
     {
         coin += mount;
        
     }
-    public void DisPlayCoin()
+    public void DisplayCoin()
     {
         coinDisplay.GetComponent<TMPro.TMP_Text>().text = "Coin: " + coin;
     }
-    public int GetCoin()
+
+
+    public void HandleCoinCollected(GameObject coin)
     {
-        return coin;
+        this.AddCoin();
+        this.DisplayCoin();
     }
+
 }

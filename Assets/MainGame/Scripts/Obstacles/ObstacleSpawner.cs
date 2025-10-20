@@ -1,6 +1,5 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 
@@ -38,23 +37,27 @@ public class ObstacleSpawner : MonoBehaviour
     {
         this.Player = GameObject.Find("Player");
         this.obstaclePrefab = GameObject.Find("ObstaclePrefab");
+        this.zoneManager = transform.GetComponent<ZoneManager>();
         this.curentSeason = "Summer";
         this.obstaclePositions = new List<ObstaclePosition>();
         this.activeObstacles = new List<GameObject>();
-        AssetCollector.instance.LoadSeason(this.curentSeason);
+        
     }
 
     private void Start()
     {
+        AssetCollector.instance.LoadSeason(this.curentSeason);
         this.Spawn();
+       
     }
 
-    private void Update()
-    {
-        this.ResetObstacle();
-        this.UpdateActiveObstaclesPosition();
-        this.DestroyObstacles();
-    }
+    //private void Update()
+    //{
+    //    this.ResetObstacle();
+    //    this.UpdateActiveObstaclesPosition();
+    //    this.DestroyObstacles();
+      
+    //}
 
     //Generate a list obstacles include 2 nonpassable obstacle and 1 passable obstacle
     public List<GameObject> GenerateSystemObstacle()
@@ -104,6 +107,7 @@ public class ObstacleSpawner : MonoBehaviour
             ObstaclePosition obstaclePos = new(obstacles[i].transform.position, obstacles[i].GetComponent<ObstacleType>()); // chinh sua
             this.obstaclePositions.Add(obstaclePos);
             zoneManager.RegisterObstacle(obstaclePos); // dang ki voi ZoneManager
+
            // Debug.Log(this.obstaclePositions[obstaclePositions.Count - 1].Position);
            // Debug.Log(this.obstaclePositions.Count);
         }
@@ -142,11 +146,11 @@ public class ObstacleSpawner : MonoBehaviour
             ObstaclePosition obstaclePosition = this.obstaclePositions[i];
             if (obstaclePosition.Position.z < this.Player.transform.position.z - this.destroyDistance)
             {
-                zoneManager.RegisterObstacle(obstaclePosition); // Xoa khoi ZoneManager
                 this.obstaclePositions.RemoveAt(i);
             }
         }
     }
+
 
     public void DestroyObstacles()
     {
@@ -157,6 +161,7 @@ public class ObstacleSpawner : MonoBehaviour
             {
                 Debug.Log(obstacle.name.Replace("(Clone)", ""));
                 ObjectPool.Instance.ReturnToPool(obstacle.name.Replace("(Clone)", ""), obstacle);
+             //   zoneManager.RemoveObstacle(obstacle);
                 this.activeObstacles.RemoveAt(i);
             }
         }

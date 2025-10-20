@@ -43,8 +43,8 @@ public class PatternManager : MonoBehaviour
         if (patterns.Count == 0)
         {
             patterns = new List<CoinPattern>();
-          //  CreateVerticalPos();
-          //  CreateHorizontalPos();
+            CreateVerticalPos();
+            CreateHorizontalPos();
             CreateParabolaPos();
         }
     }
