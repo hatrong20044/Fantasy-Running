@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
 
     [Header("Settings")]
-    public Vector3 offset = new Vector3(0, 6, -8);
+    public Vector3 offset = new Vector3(0, 4, -6);
     public float smoothTimeX = 0.15f;   
     public float smoothTimeY = 0.1f;    
     public float smoothTimeZ = 0.05f;   
