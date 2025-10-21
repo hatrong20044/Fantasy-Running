@@ -15,7 +15,18 @@ public class CoinSpawner : MonoBehaviour
     {
         lastSpawnZ = levelManager.GetCameraTransform().z;
     }
-    
+    private void Start()
+    {
+        CoinEvent.Instance.OnCoinCollected += coin => HandleCoinCollected("Coin", coin);
+
+    }
+
+    private void OnDestroy()
+    {
+        CoinEvent.Instance.OnCoinCollected -= coin => HandleCoinCollected("Coin", coin);
+
+    }
+
     public void SpawnRandomPattern()
     {
         if (ObjectPool.Instance.GetActiveCount("Coin") + limitCoins >= maxActiveCoins)
@@ -64,19 +75,11 @@ public class CoinSpawner : MonoBehaviour
 
     }
 
-    //private void RecycleCoins()
-    //{
-    //    for (int i = ObjectPool.Instance.GetActiveCount("Coin") - 1; i >= 0; i--)
-    //    {
-    //        if (ObjectPool.Instance.GetActiveObjects("Coin")[i].activeSelf &&
-    //            ObjectPool.Instance.GetActiveObjects("Coin")[i].transform.position.z < cameraTransf.position.z)
-    //        {
-    //            ObjectPool.Instance.ReturnToPool("Coin", ObjectPool.Instance.GetActiveObjects("Coin")[i]);
-              
-    //            Debug.Log(ObjectPool.Instance.GetActiveCount("Coin") + "--------------");
-    //        }
-    //    }
-    //}
+    public void HandleCoinCollected(string tag, GameObject coin)
+    {
+        ObjectPool.Instance.ReturnToPoolQuynh("Coin", coin);
+    }
+
     private void Reset()
     {
         this.LoadComponents();

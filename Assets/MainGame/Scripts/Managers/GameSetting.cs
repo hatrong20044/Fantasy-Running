@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class GameSetting : MonoBehaviour
 {
     public static GameSetting Instance { get; private set; }
@@ -12,7 +11,7 @@ public class GameSetting : MonoBehaviour
     [SerializeField] private float laneDistance = 2.5f;
     [SerializeField] private float laneChangeSpeed = 10f;
     [SerializeField] private float jumpForce = 8f;
-    [SerializeField] private float gravity = -20f;
+    [SerializeField] private float gravity = -20f; 
     [SerializeField] private float jumpForwardBoost = 2f;
 
     [Header("Slide Settings")]
