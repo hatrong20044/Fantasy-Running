@@ -56,18 +56,8 @@ public class GroundSpawner : MonoBehaviour
             // Lưu startMap làm lastSpawnedTile
             lastSpawnedTile = startTile;
 
-            // Xử lý EndTrigger cho startMap (nếu có)
-            Transform endTrigger = startTile.transform.Find("EndTrigger");
-            if (endTrigger != null)
-            {
-                Collider col = endTrigger.GetComponent<Collider>();
-                if (col != null)
-                {
-                    col.isTrigger = true;
-                    EndTriggerHandler handler = col.gameObject.AddComponent<EndTriggerHandler>();
-                    handler.Init(this, "startMap", startTile);
-                }
-            }
+            // Xử lý EndTrigger cho startMap
+            SetupEndTrigger(startTile, "startMap");
         }
         else
         {
@@ -116,17 +106,7 @@ public class GroundSpawner : MonoBehaviour
         lastSpawnedTile = tile;
 
         // Xử lý EndTrigger
-        Transform endTrigger = tile.transform.Find("EndTrigger");
-        if (endTrigger != null)
-        {
-            Collider col = endTrigger.GetComponent<Collider>();
-            if (col != null)
-            {
-                col.isTrigger = true;
-                EndTriggerHandler handler = col.gameObject.AddComponent<EndTriggerHandler>();
-                handler.Init(this, currentMap.tag, tile);
-            }
-        }
+        SetupEndTrigger(tile, currentMap.tag);
 
         // Đếm số lần spawn trong chủ đề hiện tại
         spawnCounter++;
@@ -136,5 +116,25 @@ public class GroundSpawner : MonoBehaviour
             currentThemeIndex = (currentThemeIndex + 1) % themes.Count;
         }
     }
-}
 
+    private void SetupEndTrigger(GameObject tile, string mapTag)
+    {
+        Transform endTrigger = tile.transform.Find("EndTrigger");
+        if (endTrigger == null) return;
+
+        Collider col = endTrigger.GetComponent<Collider>();
+        if (col == null) return;
+
+        col.isTrigger = true;
+
+        // ✅ FIX: Check xem đã có component chưa, tránh duplicate
+        EndTriggerHandler handler = endTrigger.GetComponent<EndTriggerHandler>();
+        if (handler == null)
+        {
+            handler = endTrigger.gameObject.AddComponent<EndTriggerHandler>();
+        }
+
+        // Luôn init lại với thông tin mới mỗi lần spawn
+        handler.Init(this, mapTag, tile);
+    }
+}

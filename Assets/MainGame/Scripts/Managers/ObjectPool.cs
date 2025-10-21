@@ -43,6 +43,7 @@ public class ObjectPool : MonoBehaviour
 
     private void Start()
     {
+       Debug.Assert(CoinEvent.Instance != null, "CoinEvent.Instance is null in ObjectPool Start");
         CoinEvent.Instance.OnCoinCollected += coin => ReturnToPoolQuynh("Coin", coin);
       
     }
