@@ -11,10 +11,9 @@ public class CoinCollect : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             coinFX.Play();
-            ObjectPool.Instance.ReturnToPool("Coin", gameObject);
-            CoinManager.Instance.AddCoin();
-            CoinManager.Instance.DisPlayCoin();
+            CoinEvent.Instance.CoinCollected(gameObject);
         }
+       
     }
     void Update()
     {

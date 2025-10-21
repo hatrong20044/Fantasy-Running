@@ -1,72 +1,83 @@
 ﻿
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
+
 
 public class CoinSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform player; 
-    [SerializeField] private PatternManager patternManager; 
-    [SerializeField] private Vector3 lastSpawn;
-   [SerializeField] private float destroyDistance = 2f;
-    private List<GameObject> activeCoins = new();
-
+    [SerializeField] private PatternManager patternManager;
+    [SerializeField] private ZoneManager zoneManager;
+    [SerializeField] private LevelManager levelManager;
+    [SerializeField] private float lastSpawnZ;
+    [SerializeField] private int maxActiveCoins = 30;
+    [SerializeField] private float randomSpacePattern;
+    [SerializeField] private int limitCoins = 10;
+    private void Awake()
+    {
+        lastSpawnZ = levelManager.GetCameraTransform().z;
+    }
     private void Start()
     {
-        SpawnCoins(player.position.z + 20f);
+        CoinEvent.Instance.OnCoinCollected += coin => HandleCoinCollected("Coin", coin);
+
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        this.CheckandSpawnCoin();
-        // this.DestroyCoin();
+        CoinEvent.Instance.OnCoinCollected -= coin => HandleCoinCollected("Coin", coin);
+
     }
 
-    // Spawn coin moi khi player di chuyen du khoang cach
-    public void CheckandSpawnCoin()
+    public void SpawnRandomPattern()
     {
-        float x = patternManager.SpawnRandomDistance();
-        float zPosCur = lastSpawn.z + x;
-        if (player.position.z >= zPosCur )
+        if (ObjectPool.Instance.GetActiveCount("Coin") + limitCoins >= maxActiveCoins)
         {
-            while(activeCoins.Count <= 30)
-            {
-                SpawnCoins(zPosCur + 10f);
-            }
-            
+            return;
         }
-    }
-    //Thu hoi Coin khi di qua
-    public void DestroyCoin()
-    {
-        for (int i = activeCoins.Count - 1; i >= 0; i--)
-        {
-            GameObject coin = activeCoins[i];
-            if (coin != null && coin.activeSelf && coin.transform.position.z < player.position.z - destroyDistance)
-            {
-                ObjectPool.Instance.ReturnToPool("Coin", coin);
-                activeCoins.RemoveAt(i);
-            }
-        }
-    }
-
-    private void SpawnCoins(float zOffset)
-    {
-
         PatternManager.CoinPattern pattern = patternManager.GetRandomPattern();
-        foreach(Vector3 pos in pattern.positions)
+        // Tính vị trí Z bắt đầu của pattern
+        randomSpacePattern = Random.Range(25f, 50f);
+        float startZ = lastSpawnZ + randomSpacePattern;
+        Vector3[] patternPositions = pattern.positions;
+        Vector3 spawnPos = new Vector3();
+
+        //Spawn coin cho pattern
+        foreach(Vector3 pos in patternPositions)
         {
-            Vector3 coinPosition = new Vector3(
-                pos.x, pos.y, pos.z + zOffset
+            spawnPos = new Vector3(
+                pos.x,
+                pos.y,
+                pos.z + startZ
+
             );
-            GameObject coin = ObjectPool.Instance.GetFromPool("Coin");
-            if( coin != null )
+            if(zoneManager.CanPlaceCoin(spawnPos))
             {
-                coin.transform.SetPositionAndRotation(coinPosition, Quaternion.identity);
-                activeCoins.Add(coin);
-                lastSpawn = coinPosition;
+                GameObject coin = ObjectPool.Instance.GetFromPoolQuynh("Coin");
+                coin.transform.position = spawnPos;
+                zoneManager.RegisterCoin(spawnPos);
+            }
+            else
+            {
+               
+                return;
+
             }
         }
+        lastSpawnZ = spawnPos.z;
+    }
+
+    public void SpawnPattern(PatternManager.CoinPattern pattern)
+    {
+
+    }
+  
+    public void SpawnCoinForPattern()
+    {
+
+    }
+
+    public void HandleCoinCollected(string tag, GameObject coin)
+    {
+        ObjectPool.Instance.ReturnToPoolQuynh("Coin", coin);
     }
 
     private void Reset()
@@ -77,14 +88,22 @@ public class CoinSpawner : MonoBehaviour
     protected void LoadComponents()
     {
         this.LoadPatternManager();
+        this.LoadLevelManager();
+        this.LoadZoneManager();
     }
 
     protected void LoadPatternManager()
     {
         this.patternManager = transform.GetComponent<PatternManager>();
     }
+    protected void LoadLevelManager()
+    {
+        this.levelManager = transform.GetComponent<LevelManager>();
+    }
 
-
-    
+    protected void LoadZoneManager()
+    {
+        this.zoneManager = transform.GetComponent<ZoneManager>();
+    }
 
 }

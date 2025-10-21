@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf0a4ebede8063e4f94958dc48be1627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subType: 3
+  subType: 4
 --- !u!1 &3496729391774318397
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,8 +237,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 3, z: 2}
-  m_Center: {x: 0, y: 2, z: 0}
+  m_Size: {x: 2.4, y: 1.65, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7946700133858019976
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,8 +290,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3, y: 3, z: 2.3}
-  m_Center: {x: 0, y: 2, z: 0}
+  m_Size: {x: 2.7, y: 1.65, z: 2.3}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8353794429961536863
 GameObject:
   m_ObjectHideFlags: 0
