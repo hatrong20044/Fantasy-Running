@@ -20,8 +20,6 @@ public class LevelManager : MonoBehaviour
         obstacleSpawner.ResetObstacle();
 
         zoneManager.UpdateWithCameraPosition(cameraTransf.position.z);
-        obstacleSpawner.DestroyObstacles();
-
     }
 
     private void Reset()

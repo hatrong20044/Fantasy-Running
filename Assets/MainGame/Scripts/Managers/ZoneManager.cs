@@ -97,7 +97,7 @@ public class ZoneManager : MonoBehaviour
     public void UpdateWithCameraPosition(float cameraZ)
     {
         this.RemoveZone(cameraZ);
-        this.RecycleObjectByTime(cameraZ);
+        this.RecycleObjectsByTime(cameraZ);
     }
 
     protected void RemoveZone(float cameraZ)
@@ -114,16 +114,20 @@ public class ZoneManager : MonoBehaviour
        // Debug.Log("coin zone: " + coinZones.Count + " ob zone: " +  obstacleZones.Count);
     }
 
-    protected void RecycleObjectByTime(float cameraZ)
+    protected void RecycleObjectsByTime(float cameraZ)
     {
         recycleTimer += Time.deltaTime;
         if (recycleTimer >= recycleInterval)
         {
-            RecycleObjects("Coin",cameraZ);
+            RecycleObject("Coin", cameraZ);
+            for (int i = 0; i < GameSetting.Instance.ActiveObstacles.Count; i++)
+            {
+                RecycleObject(GameSetting.Instance.ActiveObstacles[i], cameraZ);
+            }
             recycleTimer = 0f;
         }
     }
-    protected void RecycleObjects(string tag, float cameraZ)
+    protected void RecycleObject(string tag, float cameraZ)
     {
         List<GameObject> activeObjects = ObjectPool.Instance.GetActiveObjects(tag);
         for (int i = activeObjects.Count - 1; i >= 0; i--)

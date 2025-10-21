@@ -13,6 +13,7 @@ public class GameSetting : MonoBehaviour
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float gravity = -20f; 
     [SerializeField] private float jumpForwardBoost = 2f;
+    [SerializeField] private List<string> activeObstacles = new List<string>(){"Obstacle", "Obstacle1", "Obstacle2", "Obstacle3", "Obstacle4"};
 
     [Header("Slide Settings")]
     public float slideDuration = 1f;
@@ -54,4 +55,5 @@ public class GameSetting : MonoBehaviour
     public float SlideDuration => slideDuration;
     public float SlideHeight => slideHeight;
     public float SlideCenter => slideCenter;
+    public List<string> ActiveObstacles => this.activeObstacles;
 }
