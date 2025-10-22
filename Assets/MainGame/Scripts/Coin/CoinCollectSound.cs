@@ -19,8 +19,5 @@ public class CoinCollectSound : MonoBehaviour
     {
         coinFX.Play();
     }
-    private void Reset()
-    {
-        this.coinFX = GetComponent<AudioSource>();
-    }
+   
 }
