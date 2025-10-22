@@ -21,15 +21,7 @@ public class PlayerCollision : MonoBehaviour
         else if (other.gameObject.name == "Activation")
         {
             ObstacleMovement obstacleMovement = other.GetComponentInParent<ObstacleMovement>();
-            Debug.Log(obstacleMovement.gameObject.name);
-            if (obstacleMovement != null)
-            {
-                obstacleMovement.Act();
-            }
-            else
-            {
-                Debug.LogError("ObstacleMovement is null for " + other.gameObject.name);
-            }
+            obstacleMovement.Act();
         }
     }
 
