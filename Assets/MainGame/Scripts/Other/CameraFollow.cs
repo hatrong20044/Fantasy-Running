@@ -1,33 +1,77 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class CameraFollow : MonoBehaviour
 {
-    [Header("Target")]
     public Transform target;
 
     [Header("Settings")]
-    public Vector3 offset = new Vector3(0, 4, -6);
-    public float smoothTimeX = 0.15f;   
-    public float smoothTimeY = 0.1f;    
-    public float smoothTimeZ = 0.05f;   
+    public Vector3 followOffset = new Vector3(0, 4, -6); // phía sau player
+    public Vector3 introOffset = new Vector3(0, 2, 3);   // phía trước player
+    public float smoothTime = 0.1f;
 
-    private Vector3 velocity = Vector3.zero;
+    private Vector3 velocity;
+    private bool isFollowing = false;
+
+    private void OnEnable()
+    {
+        GameplayUI.OnPlayPressed += HandlePlayPressed;
+    }
+
+    private void OnDisable()
+    {
+        GameplayUI.OnPlayPressed -= HandlePlayPressed;
+    }
+
+    private void Start()
+    {
+        if (target)
+        {
+            
+            Vector3 introPos = target.position + target.transform.forward * introOffset.z + Vector3.up * introOffset.y;
+            transform.position = introPos;
+
+            transform.LookAt(target.position + Vector3.up * 1.5f);
+        }
+    }
+
 
     private void LateUpdate()
     {
-        if (target == null) return;
+        if (!isFollowing || target == null) return;
 
-        Vector3 desiredPos = target.position + offset;
-
-        Vector3 smoothedPos = transform.position;
-
-        smoothedPos.x = Mathf.SmoothDamp(transform.position.x, desiredPos.x, ref velocity.x, smoothTimeX);
-        smoothedPos.y = Mathf.SmoothDamp(transform.position.y, desiredPos.y, ref velocity.y, smoothTimeY);
-        smoothedPos.z = Mathf.SmoothDamp(transform.position.z, desiredPos.z, ref velocity.z, smoothTimeZ);
-
-        transform.position = smoothedPos;
-
-       
+        Vector3 desiredPos = target.position + followOffset;
+        transform.position = Vector3.SmoothDamp(transform.position, desiredPos, ref velocity, smoothTime);
         transform.LookAt(target.position + Vector3.up * 2f);
+    }
+
+    private void HandlePlayPressed()
+    {
+        StartCoroutine(SwitchToFollow());
+    }
+
+    private IEnumerator SwitchToFollow()
+    {
+        Vector3 startPos = transform.position;
+        Quaternion startRot = transform.rotation;
+
+        Vector3 endPos = target.position + followOffset;
+        Quaternion endRot = Quaternion.LookRotation(target.position + Vector3.up * 2f - endPos);
+
+        float duration = 1.2f;
+        float t = 0;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float normalized = Mathf.SmoothStep(0, 1, t / duration);
+
+            transform.position = Vector3.Lerp(startPos, endPos, normalized);
+            transform.rotation = Quaternion.Slerp(startRot, endRot, normalized);
+
+            yield return null;
+        }
+
+        isFollowing = true;
     }
 }

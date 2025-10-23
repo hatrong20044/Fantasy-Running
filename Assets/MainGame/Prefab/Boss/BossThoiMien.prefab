@@ -363,7 +363,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8072154769271330927}
@@ -403,10 +403,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48df89719dfe3994ea63ef3f4dd34ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeTime: 20
-  descendSpeed: 3
-  followDistance: -17.2
-  hoverHeight: -0.87
+  hoverHeight: 0.45
+  followDistance: 17
+  followSmooth: 9.66
+  disappearDelay: 0.5
+  reverseEffect: {fileID: 0}
+  fallHeight: 10
+  fallDuration: 4
+  preSpawnWarningTime: 1.5
 --- !u!1 &2814700718275701102
 GameObject:
   m_ObjectHideFlags: 0
