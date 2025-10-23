@@ -30,8 +30,6 @@ public class ObstacleSpawner : MonoBehaviour
     public float destroyDistance = 2f;
     public string curentSeason;
     public GameObject Player;
-    public List<ObstaclePosition> obstaclePositions;
-    public List<GameObject> activeObstacles;
 
     private void Awake()
     {
@@ -39,9 +37,6 @@ public class ObstacleSpawner : MonoBehaviour
         this.obstaclePrefab = GameObject.Find("ObstaclePrefab");
         this.zoneManager = transform.GetComponent<ZoneManager>();
         this.curentSeason = "Summer";
-        this.obstaclePositions = new List<ObstaclePosition>();
-        this.activeObstacles = new List<GameObject>();
-        
     }
 
     private void Start()
@@ -50,14 +45,6 @@ public class ObstacleSpawner : MonoBehaviour
         this.Spawn();
        
     }
-
-    //private void Update()
-    //{
-    //    this.ResetObstacle();
-    //    this.UpdateActiveObstaclesPosition();
-    //    this.DestroyObstacles();
-      
-    //}
 
     //Generate a list obstacles include 2 nonpassable obstacle and 1 passable obstacle
     public List<GameObject> GenerateSystemObstacle()
@@ -69,18 +56,16 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             randomBaseObstacle = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
-            GameObject nonPassableObstacle = ObjectPool.Instance.GetFromPool(this.nonPassableObstacleTags[randomBaseObstacle]);
-            //Debug.Log(nonPassableObstacle.name);
+            GameObject nonPassableObstacle = ObjectPool.Instance.GetFromPoolQuynh(this.nonPassableObstacleTags[randomBaseObstacle]);
             ObstacleType nonPassabeObstacleType = nonPassableObstacle.GetComponent<ObstacleType>();
             List<ObstacleAsset> nonPassableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(false, nonPassabeObstacleType.subType);
             randomApperanceObstacle = UnityEngine.Random.Range(0, nonPassableObstacleAssets.Count);
             this.ApplyMeshAndMeshRenderer(nonPassableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, nonPassableObstacleAssets);
             obstacles.Add(nonPassableObstacle);
-            this.activeObstacles.Add(nonPassableObstacle);
         } 
         //create a passable obstacle and add to list
         randomBaseObstacle = UnityEngine.Random.Range(0, this.passableObstacleTags.Count);
-        GameObject passableObstacle = ObjectPool.Instance.GetFromPool(this.passableObstacleTags[randomBaseObstacle]);
+        GameObject passableObstacle = ObjectPool.Instance.GetFromPoolQuynh(this.passableObstacleTags[randomBaseObstacle]);
         ObstacleType passableObstacleType = passableObstacle.GetComponent<ObstacleType>();
         if (passableObstacleType.subType != ObstacleType.ObstacleSubType.Empty)
         {
@@ -88,7 +73,6 @@ public class ObstacleSpawner : MonoBehaviour
             randomApperanceObstacle = UnityEngine.Random.Range(0, passableObstacleAssets.Count);
             this.ApplyMeshAndMeshRenderer(passableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, passableObstacleAssets);
         }
-        this.activeObstacles.Add(passableObstacle);
         obstacles.Add(passableObstacle);
 
         return obstacles;
@@ -105,11 +89,7 @@ public class ObstacleSpawner : MonoBehaviour
             obstacles[i].transform.position = new Vector3(this.laneDistance * lanes[laneIndex], obstacles[i].transform.position.y, this.currentObstaclePosZ);
             lanes.RemoveAt(laneIndex);
             ObstaclePosition obstaclePos = new(obstacles[i].transform.position, obstacles[i].GetComponent<ObstacleType>()); // chinh sua
-            this.obstaclePositions.Add(obstaclePos);
             zoneManager.RegisterObstacle(obstaclePos); // dang ki voi ZoneManager
-
-           // Debug.Log(this.obstaclePositions[obstaclePositions.Count - 1].Position);
-           // Debug.Log(this.obstaclePositions.Count);
         }
     }
 
@@ -136,34 +116,6 @@ public class ObstacleSpawner : MonoBehaviour
             List<GameObject> obstacles = this.GenerateSystemObstacle();
             SetPosObstacleSystem(obstacles);
             this.currentObstaclePosZ += distanceObtacle;
-        }
-    }
-
-    public void UpdateActiveObstaclesPosition()
-    {
-        for (int i = 0; i < this.obstaclePositions.Count; i++)
-        {
-            ObstaclePosition obstaclePosition = this.obstaclePositions[i];
-            if (obstaclePosition.Position.z < this.Player.transform.position.z - this.destroyDistance)
-            {
-                this.obstaclePositions.RemoveAt(i);
-            }
-        }
-    }
-
-
-    public void DestroyObstacles()
-    {
-        for (int i = 0; i < this.activeObstacles.Count; i++)
-        {
-            GameObject obstacle = this.activeObstacles[i];
-            if (obstacle.activeSelf && obstacle.transform.position.z < this.Player.transform.position.z - this.destroyDistance)
-            {
-                Debug.Log(obstacle.name.Replace("(Clone)", ""));
-                ObjectPool.Instance.ReturnToPool(obstacle.name.Replace("(Clone)", ""), obstacle);
-             //   zoneManager.RemoveObstacle(obstacle);
-                this.activeObstacles.RemoveAt(i);
-            }
         }
     }
 

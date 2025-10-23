@@ -41,20 +41,6 @@ public class ObjectPool : MonoBehaviour
         this.InitalizePoolQuynh();
     }
 
-    private void Start()
-    {
-       Debug.Assert(CoinEvent.Instance != null, "CoinEvent.Instance is null in ObjectPool Start");
-        CoinEvent.Instance.OnCoinCollected += coin => ReturnToPoolQuynh("Coin", coin);
-      
-    }
-
-    private void OnDestroy()
-    {
-        CoinEvent.Instance.OnCoinCollected -= coin => ReturnToPoolQuynh("Coin", coin);
-      
-    }
-
-
     void InitalizePoolQuynh()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
