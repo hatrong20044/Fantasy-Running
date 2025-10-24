@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -987,7 +987,6 @@ MonoBehaviour:
   currentResetPosZ: 35
   destroyDistance: 2
   curentSeason: 
-  Player: {fileID: 0}
 --- !u!114 &230378895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2688,6 +2687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 457234327}
+  warningDuration: 0
 --- !u!114 &768358950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3016,11 +3016,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 289886358}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &920394430 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8353794429961536863, guid: 4036c3c608823b54d9a0c20023985e96, type: 3}
-  m_PrefabInstance: {fileID: 432277006}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &938434554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4466,9 +4461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af26465620842c748bbfcd5d83e6e998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
-  warningDuration: 1
-  warningImage: {fileID: 920394430}
+  moveSpeed: 30
 --- !u!1001 &1584943120
 PrefabInstance:
   m_ObjectHideFlags: 0

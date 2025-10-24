@@ -16,9 +16,8 @@ public class SpawnRocket : BossBase
     public float timeInterVal = 2f; // khoảng thời gian giữa các lần spawn.
     public ZoneManager zoneManager;
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
         zoneManager = FindAnyObjectByType<ZoneManager>();
         if (player != null)
         {
@@ -35,11 +34,6 @@ public class SpawnRocket : BossBase
         }
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     void LateUpdate()
     {
         if (!isActive || player == null) return;
@@ -50,14 +44,6 @@ public class SpawnRocket : BossBase
         transform.rotation = Quaternion.Euler(0, 90, 0);
     }
 
-    protected override void Deactivate()
-    {
-        base.Deactivate();
-        if (player != null)
-        {
-
-        }
-    }
 
     public void Spawn()
     {
@@ -77,11 +63,6 @@ public class SpawnRocket : BossBase
             GameObject bullet = ObjectPool.Instance.GetFromPoolQuynh("Bullet");
             GameObject warning = ObjectPool.Instance.GetFromPoolQuynh("Warning");
 
-            //đăng ký bullet với zone manager
-            ObstacleType bulletType = bullet.GetComponent<ObstacleType>();
-            ObstaclePosition bulletPosition = new ObstaclePosition(bullet.transform.position, bulletType);
-            zoneManager.RegisterObstacle(bulletPosition);
-
             RunWarnning runWarnning = warning.GetComponent<RunWarnning>();
             BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
 
@@ -90,7 +71,12 @@ public class SpawnRocket : BossBase
 
             //tính toán vị trí đạn rơi trúng người chơi dựa trên tốc độ của người chơi, thời gian đạn bay
             Vector3 targetPos = CalculatePredictedLandingPositions(lanes[laneIndex]);
-            
+
+            //đăng ký bullet với zone manager
+            ObstacleType bulletType = bullet.GetComponent<ObstacleType>();
+            ObstaclePosition bulletPosition = new ObstaclePosition(targetPos, bulletType);
+            zoneManager.RegisterObstacle(bulletPosition);
+
             bulletMovement.Launch(CannonPos.position, targetPos); // khởi tạo vị trí spawn và target
             bulletMovement.StartMoving(); // bullet di chuyển đến vị trí target
 
@@ -101,7 +87,7 @@ public class SpawnRocket : BossBase
             // Chờ một khoảng thời gian trước khi spawn viên đạn tiếp theo
             yield return new WaitForSeconds(0.2f);
         }
-        animator.ResetTrigger("Shot"); // Sửa animation thành bay bình thường thành "Shot"
+        animator.ResetTrigger("Shot"); // Sửa animation thành bay bình thường 
     }
 
     private Vector3 CalculatePredictedLandingPositions(int laneIndex)
@@ -115,10 +101,5 @@ public class SpawnRocket : BossBase
         float predictedZ = playerCurrentZ + (playerSpeed * flightDuration);
         targetPos = new Vector3(laneDistance * laneIndex, 0.1f, predictedZ);
         return targetPos;
-    }
-
-    public override void PerformBehavior()
-    {
-        throw new System.NotImplementedException();
     }
 }

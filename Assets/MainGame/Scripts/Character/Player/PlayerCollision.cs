@@ -30,7 +30,6 @@ public class PlayerCollision : MonoBehaviour
     private IEnumerator DelayedStartMoving(Movement movement, float delay)
     {
         yield return new WaitForSeconds(delay); // Chờ delay (1 giây)
-        Debug.Log("Delay finished, starting movement");
         movement.StartMoving();
     }
 
