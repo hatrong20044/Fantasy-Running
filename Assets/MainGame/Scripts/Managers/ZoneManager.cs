@@ -94,7 +94,7 @@ public class ZoneManager : MonoBehaviour
         }
         return true;
     }
-    public void UpdateWithCameraPosition(float cameraZ)
+    public void UpdateWithCameraPosition(float cameraZ) 
     {
         this.RemoveZone(cameraZ);
         this.RecycleObjectsByTime(cameraZ);
@@ -127,7 +127,7 @@ public class ZoneManager : MonoBehaviour
             recycleTimer = 0f;
         }
     }
-    protected void RecycleObject(string tag, float cameraZ)
+    protected void RecycleObject(string tag, float cameraZ) 
     {
         List<GameObject> activeObjects = ObjectPool.Instance.GetActiveObjects(tag);
         for (int i = activeObjects.Count - 1; i >= 0; i--)
