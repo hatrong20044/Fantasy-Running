@@ -8,8 +8,12 @@ public class PlayerCollision : MonoBehaviour
 {
     [SerializeField]private GameObject  canvas;
     public float warningDuration; // 1.0f
+    private Player playerdie;
 
-
+    private void Start()
+    {
+        playerdie = this.GetComponent<Player>();
+    }
     // handle event when player collide obstacle
     private void OnTriggerEnter(Collider other)
     {
@@ -40,6 +44,14 @@ public class PlayerCollision : MonoBehaviour
 
     public void GameOver()
     {
+        playerdie.Die();
+        StartCoroutine(ShowWarning());
+    }
+
+    IEnumerator ShowWarning()
+    {
+        yield return new WaitForSeconds(1f);
         canvas.SetActive(true);
+       
     }
 }
