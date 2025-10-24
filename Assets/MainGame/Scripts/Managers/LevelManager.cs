@@ -18,7 +18,6 @@ public class LevelManager : MonoBehaviour
     {
         coinSpawner.SpawnRandomPattern();
         obstacleSpawner.ResetObstacle(cameraTransf.position.z);
-
         zoneManager.UpdateWithCameraPosition(cameraTransf.position.z);
     }
 

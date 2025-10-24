@@ -291,7 +291,6 @@ public class Player : MonoBehaviour
         ChangeAnim("Die");
         controller.enabled = false;
         Debug.Log("Player Died!");
-        
     }
 
 

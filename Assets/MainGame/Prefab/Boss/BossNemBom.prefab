@@ -80,14 +80,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -8515879188404313477}
   m_SourcePrefab: {fileID: 100100000, guid: c7f3dc7afbac21b4e99569edc5052ec2, type: 3}
---- !u!95 &1925522423304251164 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: c7f3dc7afbac21b4e99569edc5052ec2, type: 3}
-  m_PrefabInstance: {fileID: 5463501697342626445}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2745599179309055570 stripped
+--- !u!4 &2589821478511603596 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -1312779290092755745, guid: c7f3dc7afbac21b4e99569edc5052ec2, type: 3}
+  m_CorrespondingSourceObject: {fileID: -1719630477804587775, guid: c7f3dc7afbac21b4e99569edc5052ec2, type: 3}
   m_PrefabInstance: {fileID: 5463501697342626445}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &5121481221172684764 stripped
@@ -107,14 +102,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0687a5c600ccf2b459c169ddaa20d981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeTime: 10000
+  disappearDelay: 0.5
   descendSpeed: 3
   followDistance: -35
   hoverHeight: 8
   maxBullet: 2
-  animator: {fileID: 1925522423304251164}
-  CannonPos: {fileID: 2745599179309055570}
+  CannonPos: {fileID: 2589821478511603596}
   flightDuration: 0
   laneDistance: 2.5
-  timeInterVal: 2
+  timeInterVal: 1
   zoneManager: {fileID: 0}
+  particleSystem: {fileID: 2868216338370173421, guid: 83ad694f134ab954580473212156b35a, type: 3}
