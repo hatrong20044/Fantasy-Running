@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerCollision : MonoBehaviour
 {
-    private bool isInvincible = false;
     [SerializeField]private GameObject  canvas;
+    public float warningDuration; // 1.0f
 
 
     // handle event when player collide obstacle
@@ -20,17 +20,18 @@ public class PlayerCollision : MonoBehaviour
         }
         else if (other.gameObject.name == "Activation")
         {
-            ObstacleMovement obstacleMovement = other.GetComponentInParent<ObstacleMovement>();
-            Debug.Log(obstacleMovement.gameObject.name);
-            if (obstacleMovement != null)
-            {
-                obstacleMovement.Act();
-            }
-            else
-            {
-                Debug.LogError("ObstacleMovement is null for " + other.gameObject.name);
-            }
+            RunWarnning runWarning = other.gameObject.GetComponentInParent<RunWarnning>();
+            Movement obstacleMovement = other.gameObject.GetComponentInParent<Movement>();
+            runWarning.Act();
+            StartCoroutine(DelayedStartMoving(obstacleMovement, runWarning.warningDuration));
         }
+    }
+
+    private IEnumerator DelayedStartMoving(Movement movement, float delay)
+    {
+        yield return new WaitForSeconds(delay); // Chờ delay (1 giây)
+        Debug.Log("Delay finished, starting movement");
+        movement.StartMoving();
     }
 
     public void handleObstacleCollision(Collider Collider)
