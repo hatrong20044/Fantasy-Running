@@ -24739,7 +24739,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1980332261123675647}
-  - component: {fileID: -2336961706324434911}
   - component: {fileID: 7227302088858484435}
   m_Layer: 0
   m_Name: Hero_Nature
@@ -24765,22 +24764,6 @@ Transform:
   - {fileID: 3423388300971593625}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2336961706324434911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8003752964811709727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a9f98436b8fb66429c86b7462a98631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeTime: 80
-  descendSpeed: 3
-  followDistance: -10
-  hoverHeight: 3
 --- !u!95 &7227302088858484435
 Animator:
   serializedVersion: 5

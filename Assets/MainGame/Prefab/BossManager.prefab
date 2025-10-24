@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossList:
   - bossPrefab: {fileID: 3514484034724958994, guid: 56314a6aca78b92478b6d56ca8d690e5, type: 3}
-    triggerDistance: 20
+    triggerDistance: -20
+    spawnDelay: 0
+    activeTime: 20
   player: {fileID: 0}
-  spawnHeight: 40.1
-  followDistance: 3
+  spawnHeight: 26.9
   descendSpeed: 3
+  spawnAheadZ: 0

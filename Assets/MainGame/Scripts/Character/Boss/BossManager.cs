@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BossManager : MonoBehaviour
 {
@@ -7,63 +8,76 @@ public class BossManager : MonoBehaviour
     public class BossSpawnInfo
     {
         public BossBase bossPrefab;
-        public float triggerDistance; 
+        [Tooltip("Khoang cach player can chay")]
+        public float triggerDistance = 100f;
+        [Tooltip("Delay")]
+        public float spawnDelay = 0f;
+        [Tooltip("Thời gian boss tồn tại)")]
+        public float activeTime = 5f;
     }
 
-    public BossSpawnInfo[] bossList;
+    [Header("Config")]
+    public List<BossSpawnInfo> bossList = new List<BossSpawnInfo>();
     public Transform player;
-    public float spawnHeight = 10f;
-    public float followDistance = 50f; 
-    public float descendSpeed = 3f;
 
-    private int currentBossIndex = 0;
-    private bool isSpawning = false;
-
+    private int currentIndex = 0;
+    private bool isSpawningOrActive = false;
     private PlayerProgress progress;
+    private BossBase currentBoss;
 
-    void Start()
+    private void Start()
     {
-        progress = player.GetComponent<PlayerProgress>();
+        if (player != null)
+            progress = player.GetComponent<PlayerProgress>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (isSpawning || currentBossIndex >= bossList.Length) return;
+        if (isSpawningOrActive || progress == null || currentIndex >= bossList.Count)
+            return;
 
-        if (progress.DistanceTravelled >= bossList[currentBossIndex].triggerDistance)
+        BossSpawnInfo info = bossList[currentIndex];
+        float dist = progress.GetDistance();
+
+        if (dist >= info.triggerDistance)
+            StartCoroutine(SpawnBossRoutine(info));
+    }
+
+    private IEnumerator SpawnBossRoutine(BossSpawnInfo info)
+    {
+        isSpawningOrActive = true;
+
+        if (info.spawnDelay > 0f)
+            yield return new WaitForSeconds(info.spawnDelay);
+
+        currentBoss = Instantiate(info.bossPrefab);
+        currentBoss.Init(player);
+
+        currentBoss.OnBossFinished += OnBossFinished;
+        currentBoss.Activate();
+
+        if (info.activeTime > 0f)
         {
-            StartCoroutine(SpawnBossRoutine(bossList[currentBossIndex]));
-            currentBossIndex++;
+            yield return new WaitForSeconds(info.activeTime);
+            if (currentBoss != null) currentBoss.EndBoss();
         }
     }
 
-    IEnumerator SpawnBossRoutine(BossSpawnInfo info)
+    private void OnBossFinished(BossBase boss)
     {
-        isSpawning = true;
-
-      
-        BossBase boss = Instantiate(info.bossPrefab);
-        boss.Initialize(player.GetComponent<Player>());
-        Debug.Log($"⚡ Spawn Boss: {boss.name} - Player: {player.name}");
-
-        Vector3 spawnPos = player.position + Vector3.forward * followDistance + Vector3.up * spawnHeight;
-        boss.transform.position = spawnPos;
-
-      
-        Vector3 targetPos = player.position + Vector3.forward * followDistance;
-        while (Vector3.Distance(boss.transform.position, targetPos) > 0.1f)
+        if (currentBoss != null)
         {
-            boss.transform.position = Vector3.MoveTowards(
-                boss.transform.position,
-                targetPos,
-                descendSpeed * Time.deltaTime
-            );
-            yield return null;
+            currentBoss.OnBossFinished -= OnBossFinished;
+            currentBoss = null;
         }
 
-        boss.transform.LookAt(player); 
-        boss.PerformBehavior();
+        currentIndex++;
+        isSpawningOrActive = false;
+    }
 
-        isSpawning = false;
+    public void ForceEndCurrentBoss()
+    {
+        if (currentBoss != null)
+            currentBoss.EndBoss();
     }
 }

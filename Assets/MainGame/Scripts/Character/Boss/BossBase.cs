@@ -1,40 +1,53 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public abstract class BossBase : MonoBehaviour
 {
-    public float activeTime = 10f;
+    [Header("Base Settings")]
+    public float disappearDelay = 0.5f;
+
+    protected Animator animator;
+    protected Transform player;
     protected bool isActive;
-    protected float timer;
 
-    protected Player player; 
+    public event System.Action<BossBase> OnBossFinished;
 
-    public void Initialize(Player playerRef)
+    protected virtual void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    public virtual void Init(Transform playerRef)
     {
         player = playerRef;
     }
 
-    protected virtual void Start()
+    public virtual void Activate()
     {
         isActive = true;
-        timer = 0f;
+        if (animator) animator.SetTrigger("Appear");
+
+        StartCoroutine(SpawnBehavior());
     }
 
-    protected virtual void Update()
-    {
-        if (!isActive) return;
+    /// <summary>
+    /// Hành vi spawn riêng cho từng boss — override ở lớp con
+    /// </summary>
+    protected virtual IEnumerator SpawnBehavior() { yield break; }
 
-        timer += Time.deltaTime;
-        if (activeTime > 0 && timer >= activeTime)
-        {
-            Deactivate();
-        }
-    }
-
-    protected virtual void Deactivate()
+    public virtual void EndBoss()
     {
         isActive = false;
-        gameObject.SetActive(false);
+        if (animator) animator.SetTrigger("Disappear");
+        StartCoroutine(CoFinish());
     }
 
-    public abstract void PerformBehavior();
+    private IEnumerator CoFinish()
+    {
+        yield return new WaitForSeconds(disappearDelay);
+        OnBossFinished?.Invoke(this);
+        Destroy(gameObject);
+    }
+
+    protected virtual void OnDestroy() { }
 }

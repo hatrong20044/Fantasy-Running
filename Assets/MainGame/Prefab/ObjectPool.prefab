@@ -40,7 +40,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1884673270060562924}
-  - component: {fileID: 1300034187233866908}
   m_Layer: 0
   m_Name: ObjectPool
   m_TagString: Untagged
@@ -66,83 +65,6 @@ Transform:
   - {fileID: 4829913295739598593}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1300034187233866908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5767183761071787268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f35ceb46afced9d43bff98e8b95f9cc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pools:
-  - tag: Coin
-    prefab: {fileID: 4168352594974157548, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
-    size: 50
-    parent: {fileID: 4829913295739598593}
-  - tag: SummerMap_1
-    prefab: {fileID: 231719845911995490, guid: 93f1508d16216e64eaa00d04618bbf72, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: SummerMap_2
-    prefab: {fileID: 6312185764355658872, guid: 27e3c6e2099c6d34496c0320e7d8f9b4, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: Desert_1
-    prefab: {fileID: 4542649263097468205, guid: fbc6ea5c8f646b24d84ec36f014c80ca, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: Desert_2
-    prefab: {fileID: 1802058642391666796, guid: bda67d7da41abd948a2447c2310577f0, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: Market_1
-    prefab: {fileID: 2368773709264388371, guid: 99e411332f2de6e4c98882b104e8e68c, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: Market_2
-    prefab: {fileID: 3322127891921367051, guid: 95ce9807ca515994681bbd66a035d255, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: Winter_1
-    prefab: {fileID: 7599224944904824686, guid: a2e30e1d43f054a4b8350f96945c0067, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: Winter_2
-    prefab: {fileID: 1696255129059200367, guid: 1cc07ea7cf72957479ec41a5a4938f60, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: Sea_1
-    prefab: {fileID: 5124686278274002506, guid: ced271e0840c26c4b88330095c3a1fad, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: Sea_2
-    prefab: {fileID: 8306280603143543851, guid: a47907da867cc504a8adcce8cde92d1c, type: 3}
-    size: 5
-    parent: {fileID: 460058055492230538}
-  - tag: Obstacle
-    prefab: {fileID: 0}
-    size: 10
-    parent: {fileID: 6985320364423512517}
-  - tag: Obstacle1
-    prefab: {fileID: 0}
-    size: 20
-    parent: {fileID: 6985320364423512517}
-  - tag: Obstacle2
-    prefab: {fileID: 0}
-    size: 10
-    parent: {fileID: 6985320364423512517}
-  - tag: Obstacle3
-    prefab: {fileID: 0}
-    size: 10
-    parent: {fileID: 6985320364423512517}
-  - tag: Obstacle4
-    prefab: {fileID: 0}
-    size: 20
-    parent: {fileID: 6985320364423512517}
 --- !u!1 &6740502864917525803
 GameObject:
   m_ObjectHideFlags: 0

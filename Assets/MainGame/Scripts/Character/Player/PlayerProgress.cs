@@ -2,14 +2,26 @@ using UnityEngine;
 
 public class PlayerProgress : MonoBehaviour
 {
-    public float DistanceTravelled { get; private set; }
-
     private Vector3 startPos;
+    private float distanceTravelled;
 
-    void Start() => startPos = transform.position;
+    public float DistanceTravelled => distanceTravelled;
+
+    void Start()
+    {
+        startPos = transform.position;
+    }
 
     void Update()
     {
-        DistanceTravelled = Vector3.Distance(startPos, transform.position);
+        distanceTravelled = Vector3.Distance(startPos, transform.position);
+    }
+
+    public float GetDistance() => distanceTravelled;
+
+    public void ResetProgress()
+    {
+        startPos = transform.position;
+        distanceTravelled = 0f;
     }
 }
