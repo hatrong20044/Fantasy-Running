@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     private bool isJumping = false;
     private bool isSliding = false;
     private bool isDead = false;
+    private bool wantSlideAfterJump = false;
 
     private float slideTimer = 0f;
 
@@ -78,20 +79,29 @@ public class Player : MonoBehaviour
 
         moveDirection = Vector3.forward * forwardSpeed;
 
+        // ✅ Nếu đang đứng trên mặt đất
         if (controller.isGrounded)
         {
+            // Vừa chạm đất sau khi nhảy
             if (isJumping)
             {
                 isJumping = false;
+
+                // Nếu đang yêu cầu slide khi vừa chạm đất
+                if (wantSlideAfterJump)
+                {
+                    wantSlideAfterJump = false;
+                    StartSlide();
+                    return;
+                }
             }
 
-            
             if (!isSliding && !isJumping)
             {
                 ChangeAnim("Run");
             }
 
-            
+            // Nhảy
             if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || swipeUp) && !isSliding)
             {
                 verticalVelocity = jumpForce;
@@ -99,44 +109,48 @@ public class Player : MonoBehaviour
                 ChangeAnim("Jump");
             }
 
-            
+            // Slide khi đang chạy
             if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || swipeDown) && !isJumping && !isSliding)
             {
                 StartSlide();
             }
 
-            
             if (!isJumping)
-            {
                 verticalVelocity = -2f;
-            }
         }
-        else
+        else // ✅ Khi đang nhảy
         {
             verticalVelocity += gravity * Time.deltaTime;
+
+            // Nếu đang nhảy mà người chơi kéo xuống
+            if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || swipeDown) && isJumping && !wantSlideAfterJump)
+            {
+                ChangeAnim("Slide");
+                verticalVelocity = Mathf.Lerp(verticalVelocity, gravity, 0.5f);
+                wantSlideAfterJump = true;       // Đánh dấu slide khi chạm đất
+            }
         }
 
+        // Khi đang nhảy, thêm lực tiến tới
         if (isJumping)
         {
             moveDirection += Vector3.forward * jumpForwardBoost;
         }
 
+        // Di chuyển trái / phải
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || swipeLeft)
         {
-            if (isDirectionReversed)
-                MoveRight();
-            else
-                MoveLeft();
+            if (isDirectionReversed) MoveRight();
+            else MoveLeft();
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || swipeRight)
         {
-            if (isDirectionReversed)
-                MoveLeft();
-            else
-                MoveRight();
+            if (isDirectionReversed) MoveLeft();
+            else MoveRight();
         }
 
+        // Lane movement
         float targetX = (currentLane - 1) * laneDistance;
         float newX = Mathf.MoveTowards(transform.position.x, targetX, laneChangeSpeed * Time.deltaTime);
         moveDirection.x = (newX - transform.position.x) / Time.deltaTime;
@@ -144,7 +158,6 @@ public class Player : MonoBehaviour
         moveDirection.y = verticalVelocity;
         controller.Move(moveDirection * Time.deltaTime);
     }
-
     private void HandleSwipe()
     {
         swipeLeft = swipeRight = swipeUp = swipeDown = false;
@@ -275,9 +288,8 @@ public class Player : MonoBehaviour
     private void ChangeAnim(string animName)
     {
         if (currentAnim == animName) return;
-
-        anim.ResetTrigger(currentAnim);
         currentAnim = animName;
-        anim.SetTrigger(currentAnim);
+        anim.CrossFadeInFixedTime(animName, 0.1f);
     }
+
 }

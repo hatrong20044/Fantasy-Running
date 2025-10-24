@@ -48,7 +48,6 @@ public class BossManager : MonoBehaviour
 
         Vector3 spawnPos = player.position + Vector3.forward * followDistance + Vector3.up * spawnHeight;
         boss.transform.position = spawnPos;
-
       
         Vector3 targetPos = player.position + Vector3.forward * followDistance;
         while (Vector3.Distance(boss.transform.position, targetPos) > 0.1f)

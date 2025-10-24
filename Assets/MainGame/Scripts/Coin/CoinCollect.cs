@@ -1,4 +1,4 @@
-
+﻿
 using UnityEngine;
 
 public class CoinCollect : MonoBehaviour
@@ -9,8 +9,7 @@ public class CoinCollect : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
-            coinFX.Play();
+        { 
             CoinEvent.Instance.CoinCollected(gameObject);
         }
        

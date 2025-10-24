@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class BossBase : MonoBehaviour
 {
     public float activeTime = 10f;
     protected bool isActive;
     protected float timer;
-
     protected Player player; 
 
     public void Initialize(Player playerRef)

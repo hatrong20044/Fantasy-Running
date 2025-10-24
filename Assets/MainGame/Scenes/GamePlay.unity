@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &22063753 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 742327251153530082, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-  m_PrefabInstance: {fileID: 1661307778}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &36643287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1131,7 +1126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &457234328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1290,6 +1285,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2337537258376931764, guid: 9584ff2ff632af24ab35645595ae3633, type: 3}
   m_PrefabInstance: {fileID: 1375058755}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &551654299
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4168352594974157548, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_Name
+      value: Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036387527480020368, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0021f5707ae2ea545a2b1975879739ad, type: 3}
 --- !u!1 &556138773
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,38 +1375,29 @@ MonoBehaviour:
   - name: SummerMap
     maps:
     - tag: SummerMap_1
-      length: 28
     - tag: SummerMap_2
-      length: 28
     spawnPerTheme: 5
   - name: Desert
     maps:
     - tag: Desert_1
-      length: 35
     - tag: Desert_2
-      length: 35
     spawnPerTheme: 5
   - name: Market
     maps:
     - tag: Market_1
-      length: 28
     - tag: Market_2
-      length: 28
     spawnPerTheme: 5
   - name: Winter
     maps:
     - tag: Winter_1
-      length: 28
     - tag: Winter_2
-      length: 28
     spawnPerTheme: 5
   - name: Sea
     maps:
     - tag: Sea_1
-      length: 90
     - tag: Sea_2
-      length: 90
     spawnPerTheme: 5
+  startMap: {fileID: 0}
 --- !u!4 &556138775
 Transform:
   m_ObjectHideFlags: 0
@@ -2044,7 +2087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pools:
   - tag: Coin
-    prefab: {fileID: 22063753}
+    prefab: {fileID: 0}
     size: 30
     parent: {fileID: 389746730}
   - tag: SummerMap_1
@@ -3228,6 +3271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coin: 0
+  coinDisplay: {fileID: 0}
 --- !u!4 &1215947432
 Transform:
   m_ObjectHideFlags: 0
@@ -3771,13 +3815,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passableObstacleTags: []
   nonPassableObstacleTags: []
-  obstaclePooler: {fileID: 0}
   obstaclePrefab: {fileID: 0}
+  zoneManager: {fileID: 0}
   distanceObtacle: 20
   maxSystemObstacle: 10
   laneDistance: 2.5
   currentObstaclePosZ: 10
   currentResetPosZ: 25
+  destroyDistance: 2
   curentSeason: 
   Player: {fileID: 0}
 --- !u!4 &1452034203
@@ -3983,71 +4028,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subType: 2
---- !u!1001 &1661307778
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 742327251153530082, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_Name
-      value: Coin
-      objectReference: {fileID: 0}
-    - target: {fileID: 742327251153530082, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 883447472323104995, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6014475377606483315, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
-      propertyPath: coinFX
-      value: 
-      objectReference: {fileID: 1353759532}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: aca918d6d81fe604694d73fa837259d5, type: 3}
 --- !u!4 &1667021202 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 102835558594275092, guid: 85aef510a0a301c46be15ac1b1558c52, type: 3}
@@ -4937,8 +4917,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patterns: []
+  forwardSpeed: 0
   laneDistance: 2.5
+  jumpForce: 0
+  gravity: 0
+  jumpForwardBoost: 0
   coinSpacing: 2
+  maxVertical: 5
+  minVertical: 3
 --- !u!114 &2014493255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4951,10 +4937,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae02ed073eaf4d4ab7be7a0910edcc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 763987138}
   patternManager: {fileID: 2014493254}
-  lastSpawn: {x: 0, y: 0, z: 0}
-  destroyDistance: 10
+  zoneManager: {fileID: 0}
+  levelManager: {fileID: 0}
+  lastSpawnZ: 0
+  maxActiveCoins: 30
+  randomSpacePattern: 0
+  limitCoins: 10
 --- !u!4 &2014493256
 Transform:
   m_ObjectHideFlags: 0
@@ -5550,9 +5539,9 @@ SceneRoots:
   - {fileID: 1215947432}
   - {fileID: 2014493256}
   - {fileID: 766391610}
-  - {fileID: 1661307778}
   - {fileID: 1452034203}
   - {fileID: 1973629641}
   - {fileID: 830619921}
   - {fileID: 457234331}
   - {fileID: 996120672}
+  - {fileID: 551654299}

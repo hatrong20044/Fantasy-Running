@@ -120,11 +120,13 @@ public class ZoneManager : MonoBehaviour
         recycleTimer += Time.deltaTime;
         if (recycleTimer >= recycleInterval)
         {
-            RecycleObject("Coin", cameraZ);
+            RecycleObject("Coin",cameraZ);
             for (int i = 0; i < GameSetting.Instance.ActiveObstacles.Count; i++)
             {
                 RecycleObject(GameSetting.Instance.ActiveObstacles[i], cameraZ);
             }
+            RecycleObject("Bullet", cameraZ);
+            RecycleObject("Warning", cameraZ);
             recycleTimer = 0f;
         }
     }
@@ -133,10 +135,10 @@ public class ZoneManager : MonoBehaviour
         List<GameObject> activeObjects = ObjectPool.Instance.GetActiveObjects(tag);
         for (int i = activeObjects.Count - 1; i >= 0; i--)
         {
-            ObstacleMovement obstacleMovement = activeObjects[i].GetComponent<ObstacleMovement>();
+            Movement obstacleMovement = activeObjects[i].GetComponent<Movement>();
             if (activeObjects[i] != null && activeObjects[i].transform.position.z < cameraZ)
             {
-                if (obstacleMovement != null) obstacleMovement.resetMoving(); // khi thu về pool thì đặt lại trạng thái chuyển động
+                if (obstacleMovement != null) obstacleMovement.ResetMoving(); // khi thu về pool thì đặt lại trạng thái chuyển động
                 ObjectPool.Instance.ReturnToPoolQuynh(tag, activeObjects[i]);
             }
         }

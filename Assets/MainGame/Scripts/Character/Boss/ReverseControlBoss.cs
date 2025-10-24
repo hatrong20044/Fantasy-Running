@@ -12,7 +12,6 @@ public class ReverseControlBoss : BossBase
         if (player != null)
         {
             player.ReverseInput(true);
-           
         }
     }
 
