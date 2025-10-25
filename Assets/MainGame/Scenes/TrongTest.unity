@@ -1949,7 +1949,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &674890257
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3865,6 +3865,7 @@ MonoBehaviour:
     spawnDelay: 0
     activeTime: 0
   player: {fileID: 1260405174}
+  isSpawningOrActive: 0
 --- !u!1001 &1428081688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6197,6 +6198,7 @@ MonoBehaviour:
   currentResetPosZ: 35
   destroyDistance: 2
   curentSeason: 
+  bossManager: {fileID: 0}
 --- !u!114 &2011459208
 MonoBehaviour:
   m_ObjectHideFlags: 0
