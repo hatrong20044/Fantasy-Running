@@ -9,11 +9,10 @@ public class SpawnRocket : BossBase
     public float hoverHeight = 4f;
 
     public int maxBullet = 2; // số lượng đạn tối đa
-    [SerializeField] Animator animator; // dùng để chạy animation bắn đạn của boss
     public Transform CannonPos; // vị trí nòng súng nơi mà đạn sẽ được spawn ra
     public float flightDuration; // thời gian đạn bay, phải đồng bộ với bên Script BulletMovement
     public float laneDistance = 2.5f; // độ rộng của lane, cố định 2.5
-    public float timeInterVal = 2f; // khoảng thời gian giữa các lần spawn.
+    public float timeInterVal = 1f; // khoảng thời gian giữa các lần spawn.
     public ZoneManager zoneManager;
 
     private void Start()
@@ -87,7 +86,7 @@ public class SpawnRocket : BossBase
             // Chờ một khoảng thời gian trước khi spawn viên đạn tiếp theo
             yield return new WaitForSeconds(0.2f);
         }
-        animator.ResetTrigger("Shot"); // Sửa animation thành bay bình thường 
+        animator.Play("VLT_09_OpenVault_FlyForward"); // Sửa animation thành bay bình thường 
     }
 
     private Vector3 CalculatePredictedLandingPositions(int laneIndex)
@@ -101,5 +100,10 @@ public class SpawnRocket : BossBase
         float predictedZ = playerCurrentZ + (playerSpeed * flightDuration);
         targetPos = new Vector3(laneDistance * laneIndex, 0.1f, predictedZ);
         return targetPos;
+    }
+
+    public void Explore()
+    {
+
     }
 }

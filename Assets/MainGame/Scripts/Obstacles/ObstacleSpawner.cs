@@ -29,6 +29,7 @@ public class ObstacleSpawner : MonoBehaviour
     public float currentResetPosZ = 35f; // if player overcome this position, reuse obsctacle system and spawn 
     public float destroyDistance = 5f;
     public string curentSeason;
+    public BossManager bossManager;
 
     private void Awake()
     {
@@ -111,8 +112,11 @@ public class ObstacleSpawner : MonoBehaviour
     {
         for (int i = 0; i < this.maxSystemObstacle; i++)
         {
-            List<GameObject> obstacles = this.GenerateSystemObstacle();
-            SetPosObstacleSystem(obstacles);
+            if (checkSpawnCondition())
+            {
+                List<GameObject> obstacles = this.GenerateSystemObstacle();
+                SetPosObstacleSystem(obstacles);
+            }
             this.currentObstaclePosZ += distanceObtacle;
         }
     }
@@ -122,10 +126,33 @@ public class ObstacleSpawner : MonoBehaviour
     {
         if (CameraZ > this.currentResetPosZ)
         {
-            List<GameObject> obstacles = this.GenerateSystemObstacle();
-            SetPosObstacleSystem(obstacles);
+            if (checkSpawnCondition())
+            {
+                List<GameObject> obstacles = this.GenerateSystemObstacle();
+                SetPosObstacleSystem(obstacles);
+            }
             this.currentResetPosZ += this.distanceObtacle;
             this.currentObstaclePosZ += distanceObtacle;
         }
+    }
+
+    public bool checkSpawnCondition()
+    {
+        Debug.Log(bossManager.isSpawningOrActive);
+        if (bossManager.isSpawningOrActive)
+        {
+            return false; // Không spawn obstacle nếu boss đang hoạt động
+        }
+
+        if (bossManager.nextBoss != null)
+        {
+            float bossTriggerDistance = bossManager.nextBoss.triggerDistance;
+            if (currentObstaclePosZ > bossTriggerDistance)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
