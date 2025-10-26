@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class Chest : MonoBehaviour
 {
     [Header("Pool Settings")]
     public string poolTag = "Chest";
 
-    [Header("Lifetime")]
-    public float autoReturnDelay = 10f; // Tự động biến mất sau 10s nếu không ai chọn
+    [Header("UI Components")]
+    public TMP_Text answerText; // ⭐ KÉO TEXTBOARD VÀO ĐÂY
 
-    [Header("Answer Settings (Optional)")]
-    public bool isCorrectAnswer = false; // Đánh dấu chest đúng/sai (dùng cho quiz)
+    [Header("Lifetime")]
+    public float autoReturnDelay = 10f; // Tự động biến mất sau 10s
+
+    [Header("Answer Data (Runtime - Không edit)")]
     public int answerIndex = 0;          // 0=Trái, 1=Giữa, 2=Phải
+    public bool isCorrectAnswer = false;
+    private string answerContent = "";
 
     private float spawnTime;
 
@@ -22,7 +27,37 @@ public class Chest : MonoBehaviour
     public void ResetChest()
     {
         spawnTime = Time.time;
-        // Reset state khác nếu cần (animation, material, etc.)
+        answerIndex = 0;
+        isCorrectAnswer = false;
+        answerContent = "";
+
+        // Clear text
+        if (answerText != null)
+        {
+            answerText.text = "";
+        }
+    }
+
+    /// <summary>
+    /// ⭐ Setup đáp án cho chest (được gọi từ ChestSpawner)
+    /// </summary>
+    public void SetupAnswer(int index, string content, bool correct)
+    {
+        answerIndex = index;
+        answerContent = content;
+        isCorrectAnswer = correct;
+
+        // Hiển thị đáp án lên TextBoard
+        if (answerText != null)
+        {
+            answerText.text = content;
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ AnswerText (TextMeshPro) chưa được gán!");
+        }
+
+        Debug.Log($"Chest setup: Lane={GetLaneName()} | Answer={content} | Correct={correct}");
     }
 
     private void Update()
@@ -45,22 +80,58 @@ public class Chest : MonoBehaviour
 
     private void OnPlayerSelectChest(GameObject player)
     {
-        Debug.Log($"💥 Player chọn chest {answerIndex} (Lane: {GetLaneName()})");
+        Debug.Log($"💥 Player chọn: {answerContent} (Lane: {GetLaneName()})");
 
-        // TODO: Xử lý logic chọn đáp án
+        // ⭐ Xử lý logic chọn đáp án
         if (isCorrectAnswer)
         {
-            Debug.Log("✅ Đúng rồi!");
-            // Cộng điểm, effect đúng, etc.
+            OnCorrectAnswer(player);
         }
         else
         {
-            Debug.Log("❌ Sai rồi!");
-            // Trừ điểm, effect sai, damage player, etc.
+            OnWrongAnswer(player);
         }
 
         // Xóa chest sau khi chọn
         ReturnToPool();
+    }
+
+    /// <summary>
+    /// ⭐ Player chọn đúng
+    /// </summary>
+    private void OnCorrectAnswer(GameObject player)
+    {
+        Debug.Log($"✅ ĐÚNG RỒI! Answer: {answerContent}");
+
+        // TODO: Thêm logic của bạn ở đây:
+        // - Cộng điểm
+        // - Play effect đúng
+        // - Play sound
+        // - Cộng coin
+
+        // Example:
+        // GameManager.Instance.AddScore(10);
+        // SoundManager.Instance.PlayCorrectSound();
+        // EffectManager.Instance.SpawnCorrectEffect(transform.position);
+    }
+
+    /// <summary>
+    /// ⭐ Player chọn sai
+    /// </summary>
+    private void OnWrongAnswer(GameObject player)
+    {
+        Debug.Log($"❌ SAI RỒI! Answer: {answerContent}");
+
+        // TODO: Thêm logic của bạn ở đây:
+        // - Trừ điểm
+        // - Damage player
+        // - Play effect sai
+        // - Play sound
+
+        // Example:
+        // player.GetComponent<Player>()?.TakeDamage(10);
+        // SoundManager.Instance.PlayWrongSound();
+        // EffectManager.Instance.SpawnWrongEffect(transform.position);
     }
 
     private string GetLaneName()
@@ -89,7 +160,6 @@ public class Chest : MonoBehaviour
     // Optional: Tự động return khi ra khỏi camera
     private void OnBecameInvisible()
     {
-        // Return sau 2s khi ra khỏi camera (tránh chest nằm mãi)
         if (Time.time - spawnTime > 1f) // Đảm bảo chest đã spawn ít nhất 1s
         {
             Invoke(nameof(ReturnToPool), 2f);
