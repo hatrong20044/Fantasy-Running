@@ -3337,12 +3337,15 @@ MonoBehaviour:
     triggerDistance: 100
     spawnDelay: 0
     activeTime: 50
+    persistUntilDefeated: 1
   - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
-    triggerDistance: 600
+    triggerDistance: 1500
     spawnDelay: 0
     activeTime: 50
+    persistUntilDefeated: 1
   player: {fileID: 1260405174}
   isSpawningOrActive: 0
+  currentBoss: {fileID: 0}
 --- !u!1001 &1428081688
 PrefabInstance:
   m_ObjectHideFlags: 0
