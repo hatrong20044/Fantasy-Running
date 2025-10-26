@@ -7,10 +7,10 @@ public class Chest : MonoBehaviour
     public string poolTag = "Chest";
 
     [Header("UI Components")]
-    public TMP_Text answerText; // ⭐ KÉO TEXTBOARD VÀO ĐÂY
+    public TMP_Text answerText; 
 
     [Header("Lifetime")]
-    public float autoReturnDelay = 10f; // Tự động biến mất sau 10s
+    public float autoReturnDelay = 10f; 
 
     [Header("Answer Data (Runtime - Không edit)")]
     public int answerIndex = 0;          // 0=Trái, 1=Giữa, 2=Phải
@@ -91,47 +91,30 @@ public class Chest : MonoBehaviour
         {
             OnWrongAnswer(player);
         }
+       
 
         // Xóa chest sau khi chọn
         ReturnToPool();
     }
 
-    /// <summary>
-    /// ⭐ Player chọn đúng
-    /// </summary>
     private void OnCorrectAnswer(GameObject player)
     {
-        Debug.Log($"✅ ĐÚNG RỒI! Answer: {answerContent}");
-
-        // TODO: Thêm logic của bạn ở đây:
-        // - Cộng điểm
-        // - Play effect đúng
-        // - Play sound
-        // - Cộng coin
-
-        // Example:
-        // GameManager.Instance.AddScore(10);
-        // SoundManager.Instance.PlayCorrectSound();
-        // EffectManager.Instance.SpawnCorrectEffect(transform.position);
+        Debug.Log($"Đúng - Answer: {answerContent}");
+        BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
+        if (boss != null)
+        {
+            boss.OnChestSelected();
+        }
     }
 
-    /// <summary>
-    /// ⭐ Player chọn sai
-    /// </summary>
     private void OnWrongAnswer(GameObject player)
     {
-        Debug.Log($"❌ SAI RỒI! Answer: {answerContent}");
-
-        // TODO: Thêm logic của bạn ở đây:
-        // - Trừ điểm
-        // - Damage player
-        // - Play effect sai
-        // - Play sound
-
-        // Example:
-        // player.GetComponent<Player>()?.TakeDamage(10);
-        // SoundManager.Instance.PlayWrongSound();
-        // EffectManager.Instance.SpawnWrongEffect(transform.position);
+        Debug.Log($"Sai - Answer: {answerContent}");
+        BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
+        if (boss != null)
+        {
+            boss.ElectricShockPlayer(player);
+        }
     }
 
     private string GetLaneName()

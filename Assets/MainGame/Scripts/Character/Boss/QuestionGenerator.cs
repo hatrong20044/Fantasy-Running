@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEditor;
 #endif
 
-// ⭐ Tool để tự động generate câu hỏi toán học
 public class QuestionGenerator : MonoBehaviour
 {
     [Header("🎯 Target Database")]
@@ -17,10 +16,10 @@ public class QuestionGenerator : MonoBehaviour
     public int maxNumber = 20;
 
     [Header("📊 Question Count")]
-    public int additionCount = 20;       // Số câu phép cộng
-    public int subtractionCount = 20;    // Số câu phép trừ
-    public int multiplicationCount = 20; // Số câu phép nhân
-    public int divisionCount = 20;       // Số câu phép chia
+    public int additionCount = 20;
+    public int subtractionCount = 20;
+    public int multiplicationCount = 20;
+    public int divisionCount = 20;
 
     [Header("🎲 Difficulty")]
     [Range(1, 10)]
@@ -38,13 +37,9 @@ public class QuestionGenerator : MonoBehaviour
             return;
         }
 
-        // Record undo
         Undo.RecordObject(targetDatabase, "Generate Questions");
-
-        // Clear old questions
         targetDatabase.allQuestions.Clear();
 
-        // Generate từng loại
         Debug.Log("🔄 Generating questions...");
 
         GenerateAddition(additionCount);
@@ -52,7 +47,6 @@ public class QuestionGenerator : MonoBehaviour
         GenerateMultiplication(multiplicationCount);
         GenerateDivision(divisionCount);
 
-        // Save
         EditorUtility.SetDirty(targetDatabase);
         AssetDatabase.SaveAssets();
 
@@ -67,7 +61,6 @@ public class QuestionGenerator : MonoBehaviour
             "OK");
     }
 
-    // ➕ Generate phép cộng
     private void GenerateAddition(int count)
     {
         for (int i = 0; i < count; i++)
@@ -75,12 +68,10 @@ public class QuestionGenerator : MonoBehaviour
             int a = Random.Range(minNumber, maxNumber);
             int b = Random.Range(minNumber, maxNumber);
             int correct = a + b;
-
             AddQuestion($"{a} + {b} = ?", correct);
         }
     }
 
-    // ➖ Generate phép trừ
     private void GenerateSubtraction(int count)
     {
         for (int i = 0; i < count; i++)
@@ -88,25 +79,21 @@ public class QuestionGenerator : MonoBehaviour
             int a = Random.Range(minNumber + 5, maxNumber);
             int b = Random.Range(minNumber, a);
             int correct = a - b;
-
             AddQuestion($"{a} - {b} = ?", correct);
         }
     }
 
-    // ✖️ Generate phép nhân
     private void GenerateMultiplication(int count)
     {
         for (int i = 0; i < count; i++)
         {
-            int a = Random.Range(2, 13);  // Bảng cửu chương
+            int a = Random.Range(2, 13);
             int b = Random.Range(2, 13);
             int correct = a * b;
-
             AddQuestion($"{a} × {b} = ?", correct);
         }
     }
 
-    // ➗ Generate phép chia
     private void GenerateDivision(int count)
     {
         for (int i = 0; i < count; i++)
@@ -114,70 +101,114 @@ public class QuestionGenerator : MonoBehaviour
             int divisor = Random.Range(2, 11);
             int quotient = Random.Range(2, 11);
             int dividend = divisor * quotient;
-
             AddQuestion($"{dividend} ÷ {divisor} = ?", quotient);
         }
     }
 
     /// <summary>
-    /// Tạo 1 question và add vào database
+    /// ✅ ULTIMATE FIX: Đảm bảo 3 đáp án HOÀN TOÀN UNIQUE
     /// </summary>
     private void AddQuestion(string questionText, int correctAnswer)
     {
-        List<int> wrongs = GenerateWrongAnswers(correctAnswer);
+        // Tạo HashSet để đảm bảo unique (bao gồm cả đáp án đúng)
+        HashSet<int> allAnswers = new HashSet<int> { correctAnswer };
 
-        // Tạo list gồm đúng + sai
-        List<int> allAnswers = new List<int>(wrongs);
-        int correctIndex = Random.Range(0, 3);
-        allAnswers.Insert(correctIndex, correctAnswer); // chèn đúng vào vị trí ngẫu nhiên
-
-        Question q = new Question
-        {
-            questionText = questionText,
-            answer0 = allAnswers[0].ToString(),
-            answer1 = allAnswers[1].ToString(),
-            answer2 = allAnswers[2].ToString(),
-            correctAnswerIndex = correctIndex
-        };
-
-        targetDatabase.allQuestions.Add(q);
-    }
-
-    /// <summary>
-    /// Tạo 3 đáp án unique (gần với đáp án đúng)
-    /// </summary>
-    private List<int> GenerateWrongAnswers(int correctAnswer)
-    {
-        HashSet<int> wrongs = new HashSet<int>();
         int attempts = 0;
+        int maxAttempts = 100;
 
-        while (wrongs.Count < 2 && attempts < 100)
+        // Tạo đáp án sai gần với đáp án đúng
+        while (allAnswers.Count < 3 && attempts < maxAttempts)
         {
             int offset = Random.Range(-wrongAnswerRange, wrongAnswerRange + 1);
-            if (offset == 0)
+
+            if (offset == 0) // Bỏ qua offset 0
             {
                 attempts++;
                 continue;
             }
 
-            int wrong = correctAnswer + offset;
+            int wrongAnswer = correctAnswer + offset;
 
-            // Phải khác đúng và > 0
-            if (wrong > 0 && wrong != correctAnswer)
-                wrongs.Add(wrong);
+            // Chỉ thêm nếu > 0 và chưa tồn tại
+            if (wrongAnswer > 0)
+            {
+                allAnswers.Add(wrongAnswer);
+            }
 
             attempts++;
         }
 
-        // Nếu vẫn thiếu thì sinh thêm cách xa hơn
-        while (wrongs.Count < 2)
+        // Fallback: Nếu chưa đủ 3, dùng số xa hơn
+        attempts = 0;
+        while (allAnswers.Count < 3 && attempts < maxAttempts)
         {
-            int extra = correctAnswer + Random.Range(2, 10);
-            if (extra != correctAnswer)
-                wrongs.Add(extra);
+            int farOffset = Random.Range(wrongAnswerRange * 2, wrongAnswerRange * 5);
+            if (Random.value > 0.5f) farOffset = -farOffset;
+
+            int wrongAnswer = correctAnswer + farOffset;
+
+            if (wrongAnswer > 0)
+            {
+                allAnswers.Add(wrongAnswer);
+            }
+
+            attempts++;
         }
 
-        return new List<int>(wrongs);
+        // Fallback cuối: Dùng công thức đảm bảo unique
+        if (allAnswers.Count < 3)
+        {
+            Debug.LogWarning($"⚠️ Fallback for {correctAnswer}");
+
+            if (allAnswers.Count == 1) // Chỉ có đáp án đúng
+            {
+                allAnswers.Add(correctAnswer + 10);
+                allAnswers.Add(correctAnswer + 20);
+            }
+            else if (allAnswers.Count == 2) // Còn thiếu 1
+            {
+                allAnswers.Add(correctAnswer - 15 > 0 ? correctAnswer - 15 : correctAnswer + 15);
+            }
+        }
+
+        // Convert sang List và shuffle
+        List<int> answersList = new List<int>(allAnswers);
+        ShuffleList(answersList);
+
+        // Tìm index của đáp án đúng sau shuffle
+        int correctIndex = answersList.IndexOf(correctAnswer);
+
+        // Tạo Question
+        Question q = new Question
+        {
+            questionText = questionText,
+            answer0 = answersList[0].ToString(),
+            answer1 = answersList[1].ToString(),
+            answer2 = answersList[2].ToString(),
+            correctAnswerIndex = correctIndex
+        };
+
+        // ✅ VERIFY: Kiểm tra trước khi add
+        if (q.answer0 == q.answer1 || q.answer0 == q.answer2 || q.answer1 == q.answer2)
+        {
+            Debug.LogError($"❌ BUG DETECTED: Duplicate answers! Q: {questionText} | Answers: [{q.answer0}, {q.answer1}, {q.answer2}]");
+            return; // Không add câu hỏi lỗi
+        }
+
+        targetDatabase.allQuestions.Add(q);
     }
+
+    private void ShuffleList(List<int> list)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int randomIndex = Random.Range(0, i + 1);
+            int temp = list[i];
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
+    }
+
+    
 #endif
 }

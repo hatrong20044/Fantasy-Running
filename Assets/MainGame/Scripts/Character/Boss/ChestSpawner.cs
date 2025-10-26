@@ -11,7 +11,7 @@ public class ChestSpawner : MonoBehaviour
     public string chestPoolTag = "Chest";
 
     [Header("Spawn Settings")]
-    public float spawnDistanceZ = 15f;
+    public float spawnDistanceZ = 20f;
     public float chestHeight = 0.5f;
 
     [Header("References")]
@@ -42,7 +42,7 @@ public class ChestSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawn 3 rương với 1 câu hỏi (mỗi rương 1 đáp án)
+    /// ✅ FIX: Spawn 3 rương với đáp án đúng duy nhất
     /// </summary>
     public void SpawnChestWave()
     {
@@ -57,12 +57,29 @@ public class ChestSpawner : MonoBehaviour
             return;
         }
 
-        // Shuffle đáp án (random vị trí)
-        List<int> shuffledIndices = ShuffleAnswers();
+        // ✅ FIX: Tạo danh sách đáp án với flag đúng/sai
+        List<AnswerData> answers = new List<AnswerData>
+        {
+            new AnswerData(0, currentQuestion.answer0, currentQuestion.correctAnswerIndex == 0),
+            new AnswerData(1, currentQuestion.answer1, currentQuestion.correctAnswerIndex == 1),
+            new AnswerData(2, currentQuestion.answer2, currentQuestion.correctAnswerIndex == 2)
+        };
+
+        // ✅ FIX: Shuffle cả struct (cả nội dung và flag đúng/sai)
+        ShuffleAnswersList(answers);
 
         float spawnZ = player.position.z + spawnDistanceZ;
 
-        // Spawn 3 chest
+        // Debug log để kiểm tra
+        Debug.Log($"📝 Question: {currentQuestion.questionText}");
+        Debug.Log($"   Correct Answer Index in Question: {currentQuestion.correctAnswerIndex}");
+        Debug.Log($"   After Shuffle:");
+        for (int i = 0; i < answers.Count; i++)
+        {
+            Debug.Log($"      Lane {i}: {answers[i].content} (Correct: {answers[i].isCorrect})");
+        }
+
+        // Spawn 3 chest với đáp án đã shuffle
         for (int laneIndex = 0; laneIndex < 3; laneIndex++)
         {
             Vector3 spawnPos = new Vector3(LANE_X[laneIndex], chestHeight, spawnZ);
@@ -77,37 +94,36 @@ public class ChestSpawner : MonoBehaviour
             chestObj.transform.position = spawnPos;
             chestObj.transform.rotation = Quaternion.identity;
 
-            // Get answer cho lane này
-            int answerIndex = shuffledIndices[laneIndex];
-            string answerText = currentQuestion.GetAnswer(answerIndex);
-            bool isCorrect = (answerIndex == currentQuestion.correctAnswerIndex);
+            // ✅ FIX: Lấy đáp án đã shuffle
+            AnswerData answerData = answers[laneIndex];
 
-            // Setup chest
+            // Setup chest với data đúng
             Chest chestScript = chestObj.GetComponent<Chest>();
             if (chestScript != null)
             {
-                chestScript.SetupAnswer(answerIndex, answerText, isCorrect);
+                chestScript.SetupAnswer(
+                    laneIndex,                  // Lane index (0=Trái, 1=Giữa, 2=Phải)
+                    answerData.content,         // Nội dung đáp án
+                    answerData.isCorrect        // Flag đúng/sai
+                );
             }
         }
 
-        Debug.Log($"📝 Question: {currentQuestion.questionText}");
         Debug.Log($"   Remaining: {questionDatabase.GetRemainingCount()} questions");
     }
 
     /// <summary>
-    /// Shuffle đáp án để random vị trí (Fisher-Yates)
+    /// ✅ FIX: Shuffle list AnswerData (Fisher-Yates)
     /// </summary>
-    private List<int> ShuffleAnswers()
+    private void ShuffleAnswersList(List<AnswerData> list)
     {
-        List<int> indices = new List<int> { 0, 1, 2 };
-
-        for (int i = indices.Count - 1; i > 0; i--)
+        for (int i = list.Count - 1; i > 0; i--)
         {
             int random = Random.Range(0, i + 1);
-            (indices[i], indices[random]) = (indices[random], indices[i]);
+            AnswerData temp = list[i];
+            list[i] = list[random];
+            list[random] = temp;
         }
-
-        return indices;
     }
 
     /// <summary>
@@ -142,5 +158,22 @@ public class ChestSpawner : MonoBehaviour
     public string GetCurrentQuestionText()
     {
         return currentQuestion?.questionText ?? "";
+    }
+
+    /// <summary>
+    /// ✅ Struct để lưu thông tin đáp án
+    /// </summary>
+    private struct AnswerData
+    {
+        public int originalIndex;   // Index gốc trong question (0,1,2)
+        public string content;      // Nội dung đáp án
+        public bool isCorrect;      // Flag đúng/sai
+
+        public AnswerData(int index, string text, bool correct)
+        {
+            originalIndex = index;
+            content = text;
+            isCorrect = correct;
+        }
     }
 }
