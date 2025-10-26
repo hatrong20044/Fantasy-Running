@@ -46,27 +46,7 @@ public class HealthBar : MonoBehaviour
                 StopCoroutine(AnimationCoroutine);
             }
 
-            ActivateHierarchy(transform.root.gameObject);
-
-            Debug.Log($"{name} activeSelf={gameObject.activeSelf}, activeInHierarchy={gameObject.activeInHierarchy}");
-            Debug.Log($"Canvas activeInHierarchy={transform.parent.gameObject.activeInHierarchy}");
-            Debug.Log($"Boss root activeInHierarchy={transform.root.gameObject.activeInHierarchy}");
             AnimationCoroutine = StartCoroutine(AnimateProgress(Progress, Speed));
-        }
-    }
-
-    public void ActivateHierarchy(GameObject root)
-    {
-        if (root == null) return;
-
-        // Kích hoạt đối tượng root
-        root.SetActive(true);
-
-        // Duyệt qua tất cả các con và kích hoạt chúng
-        foreach (Transform child in root.transform)
-        {
-            Debug.Log(child.gameObject.active);
-            ActivateHierarchy(child.gameObject);
         }
     }
 
