@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class SkillAct : MonoBehaviour
 {
     [SerializeField] private SkillMovement skillmovement;
-    [SerializeField] private BossEnemy bossEnemy;
     [SerializeField] private ParticleSystem effectPrefab;
 
     private void Start()
@@ -20,8 +19,9 @@ public class SkillAct : MonoBehaviour
             SkillSpawner.Instance.increaseItemUsed();
             skillmovement.StartMoving();
         }
-        else if (other.gameObject.name == "Boss")
+        else if (other.gameObject.tag == "Boss")
         {
+            BossEnemy bossEnemy = other.GetComponentInParent<BossEnemy>();
             bossEnemy.OnTakeDamage(1);
             OnTakeDamageAnimation();
         }
