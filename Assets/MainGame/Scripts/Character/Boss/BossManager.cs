@@ -50,7 +50,7 @@ public class BossManager : MonoBehaviour
     private IEnumerator SpawnBossRoutine(BossSpawnInfo info)
     {
         isSpawningOrActive = true;
-
+        
         if (info.spawnDelay > 0f)
             yield return new WaitForSeconds(info.spawnDelay);
 
@@ -59,7 +59,6 @@ public class BossManager : MonoBehaviour
 
         currentBoss.OnBossFinished += OnBossFinished;
         currentBoss.Activate();
-
         if (info.activeTime > 0f)
         {
             yield return new WaitForSeconds(info.activeTime);
@@ -100,6 +99,7 @@ public class BossManager : MonoBehaviour
             // Nếu currentIndex vượt quá danh sách, quay lại đầu
             int nextIndex = currentIndex >= bossList.Count ? 0 : currentIndex;
             nextBoss = bossList[nextIndex]; // Gán nextBoss
+            SkillSpawner.Instance.setCurrentSpawnZ(nextBoss.triggerDistance);
         }
     }
 }

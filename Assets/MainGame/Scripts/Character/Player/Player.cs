@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     private bool isJumping = false;
     private bool isSliding = false;
     private bool isDead = false;
+    private bool isAttacking = false;
     private bool wantSlideAfterJump = false;
     private bool canRun = false;
 
@@ -91,6 +92,7 @@ public class Player : MonoBehaviour
     {
         if (isDead) return;
         if (!canRun) return;
+        if (isAttacking) return;
         HandleSwipe();
         HandleSlide();
 
@@ -174,6 +176,7 @@ public class Player : MonoBehaviour
         moveDirection.y = verticalVelocity;
         controller.Move(moveDirection * Time.deltaTime);
     }
+
     private void HandleSwipe()
     {
         swipeLeft = swipeRight = swipeUp = swipeDown = false;
@@ -293,6 +296,22 @@ public class Player : MonoBehaviour
         Debug.Log("Player Died!");
     }
 
+    public void CastSkill()
+    {
+        isAttacking = true;
+        ChangeAnim("Attack");
+        Invoke(nameof(BackToRunAfterAttack), 0.5f);
+    }
+
+    private void BackToRunAfterAttack()
+    {
+        isAttacking = false;
+        if (!isDead && !isJumping && !isSliding)
+        {
+            ChangeAnim("Run");
+        }
+    }
+
 
     public void ReverseInput(bool reversed)
     {
@@ -349,5 +368,4 @@ public class Player : MonoBehaviour
         currentAnim = animName;
         anim.CrossFadeInFixedTime(animName, 0.1f);
     }
-
 }
