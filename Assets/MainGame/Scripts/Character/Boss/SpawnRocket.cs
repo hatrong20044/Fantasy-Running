@@ -12,7 +12,7 @@ public class SpawnRocket : BossBase
     public Transform CannonPos; // vị trí nòng súng nơi mà đạn sẽ được spawn ra
     public float flightDuration; // thời gian đạn bay, phải đồng bộ với bên Script BulletMovement
     public float laneDistance = 2.5f; // độ rộng của lane, cố định 2.5
-    public float timeInterVal = 1f; // khoảng thời gian giữa các lần spawn.
+    public float timeInterVal = 1.5f; // khoảng thời gian giữa các lần spawn.
     public ZoneManager zoneManager;
 
     private void Start()
