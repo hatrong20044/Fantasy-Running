@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BulletMovement : Movement
 {
-    public float flightDuration = 1f; // thời gian bay
-    public float height = 2.5f; // đỉnh parabol
+    public float flightDuration = 1.25f; // thời gian bay
+    public float height = 3f; // đỉnh parabol
 
     private Vector3 startPos;
     private Vector3 targetPos;

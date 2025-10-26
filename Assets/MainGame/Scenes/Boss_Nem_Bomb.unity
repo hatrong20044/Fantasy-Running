@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.8055559, g: 0.7210039, b: 0.8113208, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientIntensity: 8
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 1cf6f4c6e6e0518419839d3f5448dd99, type: 2}
   m_HaloStrength: 0.5
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3131029, g: 0.29383612, b: 0.5141722, a: 1}
+  m_IndirectSpecularColor: {r: 0.312752, g: 0.29336706, b: 0.5138886, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3033,10 +3033,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2745681828997074863, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4000198361072303689, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3077,6 +3073,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4400421010595561301, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1485077450}
     - target: {fileID: 4860115075093684193, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3086,20 +3086,12 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
-      propertyPath: anim
-      value: 
-      objectReference: {fileID: 1260405175}
-    - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: jumpForce
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: forwardSpeed
       value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
-      propertyPath: laneDistance
-      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5299053448440431430, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3108,55 +3100,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4860115075093684193, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
-      insertIndex: 5
-      addedObject: {fileID: 1260405183}
-    - targetCorrespondingSourceObject: {fileID: 4860115075093684193, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
-      insertIndex: 6
-      addedObject: {fileID: 1260405177}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
 --- !u!4 &1260405174 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000198361072303689, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
   m_PrefabInstance: {fileID: 1260405173}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1260405175 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5620699541631441859, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
-  m_PrefabInstance: {fileID: 1260405173}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1260405176 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4860115075093684193, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
-  m_PrefabInstance: {fileID: 1260405173}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1260405177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1260405176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 211ec9e530eaa174ea5264c9528cbbd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 1485077450}
-  warningDuration: 1
---- !u!114 &1260405183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1260405176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b309b73566f8a0f4a86559d1dfd61f76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1278124022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3385,12 +3335,12 @@ MonoBehaviour:
   bossList:
   - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
     triggerDistance: 100
-    spawnDelay: 0.5
-    activeTime: 10
+    spawnDelay: 0
+    activeTime: 50
   - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
     triggerDistance: 600
-    spawnDelay: 0.5
-    activeTime: 10
+    spawnDelay: 0
+    activeTime: 50
   player: {fileID: 1260405174}
   isSpawningOrActive: 0
 --- !u!1001 &1428081688
@@ -5176,7 +5126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8411294934733248461, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
       propertyPath: pools.Array.size
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 8411294934733248461, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
       propertyPath: pools.Array.data[10].tag
@@ -5211,6 +5161,10 @@ PrefabInstance:
       value: Warning
       objectReference: {fileID: 0}
     - target: {fileID: 8411294934733248461, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
+      propertyPath: pools.Array.data[18].tag
+      value: Skill
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411294934733248461, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
       propertyPath: pools.Array.data[10].size
       value: 100
       objectReference: {fileID: 0}
@@ -5240,6 +5194,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8411294934733248461, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
       propertyPath: pools.Array.data[17].size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411294934733248461, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
+      propertyPath: pools.Array.data[18].size
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8411294934733248461, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
@@ -5310,6 +5268,14 @@ PrefabInstance:
       propertyPath: pools.Array.data[17].prefab
       value: 
       objectReference: {fileID: 230358200411644653, guid: db7a3b7a432d475408d635e7e0b903b0, type: 3}
+    - target: {fileID: 8411294934733248461, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
+      propertyPath: pools.Array.data[18].parent
+      value: 
+      objectReference: {fileID: 1212050474}
+    - target: {fileID: 8411294934733248461, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
+      propertyPath: pools.Array.data[18].prefab
+      value: 
+      objectReference: {fileID: 3167535127932925833, guid: 69230503e42e71f48b02980fde165513, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5572,6 +5538,7 @@ GameObject:
   - component: {fileID: 2011459210}
   - component: {fileID: 2011459209}
   - component: {fileID: 2011459208}
+  - component: {fileID: 2011459212}
   - component: {fileID: 2011459207}
   - component: {fileID: 2011459206}
   m_Layer: 0
@@ -5626,11 +5593,13 @@ MonoBehaviour:
   distanceObtacle: 30
   maxSystemObstacle: 5
   laneDistance: 2.5
-  currentObstaclePosZ: 30
-  currentResetPosZ: 35
+  currentObstaclePosZ: 50
+  currentResetPosZ: 55
   destroyDistance: 2
   curentSeason: 
   bossManager: {fileID: 1400974931}
+  skillNum: 1
+  curSkillNum: 0
 --- !u!114 &2011459208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5682,6 +5651,7 @@ MonoBehaviour:
   coinSpawner: {fileID: 2011459208}
   obstacleSpawner: {fileID: 2011459207}
   cameraTransf: {fileID: 253479568}
+  skillSpawner: {fileID: 2011459212}
 --- !u!4 &2011459211
 Transform:
   m_ObjectHideFlags: 0
@@ -5697,6 +5667,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2011459212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011459205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ecccf8b94d1214c98d98b1007c131c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laneDistance: 2.5
+  minSpawnDistanceFirstPhase: 100
+  maxSpawnDistanceFirstPhase: 150
+  minSpawnDistanceSecondPhase: 200
+  maxSpawnDistanceSecondPhase: 250
+  firstPhaseCount: 3
+  secondPhaseCount: 2
 --- !u!1 &2018850531
 GameObject:
   m_ObjectHideFlags: 0

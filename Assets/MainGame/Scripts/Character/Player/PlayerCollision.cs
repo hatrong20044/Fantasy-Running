@@ -8,16 +8,15 @@ public class PlayerCollision : MonoBehaviour
 {
     [SerializeField]private GameObject  canvas;
     public float warningDuration; // 1.0f
-    private Player playerdie;
+    private Player player;
 
     private void Start()
     {
-        playerdie = this.GetComponent<Player>();
+        player = this.GetComponent<Player>();
     }
     // handle event when player collide obstacle
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (other.gameObject.name == "Collision")
         {
             this.handleObstacleCollision(other);
@@ -28,6 +27,10 @@ public class PlayerCollision : MonoBehaviour
             Movement obstacleMovement = other.gameObject.GetComponentInParent<Movement>();
             runWarning.Act();
             StartCoroutine(DelayedStartMoving(obstacleMovement, runWarning.warningDuration));
+        }
+        else if(other.gameObject.name == "Skill(Clone)")
+        {
+            player.CastSkill();
         }
     }
 
@@ -44,7 +47,7 @@ public class PlayerCollision : MonoBehaviour
 
     public void GameOver()
     {
-        playerdie.Die();
+        player.Die();
         StartCoroutine(ShowWarning());
     }
 

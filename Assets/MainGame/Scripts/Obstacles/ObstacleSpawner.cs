@@ -30,6 +30,8 @@ public class ObstacleSpawner : MonoBehaviour
     public float destroyDistance = 5f;
     public string curentSeason;
     public BossManager bossManager;
+    public int skillNum = 1;
+    public int curSkillNum = 0;
 
     private void Awake()
     {
@@ -138,7 +140,6 @@ public class ObstacleSpawner : MonoBehaviour
 
     public bool checkSpawnCondition()
     {
-        Debug.Log(bossManager.isSpawningOrActive);
         if (bossManager.isSpawningOrActive)
         {
             return false; // Không spawn obstacle nếu boss đang hoạt động
@@ -152,7 +153,6 @@ public class ObstacleSpawner : MonoBehaviour
                 return false;
             }
         }
-
         return true;
     }
 }

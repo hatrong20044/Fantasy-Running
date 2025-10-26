@@ -8,16 +8,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private ObstacleSpawner obstacleSpawner;
    // [SerializeField] private PatternManager patternManager;
     [SerializeField] private Transform cameraTransf;
-    
-    private void Awake()
-    {
-        
-    }
+    [SerializeField] private SkillSpawner skillSpawner;
 
     private void Update()
     {
         coinSpawner.SpawnRandomPattern();
         obstacleSpawner.ResetObstacle(cameraTransf.position.z);
+        if (!obstacleSpawner.checkSpawnCondition())
+        {
+            skillSpawner.ResetSkill(cameraTransf.position.z);
+        }
         zoneManager.UpdateWithCameraPosition(cameraTransf.position.z);
     }
 

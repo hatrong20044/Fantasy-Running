@@ -22,6 +22,10 @@ public abstract class BossBase : MonoBehaviour
         player = playerRef;
     }
 
+    private void OnDisable()
+    {
+        Debug.LogWarning($"{name} OnDisable() called!\n{System.Environment.StackTrace}");
+    }
     public virtual void Activate()
     {
         isActive = true;
