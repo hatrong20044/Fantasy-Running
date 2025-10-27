@@ -5601,8 +5601,6 @@ MonoBehaviour:
   destroyDistance: 2
   curentSeason: 
   bossManager: {fileID: 1400974931}
-  skillNum: 1
-  curSkillNum: 0
 --- !u!114 &2011459208
 MonoBehaviour:
   m_ObjectHideFlags: 0
