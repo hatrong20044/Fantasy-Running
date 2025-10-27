@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.42221254, g: 0.64316183, b: 0.793691, a: 1}
+  m_IndirectSpecularColor: {r: 0.42222098, g: 0.64365846, b: 0.7936594, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3091,7 +3091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: forwardSpeed
-      value: 15
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5299053448440431430, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3333,13 +3333,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossList:
+  - bossPrefab: {fileID: 3514484034724958994, guid: 56314a6aca78b92478b6d56ca8d690e5, type: 3}
+    triggerDistance: 20
+    spawnDelay: 0
+    activeTime: 10
+    persistUntilDefeated: 0
   - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
     triggerDistance: 100
-    spawnDelay: 0
-    activeTime: 50
-    persistUntilDefeated: 1
-  - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
-    triggerDistance: 1500
     spawnDelay: 0
     activeTime: 50
     persistUntilDefeated: 1
@@ -5601,8 +5601,6 @@ MonoBehaviour:
   destroyDistance: 2
   curentSeason: 
   bossManager: {fileID: 1400974931}
-  skillNum: 1
-  curSkillNum: 0
 --- !u!114 &2011459208
 MonoBehaviour:
   m_ObjectHideFlags: 0
