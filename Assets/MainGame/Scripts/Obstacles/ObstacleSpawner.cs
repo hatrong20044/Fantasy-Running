@@ -117,8 +117,6 @@ public class ObstacleSpawner : MonoBehaviour
                 List<GameObject> obstacles = this.GenerateSystemObstacle();
                 SetPosObstacleSystem(obstacles);
             }
-            Debug.Log(currentObstaclePosZ + " " + currentResetPosZ);
-            this.currentResetPosZ += this.distanceObtacle;
             this.currentObstaclePosZ += this.distanceObtacle;
         }
     }
@@ -128,6 +126,7 @@ public class ObstacleSpawner : MonoBehaviour
     {
         if (CameraZ > this.currentResetPosZ)
         {
+            Debug.Log("On ResetObstacle");
             if (checkSpawnCondition())
             {
                 List<GameObject> obstacles = this.GenerateSystemObstacle();
@@ -135,11 +134,13 @@ public class ObstacleSpawner : MonoBehaviour
             }
             this.currentResetPosZ += this.distanceObtacle;
             this.currentObstaclePosZ += this.distanceObtacle;
+            Debug.Log(currentObstaclePosZ + " " + currentResetPosZ);
         }
     }
 
     public bool checkSpawnCondition()
     {
+        if(bossManager == null) return true;
         if (bossManager.nextBoss != null)
         {
             if (bossManager.nextBoss.bossPrefab.tag == "BossThoiMien")

@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.8037735, g: 0.7021644, b: 0.79858077, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 1cf6f4c6e6e0518419839d3f5448dd99, type: 2}
   m_HaloStrength: 0.5
@@ -2567,8 +2567,6 @@ MonoBehaviour:
   destroyDistance: 2
   curentSeason: 
   bossManager: {fileID: 1965728244}
-  skillNum: 1
-  curSkillNum: 0
 --- !u!114 &815128782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5759,7 +5757,7 @@ MonoBehaviour:
   - bossPrefab: {fileID: 3514484034724958994, guid: 56314a6aca78b92478b6d56ca8d690e5, type: 3}
     triggerDistance: 1000
     spawnDelay: 0
-    activeTime: 50
+    activeTime: 10
     persistUntilDefeated: 0
   player: {fileID: 316005487}
   isSpawningOrActive: 0
