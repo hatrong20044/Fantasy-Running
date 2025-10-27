@@ -543,7 +543,7 @@ GameObject:
   - component: {fileID: 4328129136635749945}
   m_Layer: 0
   m_Name: Straight (9)
-  m_TagString: Untagged
+  m_TagString: Straight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -919,7 +919,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3706087929100302664}
-  - component: {fileID: 3404313875313613958}
   m_Layer: 0
   m_Name: SummerMap_1
   m_TagString: Untagged
@@ -946,27 +945,6 @@ Transform:
   - {fileID: 3799145513113247086}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3404313875313613958
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 231719845911995490}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 87.139694, y: 12.592043, z: 35.21154}
-  m_Center: {x: 0, y: 2.0620575, z: 5.1375732}
 --- !u!1 &269479013577603392
 GameObject:
   m_ObjectHideFlags: 0
@@ -4310,7 +4288,7 @@ GameObject:
   - component: {fileID: 3139005380658847784}
   m_Layer: 0
   m_Name: Straight (6)
-  m_TagString: Untagged
+  m_TagString: Straight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5808,7 +5786,7 @@ GameObject:
   - component: {fileID: 7891147888974961667}
   m_Layer: 0
   m_Name: Straight (11)
-  m_TagString: Untagged
+  m_TagString: Straight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -6950,7 +6928,7 @@ GameObject:
   - component: {fileID: 8960966812589901065}
   m_Layer: 0
   m_Name: Straight (7)
-  m_TagString: Untagged
+  m_TagString: Straight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -9136,7 +9114,7 @@ GameObject:
   - component: {fileID: 4932394999565661335}
   m_Layer: 0
   m_Name: Straight (8)
-  m_TagString: Untagged
+  m_TagString: Straight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -14808,7 +14786,7 @@ GameObject:
   - component: {fileID: 1004666645906532392}
   m_Layer: 0
   m_Name: Straight (10)
-  m_TagString: Untagged
+  m_TagString: Straight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

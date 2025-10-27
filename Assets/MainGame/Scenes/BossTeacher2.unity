@@ -913,6 +913,7 @@ MonoBehaviour:
   coinSpawner: {fileID: 230378895}
   obstacleSpawner: {fileID: 230378894}
   cameraTransf: {fileID: 986015819}
+  skillSpawner: {fileID: 0}
 --- !u!114 &230378894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,7 +942,7 @@ MonoBehaviour:
   currentResetPosZ: 35
   destroyDistance: 2
   curentSeason: 
-  Player: {fileID: 0}
+  bossManager: {fileID: 0}
 --- !u!114 &230378895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2204,7 +2205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 657022560}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: StaffTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2218,12 +2219,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657022559}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000011920929, y: 1.0754051, z: 8.866184}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.20030932, y: -0.1020311, z: 0.21040742}
+  m_LocalScale: {x: 0.14285712, y: 0.14285712, z: 0.14285712}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1894881255}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &666415283 stripped
 Transform:
@@ -2612,6 +2613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 457234327}
+  warningDuration: 0
 --- !u!114 &768358950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2983,11 +2985,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 289886358}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &920394430 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8353794429961536863, guid: 4036c3c608823b54d9a0c20023985e96, type: 3}
-  m_PrefabInstance: {fileID: 432277006}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &938434554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4433,9 +4430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af26465620842c748bbfcd5d83e6e998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
-  warningDuration: 1
-  warningImage: {fileID: 920394430}
+  moveSpeed: 30
 --- !u!1001 &1584943120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4749,11 +4744,15 @@ MonoBehaviour:
     triggerDistance: 2
     spawnDelay: 1.5
     activeTime: 100
+    persistUntilDefeated: 0
   - bossPrefab: {fileID: 3514484034724958994, guid: 56314a6aca78b92478b6d56ca8d690e5, type: 3}
     triggerDistance: 800
     spawnDelay: 1.5
     activeTime: 30
+    persistUntilDefeated: 0
   player: {fileID: 763987138}
+  isSpawningOrActive: 0
+  currentBoss: {fileID: 0}
 --- !u!4 &1667021202 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 102835558594275092, guid: 85aef510a0a301c46be15ac1b1558c52, type: 3}
@@ -5066,6 +5065,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subType: 3
+--- !u!4 &1894881255 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3776681868880107294, guid: 057880f43eb453f4f8e875fda62e3d10, type: 3}
+  m_PrefabInstance: {fileID: 5500639191397851185}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1895719969
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6477,9 +6481,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1463018663509279475, guid: 057880f43eb453f4f8e875fda62e3d10, type: 3}
+      propertyPath: staffTip
+      value: 
+      objectReference: {fileID: 657022560}
+    - target: {fileID: 1463018663509279475, guid: 057880f43eb453f4f8e875fda62e3d10, type: 3}
       propertyPath: chestSpawner
       value: 
       objectReference: {fileID: 797241151}
+    - target: {fileID: 1463018663509279475, guid: 057880f43eb453f4f8e875fda62e3d10, type: 3}
+      propertyPath: electricEffect
+      value: 
+      objectReference: {fileID: 1111793306440779180, guid: 8b20002c2b69a9d44ab5bae8e1d923cd, type: 3}
     - target: {fileID: 1463018663509279475, guid: 057880f43eb453f4f8e875fda62e3d10, type: 3}
       propertyPath: gateController
       value: 
@@ -6542,7 +6554,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3776681868880107294, guid: 057880f43eb453f4f8e875fda62e3d10, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 657022560}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 057880f43eb453f4f8e875fda62e3d10, type: 3}
 --- !u!1001 &6888443422132955504
@@ -6656,4 +6671,3 @@ SceneRoots:
   - {fileID: 892502245}
   - {fileID: 5500639191397851185}
   - {fileID: 3607310617049298099}
-  - {fileID: 657022560}
