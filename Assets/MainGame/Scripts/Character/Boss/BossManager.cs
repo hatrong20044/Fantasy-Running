@@ -109,7 +109,7 @@ public class BossManager : MonoBehaviour
             // Nếu currentIndex vượt quá danh sách, quay lại đầu
             int nextIndex = currentIndex >= bossList.Count ? 0 : currentIndex;
             nextBoss = bossList[nextIndex]; // Gán nextBoss
-            SkillSpawner.Instance.setZ(nextBoss.triggerDistance);
+            //SkillSpawner.Instance.setZ(nextBoss.triggerDistance);
         }
     }
 

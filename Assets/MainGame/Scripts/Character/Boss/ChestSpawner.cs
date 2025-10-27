@@ -12,7 +12,7 @@ public class ChestSpawner : MonoBehaviour
     public string chestPoolTag = "Chest";
 
     [Header("Spawn Settings")]
-    public float spawnDistanceZ = 20f;
+    public float spawnDistanceZ = 30f;
     public float chestHeight = 0.5f;
 
     [Header("🎬 Animation Settings")]
