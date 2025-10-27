@@ -27,13 +27,14 @@ public class ObstacleSpawner : MonoBehaviour
     public float laneDistance = 2.5f; // distance between lanes (Left, Middle, Right)
     public float currentObstaclePosZ = 30f; // the final position of the system obstacle was spawn
     public float currentResetPosZ = 35f; // if player overcome this position, reuse obsctacle system and spawn 
-    public float destroyDistance = 2f;
+    public float destroyDistance = 5f;
     public string curentSeason;
-    public GameObject Player;
+    public BossManager bossManager;
+    public int skillNum = 1;
+    public int curSkillNum = 0;
 
     private void Awake()
     {
-        this.Player = GameObject.Find("Player");
         this.obstaclePrefab = GameObject.Find("ObstaclePrefab");
         this.zoneManager = transform.GetComponent<ZoneManager>();
         this.curentSeason = "Summer";
@@ -43,7 +44,6 @@ public class ObstacleSpawner : MonoBehaviour
     {
         AssetCollector.instance.LoadSeason(this.curentSeason);
         this.Spawn();
-       
     }
 
     //Generate a list obstacles include 2 nonpassable obstacle and 1 passable obstacle
@@ -57,6 +57,7 @@ public class ObstacleSpawner : MonoBehaviour
         {
             randomBaseObstacle = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
             GameObject nonPassableObstacle = ObjectPool.Instance.GetFromPoolQuynh(this.nonPassableObstacleTags[randomBaseObstacle]);
+
             ObstacleType nonPassabeObstacleType = nonPassableObstacle.GetComponent<ObstacleType>();
             List<ObstacleAsset> nonPassableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(false, nonPassabeObstacleType.subType);
             randomApperanceObstacle = UnityEngine.Random.Range(0, nonPassableObstacleAssets.Count);
@@ -113,21 +114,45 @@ public class ObstacleSpawner : MonoBehaviour
     {
         for (int i = 0; i < this.maxSystemObstacle; i++)
         {
-            List<GameObject> obstacles = this.GenerateSystemObstacle();
-            SetPosObstacleSystem(obstacles);
+            if (checkSpawnCondition())
+            {
+                List<GameObject> obstacles = this.GenerateSystemObstacle();
+                SetPosObstacleSystem(obstacles);
+            }
             this.currentObstaclePosZ += distanceObtacle;
         }
     }
 
     // reuse the obstacle systems that player overcame
-    public void ResetObstacle()
+    public void ResetObstacle(float CameraZ)
     {
-        if (this.Player.transform.position.z > this.currentResetPosZ)
+        if (CameraZ > this.currentResetPosZ)
         {
-            List<GameObject> obstacles = this.GenerateSystemObstacle();
-            SetPosObstacleSystem(obstacles);
+            if (checkSpawnCondition())
+            {
+                List<GameObject> obstacles = this.GenerateSystemObstacle();
+                SetPosObstacleSystem(obstacles);
+            }
             this.currentResetPosZ += this.distanceObtacle;
             this.currentObstaclePosZ += distanceObtacle;
         }
+    }
+
+    public bool checkSpawnCondition()
+    {
+        if (bossManager.isSpawningOrActive)
+        {
+            return false; // Không spawn obstacle nếu boss đang hoạt động
+        }
+
+        if (bossManager.nextBoss != null)
+        {
+            float bossTriggerDistance = bossManager.nextBoss.triggerDistance;
+            if (currentObstaclePosZ > bossTriggerDistance)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

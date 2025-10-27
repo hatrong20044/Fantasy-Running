@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,31 +6,38 @@ using UnityEngine.UI;
 
 public class PlayerCollision : MonoBehaviour
 {
-    private bool isInvincible = false;
     [SerializeField]private GameObject  canvas;
+    public float warningDuration; // 1.0f
+    private Player player;
 
-
+    private void Start()
+    {
+        player = this.GetComponent<Player>();
+    }
     // handle event when player collide obstacle
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (other.gameObject.name == "Collision")
         {
             this.handleObstacleCollision(other);
         }
         else if (other.gameObject.name == "Activation")
         {
-            ObstacleMovement obstacleMovement = other.GetComponentInParent<ObstacleMovement>();
-            Debug.Log(obstacleMovement.gameObject.name);
-            if (obstacleMovement != null)
-            {
-                obstacleMovement.Act();
-            }
-            else
-            {
-                Debug.LogError("ObstacleMovement is null for " + other.gameObject.name);
-            }
+            RunWarnning runWarning = other.gameObject.GetComponentInParent<RunWarnning>();
+            Movement obstacleMovement = other.gameObject.GetComponentInParent<Movement>();
+            runWarning.Act();
+            StartCoroutine(DelayedStartMoving(obstacleMovement, runWarning.warningDuration));
         }
+        else if(other.gameObject.name == "Skill(Clone)")
+        {
+            player.CastSkill();
+        }
+    }
+
+    private IEnumerator DelayedStartMoving(Movement movement, float delay)
+    {
+        yield return new WaitForSeconds(delay); // Chờ delay (1 giây)
+        movement.StartMoving();
     }
 
     public void handleObstacleCollision(Collider Collider)
@@ -40,6 +47,14 @@ public class PlayerCollision : MonoBehaviour
 
     public void GameOver()
     {
+        player.Die();
+        StartCoroutine(ShowWarning());
+    }
+
+    IEnumerator ShowWarning()
+    {
+        yield return new WaitForSeconds(1f);
         canvas.SetActive(true);
+       
     }
 }

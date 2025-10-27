@@ -1,69 +1,112 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+[System.Serializable]
+public class BossSpawnInfo
+{
+    public BossBase bossPrefab;
+    [Tooltip("Khoang cach player can chay")]
+    public float triggerDistance = 100f;
+    [Tooltip("Delay")]
+    public float spawnDelay = 0f;
+    [Tooltip("Thời gian boss tồn tại)")]
+    public float activeTime = 5f;
+    public bool persistUntilDefeated = false; // Cờ mới để xác định boss không có thời gian giới hạn
+}
 
 public class BossManager : MonoBehaviour
 {
-    [System.Serializable]
-    public class BossSpawnInfo
-    {
-        public BossBase bossPrefab;
-        public float triggerDistance; 
-    }
-
-    public BossSpawnInfo[] bossList;
+    [Header("Config")]
+    public List<BossSpawnInfo> bossList = new List<BossSpawnInfo>();
     public Transform player;
-    public float spawnHeight = 10f;
-    public float followDistance = 50f; 
-    public float descendSpeed = 3f;
+    public BossSpawnInfo nextBoss { get; private set; } // Biến để theo dõi boss tiếp theo
 
-    private int currentBossIndex = 0;
-    private bool isSpawning = false;
 
+    public static BossManager instance;
+    private int currentIndex = 0;
+    public bool isSpawningOrActive = false;
     private PlayerProgress progress;
+    public BossBase currentBoss;
 
-    void Start()
+    private void Awake()
     {
-        progress = player.GetComponent<PlayerProgress>();
+        instance = this;
     }
 
-    void Update()
+    private void Start()
     {
-        if (isSpawning || currentBossIndex >= bossList.Length) return;
+        if (player != null)
+            progress = player.GetComponent<PlayerProgress>();
 
-        if (progress.DistanceTravelled >= bossList[currentBossIndex].triggerDistance)
+        UpdateNextBoss();
+    }
+
+    private void Update()
+    {
+        if (isSpawningOrActive || progress == null || currentIndex >= bossList.Count)
+            return;
+
+        BossSpawnInfo info = bossList[currentIndex];
+        float dist = progress.GetDistance();
+
+        if (dist >= info.triggerDistance)
+            StartCoroutine(SpawnBossRoutine(info));
+    }
+
+    private IEnumerator SpawnBossRoutine(BossSpawnInfo info)
+    {
+        isSpawningOrActive = true;
+        
+        if (info.spawnDelay > 0f)
+            yield return new WaitForSeconds(info.spawnDelay);
+
+        currentBoss = Instantiate(info.bossPrefab);
+        currentBoss.Init(player);
+
+        currentBoss.OnBossFinished += OnBossFinished;
+        currentBoss.Activate();
+        if (!info.persistUntilDefeated && info.activeTime > 0f)
         {
-            StartCoroutine(SpawnBossRoutine(bossList[currentBossIndex]));
-            currentBossIndex++;
+            yield return new WaitForSeconds(info.activeTime);
+            if (currentBoss != null) currentBoss.EndBoss();
         }
     }
 
-    IEnumerator SpawnBossRoutine(BossSpawnInfo info)
+    public void OnBossFinished(BossBase boss)
     {
-        isSpawning = true;
-
-      
-        BossBase boss = Instantiate(info.bossPrefab);
-        boss.Initialize(player.GetComponent<Player>());
-        Debug.Log($"⚡ Spawn Boss: {boss.name} - Player: {player.name}");
-
-        Vector3 spawnPos = player.position + Vector3.forward * followDistance + Vector3.up * spawnHeight;
-        boss.transform.position = spawnPos;
-
-      
-        Vector3 targetPos = player.position + Vector3.forward * followDistance;
-        while (Vector3.Distance(boss.transform.position, targetPos) > 0.1f)
+        if (currentBoss != null)
         {
-            boss.transform.position = Vector3.MoveTowards(
-                boss.transform.position,
-                targetPos,
-                descendSpeed * Time.deltaTime
-            );
-            yield return null;
+            currentBoss.OnBossFinished -= OnBossFinished;
+            currentBoss = null;
         }
 
-        boss.transform.LookAt(player); 
-        boss.PerformBehavior();
+        currentIndex++;
+        if (currentIndex >= bossList.Count)
+            currentIndex = 0; // Quay lại đầu danh sách nếu hết
 
-        isSpawning = false;
+        isSpawningOrActive = false;
+        UpdateNextBoss(); // Cập nhật nextBoss sau khi boss hiện tại kết thúc
+    }
+
+    public void ForceEndCurrentBoss()
+    {
+        if (currentBoss != null)
+            currentBoss.EndBoss();
+    }
+
+    private void UpdateNextBoss()
+    {
+        if (bossList.Count == 0)
+        {
+            nextBoss = null; // Nếu danh sách rỗng, đặt nextBoss là null
+        }
+        else
+        {
+            // Nếu currentIndex vượt quá danh sách, quay lại đầu
+            int nextIndex = currentIndex >= bossList.Count ? 0 : currentIndex;
+            nextBoss = bossList[nextIndex]; // Gán nextBoss
+            SkillSpawner.Instance.setZ(nextBoss.triggerDistance);
+        }
     }
 }

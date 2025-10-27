@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -30,7 +31,10 @@ public class Player : MonoBehaviour
     private bool isJumping = false;
     private bool isSliding = false;
     private bool isDead = false;
+    private bool isAttacking = false;
     private bool wantSlideAfterJump = false;
+    private bool canRun = false;
+
 
     private float slideTimer = 0f;
 
@@ -55,6 +59,19 @@ public class Player : MonoBehaviour
         slideHeight = GameSetting.Instance.SlideHeight;
         slideCenter = GameSetting.Instance.SlideCenter;
     }
+    private void OnEnable()
+    {
+        GameplayUI.OnPlayPressed += StartRunFromUI;
+        GameplayUI.OnPlayPressed += RotateToForward; // thêm dòng này
+    }
+
+    private void OnDisable()
+    {
+        GameplayUI.OnPlayPressed -= StartRunFromUI;
+        GameplayUI.OnPlayPressed -= RotateToForward; // thêm dòng này
+    }
+
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -63,31 +80,33 @@ public class Player : MonoBehaviour
         normalHeight = controller.height;
         normalCenter = controller.center;
 
-        // Lưu giá trị ban đầu của Capsule Collider
         if (capsuleCollider != null)
         {
             capsuleNormalHeight = capsuleCollider.height;
             capsuleNormalCenter = capsuleCollider.center;
         }
+        transform.rotation = Quaternion.Euler(0, -90, 0);
     }
 
     private void Update()
     {
         if (isDead) return;
+        if (!canRun) return;
+        if (isAttacking) return;
         HandleSwipe();
         HandleSlide();
 
-        moveDirection = Vector3.forward * forwardSpeed;
+        moveDirection = transform.forward * forwardSpeed;
 
-        // ✅ Nếu đang đứng trên mặt đất
+        
         if (controller.isGrounded)
         {
-            // Vừa chạm đất sau khi nhảy
+           
             if (isJumping)
             {
                 isJumping = false;
 
-                // Nếu đang yêu cầu slide khi vừa chạm đất
+                
                 if (wantSlideAfterJump)
                 {
                     wantSlideAfterJump = false;
@@ -101,7 +120,7 @@ public class Player : MonoBehaviour
                 ChangeAnim("Run");
             }
 
-            // Nhảy
+           
             if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || swipeUp) && !isSliding)
             {
                 verticalVelocity = jumpForce;
@@ -109,7 +128,7 @@ public class Player : MonoBehaviour
                 ChangeAnim("Jump");
             }
 
-            // Slide khi đang chạy
+            
             if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || swipeDown) && !isJumping && !isSliding)
             {
                 StartSlide();
@@ -118,26 +137,25 @@ public class Player : MonoBehaviour
             if (!isJumping)
                 verticalVelocity = -2f;
         }
-        else // ✅ Khi đang nhảy
+        else 
         {
             verticalVelocity += gravity * Time.deltaTime;
 
-            // Nếu đang nhảy mà người chơi kéo xuống
+            
             if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || swipeDown) && isJumping && !wantSlideAfterJump)
             {
                 ChangeAnim("Slide");
                 verticalVelocity = Mathf.Lerp(verticalVelocity, gravity, 0.5f);
-                wantSlideAfterJump = true;       // Đánh dấu slide khi chạm đất
+                wantSlideAfterJump = true;       
             }
         }
 
-        // Khi đang nhảy, thêm lực tiến tới
         if (isJumping)
         {
             moveDirection += Vector3.forward * jumpForwardBoost;
         }
 
-        // Di chuyển trái / phải
+        
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || swipeLeft)
         {
             if (isDirectionReversed) MoveRight();
@@ -158,6 +176,7 @@ public class Player : MonoBehaviour
         moveDirection.y = verticalVelocity;
         controller.Move(moveDirection * Time.deltaTime);
     }
+
     private void HandleSwipe()
     {
         swipeLeft = swipeRight = swipeUp = swipeDown = false;
@@ -221,11 +240,11 @@ public class Player : MonoBehaviour
     {
         isSliding = false;
 
-        // Khôi phục Character Controller
+       
         controller.height = normalHeight;
         controller.center = normalCenter;
 
-        // Khôi phục Capsule Collider
+        
         if (capsuleCollider != null)
         {
             capsuleCollider.height = capsuleNormalHeight;
@@ -275,7 +294,22 @@ public class Player : MonoBehaviour
         ChangeAnim("Die");
         controller.enabled = false;
         Debug.Log("Player Died!");
-        
+    }
+
+    public void CastSkill()
+    {
+        isAttacking = true;
+        ChangeAnim("Attack");
+        Invoke(nameof(BackToRunAfterAttack), 0.5f);
+    }
+
+    private void BackToRunAfterAttack()
+    {
+        isAttacking = false;
+        if (!isDead && !isJumping && !isSliding)
+        {
+            ChangeAnim("Run");
+        }
     }
 
 
@@ -284,6 +318,49 @@ public class Player : MonoBehaviour
         isDirectionReversed = reversed;
         Debug.Log("Reverse Input: " + reversed);
     }
+    public void SetCanRun(bool value)
+    {
+        canRun = value;
+        if (value)
+            ChangeAnim("Run");
+        else
+            ChangeAnim("Idle"); 
+    }
+
+    public bool CanRun => canRun;
+    private void RotateToForward()
+    {
+        StartCoroutine(RotateSmooth(Quaternion.Euler(0, 0, 0), 1f));
+    }
+
+    private void StartRunFromUI()
+    {
+        SetCanRun(true);
+        currentLane = 0;
+
+        
+        Vector3 pos = transform.position;
+        pos.x = 0f;
+        transform.position = pos;
+
+        
+        moveDirection = Vector3.zero;
+    }
+    private IEnumerator RotateSmooth(Quaternion targetRot, float duration)
+    {
+        Quaternion startRot = transform.rotation;
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float normalized = Mathf.SmoothStep(0, 1, t / duration);
+            transform.rotation = Quaternion.Slerp(startRot, targetRot, normalized);
+            yield return null;
+        }
+
+        transform.rotation = targetRot;
+    }
 
     private void ChangeAnim(string animName)
     {
@@ -291,5 +368,4 @@ public class Player : MonoBehaviour
         currentAnim = animName;
         anim.CrossFadeInFixedTime(animName, 0.1f);
     }
-
 }

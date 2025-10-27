@@ -1,4 +1,4 @@
-
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -94,7 +94,8 @@ public class ZoneManager : MonoBehaviour
         }
         return true;
     }
-    public void UpdateWithCameraPosition(float cameraZ) 
+
+    public void UpdateWithCameraPosition(float cameraZ)
     {
         this.RemoveZone(cameraZ);
         this.RecycleObjectsByTime(cameraZ);
@@ -124,20 +125,22 @@ public class ZoneManager : MonoBehaviour
             {
                 RecycleObject(GameSetting.Instance.ActiveObstacles[i], cameraZ);
             }
+            RecycleObject("Bullet", cameraZ);
+            RecycleObject("Warning", cameraZ);
             recycleTimer = 0f;
         }
     }
-    protected void RecycleObject(string tag, float cameraZ) 
+    protected void RecycleObject(string tag, float cameraZ)
     {
         List<GameObject> activeObjects = ObjectPool.Instance.GetActiveObjects(tag);
         for (int i = activeObjects.Count - 1; i >= 0; i--)
         {
+            Movement obstacleMovement = activeObjects[i].GetComponent<Movement>();
             if (activeObjects[i] != null && activeObjects[i].transform.position.z < cameraZ)
             {
+                if (obstacleMovement != null) obstacleMovement.ResetMoving(); // khi thu về pool thì đặt lại trạng thái chuyển động
                 ObjectPool.Instance.ReturnToPoolQuynh(tag, activeObjects[i]);
             }
         }
     }
-
-
 }
