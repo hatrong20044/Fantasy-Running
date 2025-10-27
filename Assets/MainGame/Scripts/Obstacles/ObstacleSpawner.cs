@@ -25,13 +25,11 @@ public class ObstacleSpawner : MonoBehaviour
     public float distanceObtacle = 30f; // distance between obsatcles when we spawn
     public int maxSystemObstacle = 10; // max obstacle system we have
     public float laneDistance = 2.5f; // distance between lanes (Left, Middle, Right)
-    public float currentObstaclePosZ = 30f; // the final position of the system obstacle was spawn
-    public float currentResetPosZ = 35f; // if player overcome this position, reuse obsctacle system and spawn 
+    public float currentObstaclePosZ = 50f; // the final position of the system obstacle was spawn
+    public float currentResetPosZ = 55f; // if player overcome this position, reuse obsctacle system and spawn 
     public float destroyDistance = 5f;
     public string curentSeason;
     public BossManager bossManager;
-    public int skillNum = 1;
-    public int curSkillNum = 0;
 
     private void Awake()
     {
@@ -119,7 +117,9 @@ public class ObstacleSpawner : MonoBehaviour
                 List<GameObject> obstacles = this.GenerateSystemObstacle();
                 SetPosObstacleSystem(obstacles);
             }
-            this.currentObstaclePosZ += distanceObtacle;
+            Debug.Log(currentObstaclePosZ + " " + currentResetPosZ);
+            this.currentResetPosZ += this.distanceObtacle;
+            this.currentObstaclePosZ += this.distanceObtacle;
         }
     }
 
@@ -134,25 +134,31 @@ public class ObstacleSpawner : MonoBehaviour
                 SetPosObstacleSystem(obstacles);
             }
             this.currentResetPosZ += this.distanceObtacle;
-            this.currentObstaclePosZ += distanceObtacle;
+            this.currentObstaclePosZ += this.distanceObtacle;
         }
     }
 
     public bool checkSpawnCondition()
     {
-        if (bossManager.isSpawningOrActive)
-        {
-            return false; // Không spawn obstacle nếu boss đang hoạt động
-        }
-
         if (bossManager.nextBoss != null)
         {
+            if (bossManager.nextBoss.bossPrefab.tag == "BossThoiMien")
+            {
+                return true;
+            }
+
+            if (bossManager.isSpawningOrActive)
+            {
+                return false; // Không spawn obstacle nếu boss đang hoạt động
+            }
+
             float bossTriggerDistance = bossManager.nextBoss.triggerDistance;
             if (currentObstaclePosZ > bossTriggerDistance)
             {
                 return false;
             }
         }
+
         return true;
     }
 }
