@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 3514484034724958994}
   m_Layer: 0
   m_Name: BossThoiMien
-  m_TagString: Untagged
+  m_TagString: BossThoiMien
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -403,14 +403,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48df89719dfe3994ea63ef3f4dd34ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverHeight: 0.45
-  followDistance: 17
-  followSmooth: 9.66
   disappearDelay: 0.5
   reverseEffect: {fileID: 0}
   fallHeight: 10
-  fallDuration: 4
+  hoverHeight: 0.45
+  followDistance: 17
+  fallSmoothTime: 0.5
   preSpawnWarningTime: 1.5
+  followSmooth: 9.66
 --- !u!1 &2814700718275701102
 GameObject:
   m_ObjectHideFlags: 0
