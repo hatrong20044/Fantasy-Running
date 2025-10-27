@@ -12,6 +12,7 @@ public class BossSpawnInfo
     public float spawnDelay = 0f;
     [Tooltip("Thời gian boss tồn tại)")]
     public float activeTime = 5f;
+    public bool persistUntilDefeated = false; // Cờ mới để xác định boss không có thời gian giới hạn
 }
 
 public class BossManager : MonoBehaviour
@@ -22,10 +23,16 @@ public class BossManager : MonoBehaviour
     public BossSpawnInfo nextBoss { get; private set; } // Biến để theo dõi boss tiếp theo
 
 
+    public static BossManager instance;
     private int currentIndex = 0;
     public bool isSpawningOrActive = false;
     private PlayerProgress progress;
-    private BossBase currentBoss;
+    public BossBase currentBoss;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -59,14 +66,14 @@ public class BossManager : MonoBehaviour
 
         currentBoss.OnBossFinished += OnBossFinished;
         currentBoss.Activate();
-        if (info.activeTime > 0f)
+        if (!info.persistUntilDefeated && info.activeTime > 0f)
         {
             yield return new WaitForSeconds(info.activeTime);
             if (currentBoss != null) currentBoss.EndBoss();
         }
     }
 
-    private void OnBossFinished(BossBase boss)
+    public void OnBossFinished(BossBase boss)
     {
         if (currentBoss != null)
         {
@@ -99,7 +106,7 @@ public class BossManager : MonoBehaviour
             // Nếu currentIndex vượt quá danh sách, quay lại đầu
             int nextIndex = currentIndex >= bossList.Count ? 0 : currentIndex;
             nextBoss = bossList[nextIndex]; // Gán nextBoss
-            SkillSpawner.Instance.setCurrentSpawnZ(nextBoss.triggerDistance);
+            SkillSpawner.Instance.setZ(nextBoss.triggerDistance);
         }
     }
 }

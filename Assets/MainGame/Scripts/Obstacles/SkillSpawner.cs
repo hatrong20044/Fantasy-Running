@@ -50,14 +50,20 @@ public class SkillSpawner : MonoBehaviour
         skill.transform.position = new Vector3(xPos, skill.transform.position.y, currentSpawnZ);
     }
 
+    public void resetItemUsed() 
+    {
+        itemsUsed = 0;
+    }
+
     public void increaseItemUsed()
     {
         itemsUsed++;
     }
 
-    public void setCurrentSpawnZ(float z)
+    public void setZ(float z)
     {
         this.currentSpawnZ = z;
+        this.currentResetZ = z + 20;
     }
 
     public void ResetSkill(float CameraZ)

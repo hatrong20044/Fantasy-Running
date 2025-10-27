@@ -101,9 +101,4 @@ public class SpawnRocket : BossBase
         targetPos = new Vector3(laneDistance * laneIndex, 0.1f, predictedZ);
         return targetPos;
     }
-
-    public void Explore()
-    {
-
-    }
 }
