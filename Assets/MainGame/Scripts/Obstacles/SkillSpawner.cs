@@ -33,7 +33,6 @@ public class SkillSpawner : MonoBehaviour
         // Chọn ngẫu nhiên một lane
         float xPos = lanePositions[Random.Range(0, lanePositions.Length)];
         GameObject skill = ObjectPool.Instance.GetFromPoolQuynh("Skill");
-        Debug.Log(currentResetZ + " " + currentSpawnZ);
         // Tính toán khoảng cách cho item tiếp theo
         if (itemsUsed < firstPhaseCount)
         {

@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 3167535127932925833}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5112441135740491618}
@@ -52,7 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillmovement: {fileID: 5218866774155008431}
-  bossEnemy: {fileID: 1855162061379069107, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
   effectPrefab: {fileID: 720325515038598322, guid: 709b0bd6b0b625249a98409dd7a87343, type: 3}
 --- !u!114 &5218866774155008431
 MonoBehaviour:

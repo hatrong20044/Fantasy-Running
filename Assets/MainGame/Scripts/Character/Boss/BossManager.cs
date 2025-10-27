@@ -83,7 +83,10 @@ public class BossManager : MonoBehaviour
 
         currentIndex++;
         if (currentIndex >= bossList.Count)
+        {
             currentIndex = 0; // Quay lại đầu danh sách nếu hết
+            UpdateTriggerDistances();
+        }
 
         isSpawningOrActive = false;
         UpdateNextBoss(); // Cập nhật nextBoss sau khi boss hiện tại kết thúc
@@ -107,6 +110,23 @@ public class BossManager : MonoBehaviour
             int nextIndex = currentIndex >= bossList.Count ? 0 : currentIndex;
             nextBoss = bossList[nextIndex]; // Gán nextBoss
             SkillSpawner.Instance.setZ(nextBoss.triggerDistance);
+        }
+    }
+
+    private void UpdateTriggerDistances()
+    {
+        if (player != null)
+        {
+            float playerZ = player.position.z; // Lấy vị trí Z hiện tại của player
+            foreach (BossSpawnInfo info in bossList)
+            {
+                // Cập nhật triggerDistance bằng vị trí Z của player cộng thêm khoảng cách cố định
+                info.triggerDistance += playerZ;
+            }
+        }
+        else
+        {
+            Debug.LogError("Player Transform is null, cannot update trigger distances!");
         }
     }
 }

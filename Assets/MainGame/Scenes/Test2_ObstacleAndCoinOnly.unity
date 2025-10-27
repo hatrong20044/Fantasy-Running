@@ -194,9 +194,7 @@ MonoBehaviour:
   currentResetPosZ: 55
   destroyDistance: 2
   curentSeason: 
-  bossManager: {fileID: 621981926}
-  skillNum: 1
-  curSkillNum: 0
+  bossManager: {fileID: 0}
 --- !u!114 &2432346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2035,64 +2033,6 @@ Transform:
   - {fileID: 1878821734}
   - {fileID: 197618196}
   m_Father: {fileID: 1573111161}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &621981925
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 621981927}
-  - component: {fileID: 621981926}
-  m_Layer: 0
-  m_Name: BossManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &621981926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 621981925}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26550150cfa199a4599b72909001f5fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bossList:
-  - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
-    triggerDistance: 100
-    spawnDelay: 0
-    activeTime: 50
-    persistUntilDefeated: 1
-  - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
-    triggerDistance: 1500
-    spawnDelay: 0
-    activeTime: 50
-    persistUntilDefeated: 1
-  player: {fileID: 1356425300}
-  isSpawningOrActive: 0
-  currentBoss: {fileID: 0}
---- !u!4 &621981927
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 621981925}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6014681, y: 17.793041, z: 207.44203}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &680543611 stripped
 GameObject:
@@ -6047,7 +5987,6 @@ SceneRoots:
   - {fileID: 1573111161}
   - {fileID: 1964884286}
   - {fileID: 1866840382}
-  - {fileID: 621981927}
   - {fileID: 484100332}
   - {fileID: 1104674617}
   - {fileID: 63709342}
