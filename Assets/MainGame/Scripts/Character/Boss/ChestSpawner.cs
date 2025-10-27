@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ChestSpawner : MonoBehaviour
@@ -13,6 +14,14 @@ public class ChestSpawner : MonoBehaviour
     [Header("Spawn Settings")]
     public float spawnDistanceZ = 20f;
     public float chestHeight = 0.5f;
+
+    [Header("🎬 Animation Settings")]
+    [Tooltip("Độ sâu dưới đất khi bắt đầu spawn")]
+    public float undergroundDepth = -2f;
+    [Tooltip("Thời gian chest nổi lên (giây)")]
+    public float riseUpDuration = 1f;
+    [Tooltip("Loại easing cho animation")]
+    public AnimationCurve riseCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     [Header("References")]
     public Transform player;
@@ -82,7 +91,10 @@ public class ChestSpawner : MonoBehaviour
         // Spawn 3 chest với đáp án đã shuffle
         for (int laneIndex = 0; laneIndex < 3; laneIndex++)
         {
-            Vector3 spawnPos = new Vector3(LANE_X[laneIndex], chestHeight, spawnZ);
+            // ✅ Vị trí bắt đầu: dưới đất
+            Vector3 startPos = new Vector3(LANE_X[laneIndex], undergroundDepth, spawnZ);
+            // ✅ Vị trí kết thúc: trên mặt đất
+            Vector3 endPos = new Vector3(LANE_X[laneIndex], chestHeight, spawnZ);
 
             GameObject chestObj = ObjectPool.Instance.GetFromPoolQuynh(chestPoolTag);
             if (chestObj == null)
@@ -91,7 +103,8 @@ public class ChestSpawner : MonoBehaviour
                 continue;
             }
 
-            chestObj.transform.position = spawnPos;
+            // ✅ Đặt chest ở vị trí dưới đất trước
+            chestObj.transform.position = startPos;
             chestObj.transform.rotation = Quaternion.identity;
 
             // ✅ FIX: Lấy đáp án đã shuffle
@@ -107,9 +120,36 @@ public class ChestSpawner : MonoBehaviour
                     answerData.isCorrect        // Flag đúng/sai
                 );
             }
+
+            // ✅ Bắt đầu animation nổi lên
+            StartCoroutine(AnimateChestRiseUp(chestObj, startPos, endPos));
         }
 
         Debug.Log($"   Remaining: {questionDatabase.GetRemainingCount()} questions");
+    }
+
+    /// <summary>
+    /// 🎬 Animation cho chest nổi lên từ dưới đất
+    /// </summary>
+    private IEnumerator AnimateChestRiseUp(GameObject chest, Vector3 startPos, Vector3 endPos)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < riseUpDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / riseUpDuration);
+
+            // ✅ Dùng curve để có animation mượt hơn
+            float curveValue = riseCurve.Evaluate(t);
+
+            chest.transform.position = Vector3.Lerp(startPos, endPos, curveValue);
+
+            yield return null;
+        }
+
+        // ✅ Đảm bảo chest ở đúng vị trí cuối
+        chest.transform.position = endPos;
     }
 
     /// <summary>

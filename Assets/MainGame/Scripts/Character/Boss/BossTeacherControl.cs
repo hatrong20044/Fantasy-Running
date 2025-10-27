@@ -1,13 +1,13 @@
 ﻿using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
 public class BossTeacherControl : BossBase
 {
     [Header("Teacher Control")]
     public float undergroundDepth = -5f;
     public float hoverHeight = 2f;
-    public float spawnDistanceAhead = 25f;  // ⭐ Khoảng cách spawn phía trước player
+    public float spawnDistanceAhead = 25f;
     public float followDistance = 10f;
     public float riseUpSmoothTime = 0.8f;
     public float preSpawnWarningTime = 1f;
@@ -27,41 +27,80 @@ public class BossTeacherControl : BossBase
     [Header("Number Question")]
     public int numberQ = 20;
 
-    private Player playerComp;
-    private GameplayUI gameplayUI;
-    private bool canAttack = false;
-    private bool isAttacking = false;
-    private int remainingQuestions;
-
-    // ⭐ Flag để chờ player chọn chest
-    private bool waitingForChestSelection = false;
-    private bool chestWasSelected = false;
+    [Header("Question Gates")]
+    public GameObject questionGatePrefab;
+    public float gateLeftX = -3.24f;
+    public float gateRightX = 3.24f;
+    public float gateFixedY = 7.36f;
+    public float gateDropHeight = 10f;
+    public float gateDropDuration = 0.2f;
+    public float gateFlyUpHeight = 15f;
+    public float gateFlyUpDuration = 0.2f;
 
     [Header("Electric Shock Settings")]
     public float shockDuration = 1f;
     public ParticleSystem electricEffect;
+    public Transform staffTip; //
 
-    // smoothDamp data
+    private Player playerComp;
+    private GameplayUI _gameplayUI;
+    private bool canAttack = false;
+    private bool isAttacking = false;
+    private int remainingQuestions;
+    private bool waitingForChestSelection = false;
+    private bool chestWasSelected = false;
+
     private float currentY;
     private float yVelocity;
     private bool isRising = false;
     private bool hasRisen = false;
-    
-    // ⭐ Vị trí spawn cố định
     private Vector3 fixedSpawnPosition;
     private bool hasSetSpawnPosition = false;
+
+    private QuestionGate leftGate;
+    private QuestionGate rightGate;
+
+    // 🔧 Property với Lazy Initialization
+    private GameplayUI gameplayUI
+    {
+        get
+        {
+            if (_gameplayUI == null && UIManager.Instance != null)
+            {
+                _gameplayUI = UIManager.Instance.GetActiveUI<GameplayUI>(UIName.GameplayUI);
+                if (_gameplayUI == null)
+                {
+                    Debug.LogWarning("⚠️ GameplayUI not found in UIManager!");
+                }
+            }
+            return _gameplayUI;
+        }
+    }
 
     protected override void Awake()
     {
         base.Awake();
         playerComp = FindObjectOfType<Player>();
-        gameplayUI = UIManager.Instance.GetActiveUI<GameplayUI>(UIName.GameplayUI);
         remainingQuestions = numberQ;
+
+        // 🔧 FIX: Không cần khởi tạo gameplayUI ở đây
+        // Sẽ được khởi tạo tự động khi sử dụng (lazy initialization)
+    }
+
+    // 🔧 FIX: Method để Chest kiểm tra có đang chờ đáp án không
+    public bool IsWaitingForAnswer()
+    {
+        return !waitingForChestSelection || chestWasSelected;
     }
 
     protected override IEnumerator SpawnBehavior()
     {
-        gameplayUI?.ShowWarning();
+        // 🔧 FIX: Safe null check
+        if (gameplayUI != null)
+        {
+            gameplayUI.ShowWarning();
+        }
+
         yield return new WaitForSeconds(preSpawnWarningTime);
         StartCoroutine(RiseUpSmooth());
     }
@@ -74,63 +113,137 @@ public class BossTeacherControl : BossBase
         hasRisen = false;
         currentY = undergroundDepth;
 
-        // ⭐ Tính vị trí spawn cố định: X=0, Z=player.z+25
         if (!hasSetSpawnPosition)
         {
             fixedSpawnPosition = new Vector3(0f, 0f, player.position.z + spawnDistanceAhead);
             hasSetSpawnPosition = true;
-
-            // ⭐ Đặt boss xuống dưới đất tại vị trí spawn
             transform.position = fixedSpawnPosition + Vector3.up * undergroundDepth;
         }
+
         Vector3 effectPos = new Vector3(0f, 0.05f, fixedSpawnPosition.z);
         ParticleSystem effectInstance = Instantiate(spawnEffect, effectPos, Quaternion.identity);
         effectInstance.Play();
-        Destroy(effectInstance.gameObject, 2f); // ⭐ Tự tắt sau 2 giây
+        Destroy(effectInstance.gameObject, 2f);
 
         while (true)
         {
             if (!hasRisen)
             {
-                // ⭐ Bay lên từ dưới đất TẠI CHỖ
-                
-
                 currentY = Mathf.SmoothDamp(currentY, hoverHeight, ref yVelocity, riseUpSmoothTime);
-
-                // ⭐ Đứng yên tại vị trí spawn (X=0)
                 transform.position = fixedSpawnPosition + Vector3.up * currentY;
                 transform.LookAt(player.position + Vector3.up * 1.5f);
 
                 if (Mathf.Abs(currentY - hoverHeight) < 0.05f)
                 {
-                    // ⭐ Thêm hiệu ứng spawn ở mặt đất
-                    
-
                     spawnEffect.Play();
                     currentY = hoverHeight;
                     hasRisen = true;
                     isRising = false;
-                    gameplayUI?.HideWarning();
+
+                    // 🔧 FIX: Safe null check
+                    if (gameplayUI != null)
+                    {
+                        gameplayUI.HideWarning();
+                    }
 
                     ChangeAnim("Rise");
                     auraEffect.Play();
+
+                    // Spawn 2 gate Question
+                    SpawnQuestionGates();
+
                     StartCoroutine(BossActivity());
                 }
             }
             else
             {
-                // ⭐ Sau khi bay lên đủ cao, follow player
                 Vector3 targetPos = player.position + player.forward * followDistance;
-                targetPos.x = 0f;  // ⭐ Giữ X=0 khi follow
+                targetPos.x = 0f;
                 Vector3 finalPos = targetPos + Vector3.up * currentY;
 
                 transform.position = Vector3.Lerp(transform.position, finalPos, followSmooth * Time.deltaTime);
                 transform.LookAt(player.position + Vector3.up * 1.5f);
+
+                // Update vị trí của 2 cổng (di chuyển theo boss)
+                UpdateGatePositions();
             }
 
             yield return null;
         }
     }
+
+    private void SpawnQuestionGates()
+    {
+        Vector3 leftPos = new Vector3(gateLeftX, gateFixedY + gateDropHeight, fixedSpawnPosition.z);
+        Vector3 rightPos = new Vector3(gateRightX, gateFixedY + gateDropHeight, fixedSpawnPosition.z);
+
+        Debug.Log($"🚪 Spawning gates at: Left={leftPos}, Right={rightPos}");
+
+        GameObject leftObj = Instantiate(questionGatePrefab, leftPos, Quaternion.identity);
+        GameObject rightObj = Instantiate(questionGatePrefab, rightPos, Quaternion.identity);
+
+        Debug.Log($"✅ Gates spawned: Left={leftObj != null}, Right={rightObj != null}");
+
+        leftGate = leftObj.GetComponent<QuestionGate>();
+        rightGate = rightObj.GetComponent<QuestionGate>();
+
+        Debug.Log($"✅ Gate components: Left={leftGate != null}, Right={rightGate != null}");
+    }
+
+    private void UpdateGatePositions()
+    {
+        if (leftGate != null)
+        {
+            Vector3 pos = new Vector3(gateLeftX, leftGate.transform.position.y, transform.position.z);
+            leftGate.transform.position = Vector3.Lerp(leftGate.transform.position, pos, Time.deltaTime * 3f);
+        }
+
+        if (rightGate != null)
+        {
+            Vector3 pos = new Vector3(gateRightX, rightGate.transform.position.y, transform.position.z);
+            rightGate.transform.position = Vector3.Lerp(rightGate.transform.position, pos, Time.deltaTime * 3f);
+        }
+    }
+
+    private IEnumerator DropDown()
+    {
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime / gateDropDuration;
+            float newY = Mathf.Lerp(gateFixedY + gateDropHeight, gateFixedY, t);
+
+            if (leftGate != null)
+                leftGate.transform.position = new Vector3(gateLeftX, newY, fixedSpawnPosition.z);
+
+            if (rightGate != null)
+                rightGate.transform.position = new Vector3(gateRightX, newY, fixedSpawnPosition.z);
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator FlyUpAndDisappear()
+    {
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime / gateFlyUpDuration;
+            float newY = Mathf.Lerp(gateFixedY, gateFixedY + gateFlyUpHeight, t);
+
+            if (leftGate != null)
+                leftGate.transform.position = new Vector3(gateLeftX, newY, fixedSpawnPosition.z);
+
+            if (rightGate != null)
+                rightGate.transform.position = new Vector3(gateRightX, newY, fixedSpawnPosition.z);
+
+            yield return null;
+        }
+
+        if (leftGate != null) leftGate.HideQuestion();
+        if (rightGate != null) rightGate.HideQuestion();
+    }
+
     private IEnumerator BossActivity()
     {
         yield return new WaitForSeconds(firstAttackDelay);
@@ -138,27 +251,36 @@ public class BossTeacherControl : BossBase
 
         while (remainingQuestions > 0 && canAttack)
         {
-            if(remainingQuestions == 5)
-            {
-                ChangeAnim("Idle");
-                yield return new WaitForSeconds(idleTimeAfterAttack);
-                yield return StartCoroutine(PerformAttack());
-                remainingQuestions--;
-            }
-            else
-            {
-                waitingForChestSelection = true;
-                chestWasSelected = false;
-                
-                yield return new WaitUntil(() => chestWasSelected);
-                
-                waitingForChestSelection = false;
-                yield return StartCoroutine(PerformAttack());
-            }
+            // 🔧 FIX: Reset flag trước mỗi wave
+            Chest.ResetSelectionFlag();
+
+            // Thực hiện attack TRƯỚC (spawn chest + drop gates)
+            yield return StartCoroutine(PerformAttack());
+
+            // SAU ĐÓ mới đợi player chọn chest
+            waitingForChestSelection = true;
+            chestWasSelected = false;
+
+            Debug.Log("⏳ Đang chờ player chọn chest...");
+            yield return new WaitUntil(() => chestWasSelected);
+
+            waitingForChestSelection = false;
+            remainingQuestions--;
+
+            Debug.Log($"📊 Còn {remainingQuestions} câu hỏi");
+
+            // Delay giữa các lần attack
+            yield return new WaitForSeconds(1f);
         }
 
-        ChangeAnim("Idle");
-        Debug.Log("Boss đã hết câu hỏi!");
+        // 🔧 FIX: Khi hết câu hỏi → bay lên và biến mất
+        Debug.Log("🎉 Boss đã hết câu hỏi! Biến mật...");
+        yield return StartCoroutine(FlyUpAndDisappear());
+
+        yield return new WaitForSeconds(0.5f);
+
+        // 🔧 Gọi EndBoss để xử lý logic kết thúc
+        EndBoss();
     }
 
     private IEnumerator PerformAttack()
@@ -168,25 +290,90 @@ public class BossTeacherControl : BossBase
         isAttacking = true;
         ChangeAnim("Spawn");
         Debug.Log("🎯 Boss bắt đầu attack!");
+
+        // Spawn chests TRƯỚC để cập nhật currentQuestion
         chestSpawner.SpawnChestWave();
+
+        // Đợi 1 frame cho chắc chắn currentQuestion được gán
+        yield return null;
+
+        // Bây giờ lấy question
+        string question = chestSpawner.GetCurrentQuestionText();
+        Debug.Log($"📘 [BossTeacher] Câu hỏi: {question}");
+
+        // Drop gates xuống
+        yield return StartCoroutine(DropDown());
+
+        // Hiển thị câu hỏi trên gates
+        if (leftGate != null) leftGate.ShowQuestion(question);
+        if (rightGate != null) rightGate.ShowQuestion(question);
 
         yield return new WaitForSeconds(GetAnimationLength("Spawn"));
 
         isAttacking = false;
         ChangeAnim("Idle");
-        Debug.Log("Boss attack xong!");
     }
 
-    /// <summary>
-    /// ⭐ HÀM NÀY ĐƯỢC GỌI TỪ CHEST KHI PLAYER CHỌN
-    /// </summary>
+    public void OnPlayerAnswerWrong()
+    {
+        Debug.Log("❌ Player sai! Gates bay lên!");
+        StartCoroutine(FlyUpAndDisappear());
+
+        // 🔧 FIX: Set flag để kết thúc vòng chờ
+        chestWasSelected = true;
+    }
+
     public void OnChestSelected()
     {
         if (waitingForChestSelection)
         {
             chestWasSelected = true;
-            Debug.Log("🎯 Boss nhận tín hiệu: Player đã chọn chest!");
+            Debug.Log("✅ Player đúng! Chuyển câu hỏi tiếp theo...");
         }
+    }
+
+    public void ElectricShockPlayer(GameObject playerObj)
+    {
+        Debug.Log("⚡ GIẬT ĐIỆN!");
+        ChangeAnim("Attack");
+
+        if (electricEffect != null && staffTip != null)
+        {
+            // 🎯 Vị trí đầu trượng và vị trí player
+            Vector3 startPos = staffTip.position;
+            Vector3 targetPos = playerObj.transform.position + Vector3.up * 1f;
+
+            // Tạo hiệu ứng tại đầu trượng, xoay về phía player
+            Quaternion rot = Quaternion.LookRotation(targetPos - startPos);
+            ParticleSystem effect = Instantiate(electricEffect, startPos, rot);
+
+            // Bay từ trượng tới player
+            StartCoroutine(MoveElectricEffect(effect.transform, startPos, targetPos, 0.5f));
+
+            // Xóa sau 2 giây
+            Destroy(effect.gameObject, 2f);
+        }
+
+        OnPlayerAnswerWrong();
+
+        // Sau 1 giây hiển thị UI GameOver
+        StartCoroutine(ShowGameOverAfterDelay(playerObj, 1f));
+    }
+
+    // Hiệu ứng bay từ trượng đến player
+    private IEnumerator MoveElectricEffect(Transform effect, Vector3 start, Vector3 target, float duration)
+    {
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime / duration;
+            effect.position = Vector3.Lerp(start, target, t);
+            yield return null;
+        }
+
+        // Khi tới nơi, có thể phát nổ nhỏ hoặc tạo thêm particle tại player
+        // Ví dụ:
+        // Instantiate(hitEffectPrefab, target, Quaternion.identity);
     }
 
     public float GetAnimationLength(string animName)
@@ -195,23 +382,19 @@ public class BossTeacherControl : BossBase
         foreach (var clip in clipInfo)
         {
             if (clip.clip.name == animName)
-            {
                 return clip.clip.length;
-            }
         }
         return 1f;
     }
 
-    public void ElectricShockPlayer(GameObject playerObj)
+    private IEnumerator ShowGameOverAfterDelay(GameObject playerObj, float delay)
     {
-        Debug.Log("⚡ BOSS GIẬT ĐIỆN PLAYER!");
+        yield return new WaitForSeconds(delay);
 
-        ChangeAnim("Attack");
-
-        if (electricEffect != null)
+        PlayerCollision playerCol = playerObj.GetComponent<PlayerCollision>();
+        if (playerCol != null)
         {
-            ParticleSystem effect = Instantiate(electricEffect, playerObj.transform.position, Quaternion.identity);
-            Destroy(effect.gameObject, 2f);
+            playerCol.GameOver();
         }
     }
 
@@ -226,11 +409,17 @@ public class BossTeacherControl : BossBase
     {
         canAttack = false;
         StopAllCoroutines();
+
+        if (leftGate != null) Destroy(leftGate.gameObject);
+        if (rightGate != null) Destroy(rightGate.gameObject);
+
         base.EndBoss();
     }
 
     protected override void OnDestroy()
     {
+        if (leftGate != null) Destroy(leftGate.gameObject);
+        if (rightGate != null) Destroy(rightGate.gameObject);
         base.OnDestroy();
     }
 }
