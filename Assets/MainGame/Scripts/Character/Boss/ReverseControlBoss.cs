@@ -26,6 +26,7 @@ public class ReverseControlBoss : BossBase
     {
         base.Awake();
         gameplayUI = UIManager.Instance.GetActiveUI<GameplayUI>(UIName.GameplayUI);
+        playerComp = FindObjectOfType<Player>();
 
     }
 
