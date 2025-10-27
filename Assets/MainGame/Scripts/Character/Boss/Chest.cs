@@ -1,18 +1,32 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class Chest : MonoBehaviour
 {
     [Header("Pool Settings")]
     public string poolTag = "Chest";
 
-    [Header("Lifetime")]
-    public float autoReturnDelay = 10f; // Tự động biến mất sau 10s nếu không ai chọn
+    [Header("UI Components")]
+    public TMP_Text answerText;
 
-    [Header("Answer Settings (Optional)")]
-    public bool isCorrectAnswer = false; // Đánh dấu chest đúng/sai (dùng cho quiz)
-    public int answerIndex = 0;          // 0=Trái, 1=Giữa, 2=Phải
+    [Header("Lifetime")]
+    public float autoReturnDelay = 10f;
+
+    [Header("Answer Data (Runtime - Không edit)")]
+    public int answerIndex = 0;
+    public bool isCorrectAnswer = false;
+    private string answerContent = "";
 
     private float spawnTime;
+    private bool hasBeenSelected = false;
+    private static bool isAnyChestSelected = false;
+
+    // 🔧 FIX: Public method để reset flag
+    public static void ResetSelectionFlag()
+    {
+        isAnyChestSelected = false;
+        Debug.Log("🔄 Reset chest selection flag");
+    }
 
     private void OnEnable()
     {
@@ -22,45 +36,110 @@ public class Chest : MonoBehaviour
     public void ResetChest()
     {
         spawnTime = Time.time;
-        // Reset state khác nếu cần (animation, material, etc.)
+        answerIndex = 0;
+        isCorrectAnswer = false;
+        answerContent = "";
+        hasBeenSelected = false;
+
+        // 🔧 FIX: Bật lại collider khi reset
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+            col.enabled = true;
+
+        if (answerText != null)
+            answerText.text = "";
+    }
+
+    public void SetupAnswer(int index, string content, bool correct)
+    {
+        answerIndex = index;
+        answerContent = content;
+        isCorrectAnswer = correct;
+
+        if (answerText != null)
+            answerText.text = content;
+
+        Debug.Log($"Chest setup: Lane={GetLaneName()} | Answer={content} | Correct={correct}");
     }
 
     private void Update()
     {
-        // Tự động return về pool sau thời gian nhất định
         if (Time.time - spawnTime > autoReturnDelay)
-        {
             ReturnToPool();
-        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Khi player chạm vào chest
         if (other.CompareTag("Player"))
         {
-            OnPlayerSelectChest(other.gameObject);
+            // 🔧 FIX: Double-check với lock ngay lập tức
+            if (!hasBeenSelected && !isAnyChestSelected)
+            {
+                // Set flag NGAY để chặn chest khác
+                if (isAnyChestSelected) return; // Double check
+                isAnyChestSelected = true;
+
+                OnPlayerSelectChest(other.gameObject);
+            }
         }
     }
 
     private void OnPlayerSelectChest(GameObject player)
     {
-        Debug.Log($"💥 Player chọn chest {answerIndex} (Lane: {GetLaneName()})");
+        // 🔧 FIX: Kiểm tra lại và disable collider NGAY
+        if (hasBeenSelected)
+            return;
 
-        // TODO: Xử lý logic chọn đáp án
+        hasBeenSelected = true;
+
+        // 🔧 Tắt collider NGAY để tránh trigger thêm
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+            col.enabled = false;
+
+        Debug.Log($"💥 Player chọn: {answerContent} (Lane: {GetLaneName()})");
+
         if (isCorrectAnswer)
-        {
-            Debug.Log("✅ Đúng rồi!");
-            // Cộng điểm, effect đúng, etc.
-        }
+            OnCorrectAnswer(player);
         else
-        {
-            Debug.Log("❌ Sai rồi!");
-            // Trừ điểm, effect sai, damage player, etc.
-        }
+            OnWrongAnswer(player);
 
-        // Xóa chest sau khi chọn
-        ReturnToPool();
+        DisableAllChestsInWave();
+    }
+
+    private void OnCorrectAnswer(GameObject player)
+    {
+        Debug.Log($"✅ Đúng - {answerContent}");
+
+        BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
+        if (boss != null)
+            boss.OnChestSelected();
+    }
+
+    private void OnWrongAnswer(GameObject player)
+    {
+        Debug.Log($"❌ Sai - {answerContent}");
+
+        BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
+        if (boss != null)
+            boss.ElectricShockPlayer(player);
+    }
+
+    private void DisableAllChestsInWave()
+    {
+        Chest[] allChests = FindObjectsOfType<Chest>();
+        foreach (Chest chest in allChests)
+        {
+            if (chest != null && chest.gameObject.activeInHierarchy)
+            {
+                // 🔧 FIX: Tắt collider NGAY của tất cả chest
+                Collider col = chest.GetComponent<Collider>();
+                if (col != null)
+                    col.enabled = false;
+
+                chest.Invoke(nameof(chest.ReturnToPool), 0.5f);
+            }
+        }
     }
 
     private string GetLaneName()
@@ -76,28 +155,23 @@ public class Chest : MonoBehaviour
 
     public void ReturnToPool()
     {
+        CancelInvoke();
+
         if (ObjectPool.Instance != null)
-        {
             ObjectPool.Instance.ReturnToPoolQuynh(poolTag, gameObject);
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
-    // Optional: Tự động return khi ra khỏi camera
     private void OnBecameInvisible()
     {
-        // Return sau 2s khi ra khỏi camera (tránh chest nằm mãi)
-        if (Time.time - spawnTime > 1f) // Đảm bảo chest đã spawn ít nhất 1s
-        {
+        if (Time.time - spawnTime > 1f)
             Invoke(nameof(ReturnToPool), 2f);
-        }
     }
 
     private void OnDisable()
     {
-        CancelInvoke(); // Clear invoke khi disable
+        CancelInvoke();
+        hasBeenSelected = false;
     }
 }
