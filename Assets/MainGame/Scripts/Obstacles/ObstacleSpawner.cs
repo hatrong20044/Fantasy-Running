@@ -126,7 +126,6 @@ public class ObstacleSpawner : MonoBehaviour
     {
         if (CameraZ > this.currentResetPosZ)
         {
-            Debug.Log("On ResetObstacle");
             if (checkSpawnCondition())
             {
                 List<GameObject> obstacles = this.GenerateSystemObstacle();
@@ -134,7 +133,6 @@ public class ObstacleSpawner : MonoBehaviour
             }
             this.currentResetPosZ += this.distanceObtacle;
             this.currentObstaclePosZ += this.distanceObtacle;
-            Debug.Log(currentObstaclePosZ + " " + currentResetPosZ);
         }
     }
 
@@ -153,7 +151,7 @@ public class ObstacleSpawner : MonoBehaviour
                 return false; // Không spawn obstacle nếu boss đang hoạt động
             }
 
-            float bossTriggerDistance = bossManager.nextBoss.triggerDistance;
+            float bossTriggerDistance = bossManager.triggerDistance;
             if (currentObstaclePosZ > bossTriggerDistance)
             {
                 return false;

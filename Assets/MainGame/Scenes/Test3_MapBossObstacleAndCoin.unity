@@ -1761,6 +1761,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7782606441373068273, guid: 4036c3c608823b54d9a0c20023985e96, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4708,7 +4712,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.90943396, g: 0.8566949, b: 0.74642223, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -4748,7 +4752,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -5750,16 +5754,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossList:
   - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
-    triggerDistance: 100
+    nextBossDistance: 100
     spawnDelay: 0
     activeTime: 50
     persistUntilDefeated: 1
   - bossPrefab: {fileID: 3514484034724958994, guid: 56314a6aca78b92478b6d56ca8d690e5, type: 3}
-    triggerDistance: 1000
+    nextBossDistance: 100
     spawnDelay: 0
     activeTime: 10
     persistUntilDefeated: 0
   player: {fileID: 316005487}
+  isFirstBoss: 1
+  triggerDistance: 100
   isSpawningOrActive: 0
   currentBoss: {fileID: 0}
 --- !u!4 &1965728245
