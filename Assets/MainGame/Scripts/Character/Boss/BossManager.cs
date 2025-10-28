@@ -7,7 +7,7 @@ public class BossSpawnInfo
 {
     public BossBase bossPrefab;
     [Tooltip("Khoang cach player can chay")]
-    public float triggerDistance = 100f;
+    public float nextBossDistance = 750f;
     [Tooltip("Delay")]
     public float spawnDelay = 0f;
     [Tooltip("Thời gian boss tồn tại)")]
@@ -22,7 +22,8 @@ public class BossManager : MonoBehaviour
     public Transform player;
     public BossSpawnInfo nextBoss { get; private set; } // Biến để theo dõi boss tiếp theo
 
-
+    public bool isFirstBoss = true;
+    public float triggerDistance = 0f;
     public static BossManager instance;
     private int currentIndex = 0;
     public bool isSpawningOrActive = false;
@@ -48,9 +49,9 @@ public class BossManager : MonoBehaviour
             return;
 
         BossSpawnInfo info = bossList[currentIndex];
-        float dist = progress.GetDistance();
+        float dist = player.transform.position.z;
 
-        if (dist >= info.triggerDistance)
+        if (dist >= triggerDistance)
             StartCoroutine(SpawnBossRoutine(info));
     }
 
@@ -85,7 +86,6 @@ public class BossManager : MonoBehaviour
         if (currentIndex >= bossList.Count)
         {
             currentIndex = 0; // Quay lại đầu danh sách nếu hết
-            UpdateTriggerDistances();
         }
 
         isSpawningOrActive = false;
@@ -109,24 +109,18 @@ public class BossManager : MonoBehaviour
             // Nếu currentIndex vượt quá danh sách, quay lại đầu
             int nextIndex = currentIndex >= bossList.Count ? 0 : currentIndex;
             nextBoss = bossList[nextIndex]; // Gán nextBoss
-            //SkillSpawner.Instance.setZ(nextBoss.triggerDistance);
-        }
-    }
-
-    private void UpdateTriggerDistances()
-    {
-        if (player != null)
-        {
-            float playerZ = player.position.z; // Lấy vị trí Z hiện tại của player
-            foreach (BossSpawnInfo info in bossList)
+            if (nextBoss != null)
             {
-                // Cập nhật triggerDistance bằng vị trí Z của player cộng thêm khoảng cách cố định
-                info.triggerDistance += playerZ;
+                if (isFirstBoss)
+                {
+                    SkillSpawner.Instance.setZ(triggerDistance);
+                    isFirstBoss = false;
+                    return;
+                }
+                float dist = player.transform.position.z;
+                triggerDistance = bossList[currentIndex].nextBossDistance + dist;
+                SkillSpawner.Instance.setZ(triggerDistance);
             }
-        }
-        else
-        {
-            Debug.LogError("Player Transform is null, cannot update trigger distances!");
         }
     }
 }

@@ -56,10 +56,13 @@ public class ObstacleSpawner : MonoBehaviour
             randomBaseObstacle = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
             GameObject nonPassableObstacle = ObjectPool.Instance.GetFromPoolQuynh(this.nonPassableObstacleTags[randomBaseObstacle]);
 
-            ObstacleType nonPassabeObstacleType = nonPassableObstacle.GetComponent<ObstacleType>();
-            List<ObstacleAsset> nonPassableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(false, nonPassabeObstacleType.subType);
-            randomApperanceObstacle = UnityEngine.Random.Range(0, nonPassableObstacleAssets.Count);
-            this.ApplyMeshAndMeshRenderer(nonPassableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, nonPassableObstacleAssets);
+            if (nonPassableObstacle.tag != "Unmeshable")
+            {
+                ObstacleType nonPassabeObstacleType = nonPassableObstacle.GetComponent<ObstacleType>();
+                List<ObstacleAsset> nonPassableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(false, nonPassabeObstacleType.subType);
+                randomApperanceObstacle = UnityEngine.Random.Range(0, nonPassableObstacleAssets.Count);
+                this.ApplyMeshAndMeshRenderer(nonPassableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, nonPassableObstacleAssets);
+            }
             obstacles.Add(nonPassableObstacle);
         } 
         //create a passable obstacle and add to list
@@ -126,7 +129,6 @@ public class ObstacleSpawner : MonoBehaviour
     {
         if (CameraZ > this.currentResetPosZ)
         {
-            Debug.Log("On ResetObstacle");
             if (checkSpawnCondition())
             {
                 List<GameObject> obstacles = this.GenerateSystemObstacle();
@@ -134,7 +136,6 @@ public class ObstacleSpawner : MonoBehaviour
             }
             this.currentResetPosZ += this.distanceObtacle;
             this.currentObstaclePosZ += this.distanceObtacle;
-            Debug.Log(currentObstaclePosZ + " " + currentResetPosZ);
         }
     }
 
@@ -153,7 +154,7 @@ public class ObstacleSpawner : MonoBehaviour
                 return false; // Không spawn obstacle nếu boss đang hoạt động
             }
 
-            float bossTriggerDistance = bossManager.nextBoss.triggerDistance;
+            float bossTriggerDistance = bossManager.triggerDistance;
             if (currentObstaclePosZ > bossTriggerDistance)
             {
                 return false;
