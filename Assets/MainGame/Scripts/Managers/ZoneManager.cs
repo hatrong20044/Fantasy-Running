@@ -130,6 +130,7 @@ public class ZoneManager : MonoBehaviour
             recycleTimer = 0f;
         }
     }
+
     protected void RecycleObject(string tag, float cameraZ)
     {
         List<GameObject> activeObjects = ObjectPool.Instance.GetActiveObjects(tag);

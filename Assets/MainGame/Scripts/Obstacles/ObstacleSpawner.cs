@@ -56,10 +56,13 @@ public class ObstacleSpawner : MonoBehaviour
             randomBaseObstacle = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
             GameObject nonPassableObstacle = ObjectPool.Instance.GetFromPoolQuynh(this.nonPassableObstacleTags[randomBaseObstacle]);
 
-            ObstacleType nonPassabeObstacleType = nonPassableObstacle.GetComponent<ObstacleType>();
-            List<ObstacleAsset> nonPassableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(false, nonPassabeObstacleType.subType);
-            randomApperanceObstacle = UnityEngine.Random.Range(0, nonPassableObstacleAssets.Count);
-            this.ApplyMeshAndMeshRenderer(nonPassableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, nonPassableObstacleAssets);
+            if (nonPassableObstacle.tag != "Unmeshable")
+            {
+                ObstacleType nonPassabeObstacleType = nonPassableObstacle.GetComponent<ObstacleType>();
+                List<ObstacleAsset> nonPassableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(false, nonPassabeObstacleType.subType);
+                randomApperanceObstacle = UnityEngine.Random.Range(0, nonPassableObstacleAssets.Count);
+                this.ApplyMeshAndMeshRenderer(nonPassableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, nonPassableObstacleAssets);
+            }
             obstacles.Add(nonPassableObstacle);
         } 
         //create a passable obstacle and add to list
