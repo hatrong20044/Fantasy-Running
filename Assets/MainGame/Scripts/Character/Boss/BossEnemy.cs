@@ -5,9 +5,10 @@ using UnityEngine.UIElements;
 
 public class BossEnemy : MonoBehaviour
 {
-    [SerializeField] int health = 5;
+    [SerializeField] private int health = 5;
     [SerializeField] private HealthBar HealthBar;
     [SerializeField] private float maxHealth = 5;
+    [SerializeField] private Animator anim;
 
     public void OnTakeDamage(int damage)
     {
@@ -48,8 +49,13 @@ public class BossEnemy : MonoBehaviour
         }
 
         SkillSpawner.Instance.resetItemUsed();
-
+        OnDieAnimation("Die");
         // Hủy GameObject của boss
         Destroy(gameObject);
+    }
+
+    private void OnDieAnimation(string animName)
+    {
+        anim.CrossFade(animName, 0.2f);
     }
 }

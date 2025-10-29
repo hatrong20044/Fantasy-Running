@@ -208,7 +208,7 @@ public class BossTeacherControl : BossBase
     private IEnumerator DropDown()
     {
         float t = 0;
-        while (t < 1)
+        while (t <0.2)
         {
             t += Time.deltaTime / gateDropDuration;
             float newY = Mathf.Lerp(gateFixedY + gateDropHeight, gateFixedY, t);
@@ -226,7 +226,7 @@ public class BossTeacherControl : BossBase
     private IEnumerator FlyUpAndDisappear()
     {
         float t = 0;
-        while (t < 1)
+        while (t < 0.2)
         {
             t += Time.deltaTime / gateFlyUpDuration;
             float newY = Mathf.Lerp(gateFixedY, gateFixedY + gateFlyUpHeight, t);
