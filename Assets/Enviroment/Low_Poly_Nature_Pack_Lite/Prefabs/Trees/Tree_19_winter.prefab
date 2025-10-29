@@ -44,7 +44,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8184588415688334151}
-  - component: {fileID: 1928455977146452993}
   m_Layer: 0
   m_Name: UBX_Tree_19_winter_Mesh_4
   m_TagString: Untagged
@@ -67,27 +66,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 262205993198626945}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1928455977146452993
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1387815132396537171}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2, y: 2.0000002, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4524593302877385192
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +75,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1024531170095867814}
-  - component: {fileID: -1501485975125974903}
   m_Layer: 0
   m_Name: UBX_Tree_19_winter_Mesh_3
   m_TagString: Untagged
@@ -120,27 +97,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 262205993198626945}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &-1501485975125974903
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4524593302877385192}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.9999999, y: 2, z: 1.9999999}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5163657939673797207
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +106,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1619804936788757752}
-  - component: {fileID: 4187448137457484123}
   m_Layer: 0
   m_Name: UCP_Tree_19_winter_Mesh_1
   m_TagString: Untagged
@@ -173,29 +128,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 262205993198626945}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &4187448137457484123
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5163657939673797207}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.99999964
-  m_Height: 3.2594962
-  m_Direction: 1
-  m_Center: {x: 0.00000032782555, y: 0.6297481, z: 0.00000032782555}
 --- !u!1 &6744878693837618293
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +137,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4080655232163610853}
-  - component: {fileID: -8930709534231255686}
   m_Layer: 0
   m_Name: UBX_Tree_19_winter_Mesh_2
   m_TagString: Untagged
@@ -228,27 +159,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 262205993198626945}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &-8930709534231255686
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6744878693837618293}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6870276916517048144
 GameObject:
   m_ObjectHideFlags: 0
