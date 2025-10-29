@@ -7,6 +7,9 @@ TagManager:
   - Obstacle
   - Chest
   - Straight
+  - FxTemporaire
+  - Boss
+  - BossThoiMien
   layers:
   - Default
   - TransparentFX
