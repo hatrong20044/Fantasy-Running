@@ -1,7 +1,5 @@
 ﻿
 using UnityEngine;
-
-
 public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private PatternManager patternManager;
@@ -70,7 +68,7 @@ public class CoinSpawner : MonoBehaviour
 
     }
   
-    public void SpawnCoinForPattern()
+    public void SpawnCoinForPattern(PatternManager pattern, float startZ)
     {
 
     }
