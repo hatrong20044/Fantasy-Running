@@ -14,9 +14,13 @@ public class SpawnRocket : BossBase
     public float laneDistance = 2.5f; // độ rộng của lane, cố định 2.5
     public float timeInterVal = 1.5f; // khoảng thời gian giữa các lần spawn.
     public ZoneManager zoneManager;
+    public static SpawnRocket instance;
+    public bool isSpawnable = true;
 
     private void Start()
     {
+        SpawnRocket.instance = this;
+
         zoneManager = FindAnyObjectByType<ZoneManager>();
         if (player != null)
         {
@@ -46,7 +50,10 @@ public class SpawnRocket : BossBase
 
     public void Spawn()
     {
-        StartCoroutine(SpawnWithDelay());
+        if (isSpawnable)
+        {
+            StartCoroutine(SpawnWithDelay());
+        }
     }
 
     private IEnumerator SpawnWithDelay()

@@ -16,7 +16,7 @@ public class BossEnemy : MonoBehaviour
         
         HealthBar.SetProgress((health/maxHealth), 1.5f);
 
-        if(health == 0)
+        if(health <= 0)
         {
             OnDied();
         }
@@ -30,6 +30,8 @@ public class BossEnemy : MonoBehaviour
 
     public void OnDied()
     {
+        SpawnRocket.instance.isSpawnable = false;
+
         // Gọi sự kiện OnBossFinished với đúng kiểu BossBase
         if (BossManager.instance != null)
         {
@@ -49,13 +51,15 @@ public class BossEnemy : MonoBehaviour
         }
 
         SkillSpawner.Instance.resetItemUsed();
-        OnDieAnimation("Die");
-        // Hủy GameObject của boss
-        Destroy(gameObject);
+        StartCoroutine(OnDieAnimation("Die"));
     }
 
-    private void OnDieAnimation(string animName)
+    private IEnumerator OnDieAnimation(string animName)
     {
-        anim.CrossFade(animName, 0.2f);
+        anim.CrossFade(animName, 0.1f);
+        yield return new WaitForSeconds(1f); // Dự phòng nếu không lấy được
+
+        // XÓA SAU KHI ANIMATION XONG
+        Destroy(gameObject);
     }
 }

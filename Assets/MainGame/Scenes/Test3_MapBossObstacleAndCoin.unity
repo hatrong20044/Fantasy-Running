@@ -1214,6 +1214,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 401577084}
   m_SourcePrefab: {fileID: 100100000, guid: 6246839b2f49c61448d5b24dfe7df6f9, type: 3}
+--- !u!95 &283591691 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5620699541631441859, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+  m_PrefabInstance: {fileID: 1128566853}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &316005487 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000198361072303689, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
@@ -3789,6 +3794,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+      propertyPath: Anim
+      value: 
+      objectReference: {fileID: 283591691}
+    - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: jumpForce
       value: 8
       objectReference: {fileID: 0}
@@ -5125,7 +5134,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.90943396, g: 0.8566949, b: 0.74642223, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -6607,14 +6616,6 @@ PrefabInstance:
     - target: {fileID: 144336721134777806, guid: d2f36bbfcb02aa4429087a429dbd3689, type: 3}
       propertyPath: m_Name
       value: Obstacle5
-      objectReference: {fileID: 0}
-    - target: {fileID: 144336721134777806, guid: d2f36bbfcb02aa4429087a429dbd3689, type: 3}
-      propertyPath: m_TagString
-      value: Unmeshable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857708475872227667, guid: d2f36bbfcb02aa4429087a429dbd3689, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3305680914353266840, guid: d2f36bbfcb02aa4429087a429dbd3689, type: 3}
       propertyPath: m_LocalPosition.x
