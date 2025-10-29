@@ -127,6 +127,7 @@ public class ZoneManager : MonoBehaviour
             }
             RecycleObject("Bullet", cameraZ);
             RecycleObject("Warning", cameraZ);
+            RecycleObject("Skill", cameraZ);
             recycleTimer = 0f;
         }
     }

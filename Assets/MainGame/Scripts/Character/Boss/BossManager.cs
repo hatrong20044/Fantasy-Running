@@ -23,7 +23,7 @@ public class BossManager : MonoBehaviour
     public BossSpawnInfo nextBoss { get; private set; } // Biến để theo dõi boss tiếp theo
 
     public bool isFirstBoss = true;
-    public float triggerDistance = 0f;
+    public float triggerDistance = 100f;
     public static BossManager instance;
     private int currentIndex = 0;
     public bool isSpawningOrActive = false;
@@ -33,14 +33,15 @@ public class BossManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Start()
-    {
         if (player != null)
             progress = player.GetComponent<PlayerProgress>();
 
         UpdateNextBoss();
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void Update()
@@ -119,6 +120,7 @@ public class BossManager : MonoBehaviour
                 }
                 float dist = player.transform.position.z;
                 triggerDistance = bossList[currentIndex].nextBossDistance + dist;
+                Debug.Log(triggerDistance);
                 SkillSpawner.Instance.setZ(triggerDistance);
             }
         }

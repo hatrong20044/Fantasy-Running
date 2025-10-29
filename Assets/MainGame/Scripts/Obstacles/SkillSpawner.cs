@@ -46,6 +46,7 @@ public class SkillSpawner : MonoBehaviour
             currentSpawnZ += range;
             currentResetZ += range;
         }
+        Debug.Log(currentSpawnZ + " " + currentResetZ);
         skill.transform.position = new Vector3(xPos, skill.transform.position.y, currentSpawnZ);
     }
 
