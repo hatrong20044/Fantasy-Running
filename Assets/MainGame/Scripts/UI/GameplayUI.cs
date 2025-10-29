@@ -35,4 +35,9 @@ public class GameplayUI : MonoBehaviour
         if (warningImage != null)
             warningImage.gameObject.SetActive(false);
     }
+    public void OpenShop()
+    {
+        UIManager.Instance.ShowUI(UIName.Shop);
+        UIManager.Instance.HideUI(UIName.GameplayUI);
+    }
 }

@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     public float slideCenter;// = -0.4f;
 
     [Header("Animation")]
-    [SerializeField] private Animator anim;
+    public Animator Anim;
     private string currentAnim;
 
     private CharacterController controller;
@@ -366,6 +366,6 @@ public class Player : MonoBehaviour
     {
         if (currentAnim == animName) return;
         currentAnim = animName;
-        anim.CrossFadeInFixedTime(animName, 0.1f);
+        Anim.CrossFadeInFixedTime(animName, 0.1f);
     }
 }
