@@ -6,6 +6,6 @@ public class GameManager : MonoBehaviour
 {
     private void Start()
     {
-        UIManager.Instance.ShowUI(UIName.GameplayUI);
+        UIManager.Instance.ShowUI(UIName.MainMenu);
     }
 }

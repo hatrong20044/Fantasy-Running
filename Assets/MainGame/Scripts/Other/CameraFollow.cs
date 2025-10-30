@@ -15,12 +15,12 @@ public class CameraFollow : MonoBehaviour
 
     private void OnEnable()
     {
-        GameplayUI.OnPlayPressed += HandlePlayPressed;
+        Home.OnPlayPressed += HandlePlayPressed;
     }
 
     private void OnDisable()
     {
-        GameplayUI.OnPlayPressed -= HandlePlayPressed;
+        Home.OnPlayPressed -= HandlePlayPressed;
     }
 
     private void Start()
