@@ -1,17 +1,13 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 using System.Buffers;
-using JetBrains.Annotations;
-using UnityEngine.Rendering;
+
 
 public class GameplayUI : MonoBehaviour
 {
     public static event System.Action OnPlayPressed;
     [Header("Boss Warning")]
     [SerializeField] private Image warningImage;
-    [Header("Total Coins")]
-    [SerializeField] private Image totalCoinsBox;
-    [SerializeField] private TMPro.TMP_Text totalCoins;
     
     [Header("Coins and Score")]
     [SerializeField] private Image coinsAndScoreBox;
@@ -26,9 +22,6 @@ public class GameplayUI : MonoBehaviour
         if (warningImage)
             warningImage.gameObject.SetActive(false);
 
-        if(totalCoinsBox)
-            totalCoinsBox.gameObject.SetActive(true);
-
         if(coinsAndScoreBox)
             coinsAndScoreBox.gameObject.SetActive(false);
 
@@ -38,11 +31,6 @@ public class GameplayUI : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        this.UpdateTotalCoins(gameObject);
-        EventManager.Instance.OnPlayerCollided += UpdateTotalCoins;
-    }
     private void Update()
     {
        
@@ -54,20 +42,7 @@ public class GameplayUI : MonoBehaviour
     {
         this.score.text = Mathf.FloorToInt(PlayerProgress.Instance.DistanceTravelled).ToString("D6");
     }
-
-    public void UpdateTotalCoins(GameObject gameObject)
-    {
-        GameData.Instance.ToTalCoins += CoinManager.Instance.Coins;
-        this.totalCoins.text = GameData.Instance.ToTalCoins.ToString();
-    }
-    private void HandlePlayButton()
-    {
-        OnPlayPressed?.Invoke();
-        totalCoinsBox.gameObject.SetActive(false);
-        coinsAndScoreBox.gameObject.SetActive(true);
-    }
-
-    
+   
     public void ShowWarning()
     {
         if (warningImage != null)

@@ -31,7 +31,7 @@ public class CoinManager : MonoBehaviour
         // Hủy đăng kí sự kiện
         EventManager.Instance.OnCoinCollected -= HandleCoinCollected;
     }
-    public void AddCoin(int mount = 1)
+    public void AddCoin(int mount)
     {
         gamePlayCoins += mount;
        
@@ -39,7 +39,7 @@ public class CoinManager : MonoBehaviour
 
     public void HandleCoinCollected(GameObject coin)
     {
-        this.AddCoin();
+        this.AddCoin(1);
     }
 
     public int Coins => gamePlayCoins;

@@ -8,7 +8,7 @@ public class GameData : MonoBehaviour
     public static GameData Instance;
 
     [Header("Coin")]
-    [SerializeField] private int totalCoins = 0;
+    [SerializeField] private int totalCoins = 150;
     private void Awake()
     {
         if (Instance == null)
