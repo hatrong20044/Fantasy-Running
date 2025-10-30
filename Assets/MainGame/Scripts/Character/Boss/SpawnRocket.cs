@@ -76,7 +76,7 @@ public class SpawnRocket : BossBase
             BulletMovement bulletMovement = bullet.GetComponent<BulletMovement>();
 
             //đồng bộ với flightDuration của bullet
-            if (flightDuration == 0f) flightDuration = bulletMovement.flightDuration;
+            flightDuration = bulletMovement.flightDuration;
 
             //tính toán vị trí đạn rơi trúng người chơi dựa trên tốc độ của người chơi, thời gian đạn bay
             Vector3 targetPos = CalculatePredictedLandingPositions(lanes[laneIndex]);
