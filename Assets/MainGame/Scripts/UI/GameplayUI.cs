@@ -1,7 +1,5 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
-using System.Buffers;
-
 
 public class GameplayUI : MonoBehaviour
 {
@@ -23,14 +21,13 @@ public class GameplayUI : MonoBehaviour
             warningImage.gameObject.SetActive(false);
 
         if(coinsAndScoreBox)
-            coinsAndScoreBox.gameObject.SetActive(false);
+            coinsAndScoreBox.gameObject.SetActive(true);
 
         ///////////////////////////////
 
         baseRight = coinBox.GetComponent<RectTransform>().offsetMax.x;
 
     }
-<<<<<<< HEAD
 
     private void Update()
     {
@@ -43,10 +40,7 @@ public class GameplayUI : MonoBehaviour
     {
         this.score.text = Mathf.FloorToInt(PlayerProgress.Instance.DistanceTravelled).ToString("D6");
     }
-   
-=======
-    
->>>>>>> 95f33d4af547a6379a833ca5e06c531fa933a318
+
     public void ShowWarning()
     {
         if (warningImage != null)

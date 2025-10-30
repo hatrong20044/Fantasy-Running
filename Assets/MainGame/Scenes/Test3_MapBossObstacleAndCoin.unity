@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eb7ee4d8f95a1549bf15355890040c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalCoins: 150
+  totalCoins: 15000
 --- !u!1 &14612268 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7124430749988913485, guid: 0b2e60dc44d4fd14099a7b02f3c1736a, type: 3}
@@ -4089,7 +4089,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: forwardSpeed
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5299053448440431430, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: m_LocalPosition.y

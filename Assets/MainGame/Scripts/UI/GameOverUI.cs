@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
@@ -13,7 +13,7 @@ public class GameOverUI : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("duoc clone");
+    
         if(gameOverBox)
             gameOverBox.gameObject.SetActive(true);
         this.closeBtn.onClick.AddListener(HandleCloseButton);
@@ -21,17 +21,22 @@ public class GameOverUI : MonoBehaviour
 
     private void Start()
     {
-        EventManager.Instance.OnPlayerCollided += Open;
-    }
-    public void Open(GameObject gameObject)
-    {
-        UIManager.Instance.ShowUI(UIName.GameOver);
+        this.DisplayResult();
     }
 
     public void HandleCloseButton()
     {
         OnPlayPressed?.Invoke();
-        UIManager.Instance.HideUI(UIName.GameOver);
-        UIManager.Instance.ShowUI(UIName.GameplayUI);
+        GameData.Instance.ToTalCoins += CoinManager.Instance.Coins;
+        // ✅ Load lại scene hiện tại
+        UIManager.Instance.HideAllUI();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
+    }
+
+    public void DisplayResult()
+    {
+        this.score.text = "Score: " + Mathf.FloorToInt(PlayerProgress.Instance.DistanceTravelled).ToString();
+        this.coins.text = "Coins: " + CoinManager.Instance.Coins.ToString();
     }
 }

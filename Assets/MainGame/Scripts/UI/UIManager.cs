@@ -6,7 +6,6 @@ public class UIManager : Singleton<UIManager>
 {
     private Dictionary<UIName, GameObject> activeUIs = new Dictionary<UIName, GameObject>();
     [SerializeField] private Transform uiRoot; 
-
     protected override void Awake()
     {
         base.Awake();

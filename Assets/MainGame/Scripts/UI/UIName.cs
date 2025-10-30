@@ -9,6 +9,7 @@ public enum UIName
     Shop,
     Pause,
     Setting,
-    GameOver
+    GameOver,
+    DailyRewards
 }
 
