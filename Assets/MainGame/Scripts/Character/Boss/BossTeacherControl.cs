@@ -43,7 +43,6 @@ public class BossTeacherControl : BossBase
     public Transform staffTip; //
 
     private Player playerComp;
-    private GameplayUI _gameplayUI;
     private bool canAttack = false;
     private bool isAttacking = false;
     private int remainingQuestions;
@@ -60,22 +59,7 @@ public class BossTeacherControl : BossBase
     private QuestionGate leftGate;
     private QuestionGate rightGate;
 
-    // 🔧 Property với Lazy Initialization
-    private GameplayUI gameplayUI
-    {
-        get
-        {
-            if (_gameplayUI == null && UIManager.Instance != null)
-            {
-                _gameplayUI = UIManager.Instance.GetActiveUI<GameplayUI>(UIName.GameplayUI);
-                if (_gameplayUI == null)
-                {
-                    Debug.LogWarning("⚠️ GameplayUI not found in UIManager!");
-                }
-            }
-            return _gameplayUI;
-        }
-    }
+    
 
     protected override void Awake()
     {
@@ -95,11 +79,6 @@ public class BossTeacherControl : BossBase
 
     protected override IEnumerator SpawnBehavior()
     {
-        // 🔧 FIX: Safe null check
-        if (gameplayUI != null)
-        {
-            gameplayUI.ShowWarning();
-        }
 
         yield return new WaitForSeconds(preSpawnWarningTime);
         StartCoroutine(RiseUpSmooth());
@@ -140,11 +119,6 @@ public class BossTeacherControl : BossBase
                     hasRisen = true;
                     isRising = false;
 
-                    // 🔧 FIX: Safe null check
-                    if (gameplayUI != null)
-                    {
-                        gameplayUI.HideWarning();
-                    }
 
                     ChangeAnim("Rise");
                     auraEffect.Play();

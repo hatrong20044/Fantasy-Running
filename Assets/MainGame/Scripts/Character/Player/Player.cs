@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour,IPausable
 {
     [Header("Movement Settings")]
     public float forwardSpeed;// = 5f;
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     private bool isAttacking = false;
     private bool wantSlideAfterJump = false;
     private bool canRun = false;
-
+    private bool isPaused = false;
 
     private float slideTimer = 0f;
 
@@ -61,14 +61,18 @@ public class Player : MonoBehaviour
     }
     private void OnEnable()
     {
-        GameplayUI.OnPlayPressed += StartRunFromUI;
-        GameplayUI.OnPlayPressed += RotateToForward; // thêm dòng này
+        Home.OnPlayPressed += StartRunFromUI;
+        Home.OnPlayPressed += RotateToForward; 
+        if (PauseManager.Instance != null)
+            PauseManager.Instance.Register(this);
     }
 
     private void OnDisable()
     {
-        GameplayUI.OnPlayPressed -= StartRunFromUI;
-        GameplayUI.OnPlayPressed -= RotateToForward; // thêm dòng này
+        Home.OnPlayPressed -= StartRunFromUI;
+        Home.OnPlayPressed -= RotateToForward;
+        if(PauseManager.Instance != null)
+            PauseManager.Instance.Unregister(this);
     }
 
 
@@ -90,6 +94,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (isPaused) return;
         if (isDead) return;
         if (!canRun) return;
         if (isAttacking) return;
@@ -367,5 +372,16 @@ public class Player : MonoBehaviour
         if (currentAnim == animName) return;
         currentAnim = animName;
         Anim.CrossFadeInFixedTime(animName, 0.1f);
+    }
+    public void OnPause()
+    {
+        isPaused = true;
+        if (Anim != null) Anim.speed = 0;
+    }
+
+    public void OnResume()
+    {
+        isPaused = false;
+        if (Anim != null) Anim.speed = 1;
     }
 }

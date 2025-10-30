@@ -7,7 +7,6 @@ using UnityEngine.Rendering;
 public class GameplayUI : MonoBehaviour
 {
     public static event System.Action OnPlayPressed;
-    [SerializeField] private Button playButton;
     [Header("Boss Warning")]
     [SerializeField] private Image warningImage;
     [Header("Total Coins")]
@@ -23,8 +22,6 @@ public class GameplayUI : MonoBehaviour
     private float baseRight;
     private void Awake()
     {
-        if (playButton)
-            playButton.onClick.AddListener(HandlePlayButton);
 
         if (warningImage)
             warningImage.gameObject.SetActive(false);
@@ -66,7 +63,6 @@ public class GameplayUI : MonoBehaviour
     private void HandlePlayButton()
     {
         OnPlayPressed?.Invoke();
-        playButton.gameObject.SetActive(false);
         totalCoinsBox.gameObject.SetActive(false);
         coinsAndScoreBox.gameObject.SetActive(true);
     }
@@ -115,4 +111,12 @@ public class GameplayUI : MonoBehaviour
         return count;
     }
     
+    public void PauseButton()
+    {
+        PauseManager.Instance.PauseAll();
+    }
+    public void OnClickResumeButton()
+    {
+        PauseManager.Instance.ResumeAll();
+    }
 }
