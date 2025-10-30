@@ -1214,6 +1214,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 401577084}
   m_SourcePrefab: {fileID: 100100000, guid: 6246839b2f49c61448d5b24dfe7df6f9, type: 3}
+--- !u!95 &283591691 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5620699541631441859, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+  m_PrefabInstance: {fileID: 1128566853}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &316005487 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000198361072303689, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
@@ -2263,6 +2268,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1f74688d9496e14183f9f1687103fa3, type: 3}
+--- !u!114 &586898432 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+  m_PrefabInstance: {fileID: 1128566853}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f1802e77c94a734d850c32fff87d24a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &604364185 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8353794429961536863, guid: 4036c3c608823b54d9a0c20023985e96, type: 3}
@@ -3789,12 +3805,16 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
+      propertyPath: Anim
+      value: 
+      objectReference: {fileID: 283591691}
+    - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: jumpForce
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: forwardSpeed
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5299053448440431430, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5107,6 +5127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1708102128}
   - component: {fileID: 1708102127}
+  - component: {fileID: 1708102129}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -5125,7 +5146,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.90943396, g: 0.8566949, b: 0.74642223, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -5191,6 +5212,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1708102129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708102126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0036ee8993bce2e49b9aa398d2ed3411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directionalLight: {fileID: 1708102127}
+  targetColor: {r: 0.83396226, g: 0.7849926, b: 0.7096546, a: 1}
+  duration: 2
+  player: {fileID: 586898432}
+  triggerPoint: 20
 --- !u!1 &1712288631 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5088067714887947663, guid: f07ebf3d1bfae0f45a3553d22cae4d91, type: 3}
@@ -6607,14 +6645,6 @@ PrefabInstance:
     - target: {fileID: 144336721134777806, guid: d2f36bbfcb02aa4429087a429dbd3689, type: 3}
       propertyPath: m_Name
       value: Obstacle5
-      objectReference: {fileID: 0}
-    - target: {fileID: 144336721134777806, guid: d2f36bbfcb02aa4429087a429dbd3689, type: 3}
-      propertyPath: m_TagString
-      value: Unmeshable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857708475872227667, guid: d2f36bbfcb02aa4429087a429dbd3689, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3305680914353266840, guid: d2f36bbfcb02aa4429087a429dbd3689, type: 3}
       propertyPath: m_LocalPosition.x

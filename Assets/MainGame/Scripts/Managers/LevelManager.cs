@@ -12,8 +12,8 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        coinSpawner.SpawnRandomPattern();
         obstacleSpawner.ResetObstacle(cameraTransf.position.z);
+        coinSpawner.SpawnRandomPattern();
         if (!obstacleSpawner.checkSpawnCondition() && BossManager.instance.nextBoss.persistUntilDefeated)
         {
             skillSpawner.ResetSkill(cameraTransf.position.z);

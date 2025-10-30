@@ -125,7 +125,6 @@ public class ZoneManager : MonoBehaviour
             {
                 RecycleObject(GameSetting.Instance.ActiveObstacles[i], cameraZ);
             }
-            RecycleObject("Bullet", cameraZ);
             RecycleObject("Warning", cameraZ);
             RecycleObject("Skill", cameraZ);
             recycleTimer = 0f;
