@@ -21,8 +21,11 @@ public class PlayerCollision : MonoBehaviour
         }
         else if (other.gameObject.name == "Activation")
         {
+            float timeWarning = (4 / 7f)*(30 / player.forwardSpeed);
+            Debug.Log(timeWarning + " " + 30/player.forwardSpeed);
             RunWarnning runWarning = other.gameObject.GetComponentInParent<RunWarnning>();
             Movement obstacleMovement = other.gameObject.GetComponentInParent<Movement>();
+            runWarning.SetTimeWarning(timeWarning);
             runWarning.Act();
             StartCoroutine(DelayedStartMoving(obstacleMovement, runWarning.warningDuration));
         }
@@ -34,7 +37,7 @@ public class PlayerCollision : MonoBehaviour
 
     private IEnumerator DelayedStartMoving(Movement movement, float delay)
     {
-        yield return new WaitForSeconds(delay); // Chờ delay (1 giây)
+        yield return new WaitForSeconds(delay);
         movement.StartMoving();
     }
 

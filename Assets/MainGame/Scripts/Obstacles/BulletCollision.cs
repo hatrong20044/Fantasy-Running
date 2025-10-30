@@ -18,7 +18,7 @@ public class BulletCollision : MonoBehaviour
 
             // T?t bullet sau khi t?o hi?u ?ng
             gameObject.SetActive(false);
-
+            ObjectPool.Instance.ReturnToPoolQuynh("Bullet",gameObject);
             // (Tùy ch?n) H?y hi?u ?ng sau khi hoàn t?t
             Destroy(effectInstance.gameObject, effectInstance.main.duration); // H?y khi hi?u ?ng k?t thúc
         }
