@@ -21,6 +21,10 @@ public class Chest : MonoBehaviour
     private bool hasBeenSelected = false;
     private static bool isAnyChestSelected = false;
 
+
+
+
+
     // 🔧 FIX: Public method để reset flag
     public static void ResetSelectionFlag()
     {
