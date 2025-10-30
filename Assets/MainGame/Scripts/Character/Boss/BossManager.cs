@@ -118,7 +118,6 @@ public class BossManager : MonoBehaviour
                 }
                 float dist = player.transform.position.z;
                 triggerDistance = bossList[currentIndex].nextBossDistance + dist;
-                Debug.Log(triggerDistance);
                 SkillSpawner.Instance.setZ(triggerDistance);
             }
         }
