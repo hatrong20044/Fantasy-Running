@@ -15,13 +15,13 @@ public class CoinSpawner : MonoBehaviour
     }
     private void Start()
     {
-        CoinEvent.Instance.OnCoinCollected += coin => HandleCoinCollected("Coin", coin);
+        EventManager.Instance.OnCoinCollected += coin => HandleCoinCollected("Coin", coin);
 
     }
 
     private void OnDestroy()
     {
-        CoinEvent.Instance.OnCoinCollected -= coin => HandleCoinCollected("Coin", coin);
+        EventManager.Instance.OnCoinCollected -= coin => HandleCoinCollected("Coin", coin);
 
     }
 

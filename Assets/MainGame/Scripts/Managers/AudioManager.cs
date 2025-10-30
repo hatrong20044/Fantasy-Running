@@ -8,12 +8,12 @@ public class AudioManager : MonoBehaviour
   
     void Start()
     {
-        CoinEvent.Instance.OnCoinCollected += PlayCoinSound;
+        EventManager.Instance.OnCoinCollected += PlayCoinSound;
     }
 
     private void OnDestroy()
     {
-        CoinEvent.Instance.OnCoinCollected -= PlayCoinSound;
+        EventManager.Instance.OnCoinCollected -= PlayCoinSound;
     }
 
     public void PlayCoinSound(GameObject coin)

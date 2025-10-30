@@ -10,7 +10,7 @@ public class CoinCollect : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         { 
-            CoinEvent.Instance.CoinCollected(gameObject);
+            EventManager.Instance.CoinCollected(gameObject);
         }
        
     }

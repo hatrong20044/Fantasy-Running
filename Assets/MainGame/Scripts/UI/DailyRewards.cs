@@ -66,7 +66,7 @@ namespace DailyRewardSystem {
             
         private void UpdateCoinsTextUI()
         { 
-                coinsText.text = GameData.Instance.Coins.ToString();
+                coinsText.text = GameData.Instance.ToTalCoins.ToString();
         }
 
         //Open/Close UI
@@ -84,7 +84,7 @@ namespace DailyRewardSystem {
         private void OnClaimButtonClick()
         {
             Reward reward = rewardsDB.GetReward(nextRewardIndex);
-            GameData.Instance.Coins += reward.Amount;
+            GameData.Instance.ToTalCoins += reward.Amount;
             this.UpdateCoinsTextUI();
             DeactiveReward();
             Debug.Log("<color=yelow>" + reward.Amount + " index: " + nextRewardIndex);

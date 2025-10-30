@@ -6,10 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerCollision : MonoBehaviour
 {
-    [SerializeField]private GameObject  canvas;
     public float warningDuration; // 1.0f
     private Player player;
-
     private void Start()
     {
         player = this.GetComponent<Player>();
@@ -44,7 +42,7 @@ public class PlayerCollision : MonoBehaviour
     {
         this.GameOver();
     }
-
+        
     public void GameOver()
     {
         player.Die();
@@ -54,7 +52,7 @@ public class PlayerCollision : MonoBehaviour
     IEnumerator ShowWarning()
     {
         yield return new WaitForSeconds(1f);
-        canvas.SetActive(true);
-       
-    }
+        UIManager.Instance.ShowUI(UIName.GameOver);
+        EventManager.Instance.PlayerCollided(gameObject);
+    } ////
 }

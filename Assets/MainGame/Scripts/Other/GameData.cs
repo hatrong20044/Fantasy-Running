@@ -8,9 +8,7 @@ public class GameData : MonoBehaviour
     public static GameData Instance;
 
     [Header("Coin")]
-    [SerializeField] private int coins;
-   
-
+    [SerializeField] private int totalCoins = 0;
     private void Awake()
     {
         if (Instance == null)
@@ -25,19 +23,19 @@ public class GameData : MonoBehaviour
     }
     private void LoadData()
     {
-        coins = PlayerPrefs.GetInt(GameSetting.COINS_KEY, 0);
+        totalCoins = PlayerPrefs.GetInt(GameSetting.COINS_KEY, 0);
     }
     private void Reset()
     {
-        PlayerPrefs.SetInt(GameSetting.COINS_KEY,0);
+        PlayerPrefs.SetInt(GameSetting.COINS_KEY, totalCoins);
     }
-    public int Coins
+    public int ToTalCoins
     {
-        get => this.coins;
+        get => this.totalCoins;
         set
         {
-            coins = value;
-            PlayerPrefs.SetInt(GameSetting.COINS_KEY, coins);
+            totalCoins = value;
+            PlayerPrefs.SetInt(GameSetting.COINS_KEY, totalCoins);
             PlayerPrefs.Save();
 
         }

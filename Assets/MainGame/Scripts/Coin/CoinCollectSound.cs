@@ -7,11 +7,11 @@ public class CoinCollectSound : MonoBehaviour
     [SerializeField] private AudioSource coinFX;
     private void Start()
     {
-        CoinEvent.Instance.OnCoinCollected += PlayingSound;
+        EventManager.Instance.OnCoinCollected += PlayingSound;
     }
     private void OnDestroy()
     {
-        CoinEvent.Instance.OnCoinCollected -= PlayingSound;
+        EventManager.Instance.OnCoinCollected -= PlayingSound;
 
     }
 
