@@ -27,7 +27,7 @@ public class ChangeLightSmoothly : MonoBehaviour
         }
     }
 
-    IEnumerator ChangeLightColorBack()
+    private IEnumerator ChangeLightColorBack()
     {
         float elapsed = 0f;
         Color current = directionalLight.color;
@@ -65,7 +65,7 @@ public class ChangeLightSmoothly : MonoBehaviour
             StartCoroutine(ChangeColorOverTime());
     }
 
-    IEnumerator ChangeColorOverTime()
+    private IEnumerator ChangeColorOverTime()
     {
         isTransitioning = true;
         float elapsedTime = 0f;
