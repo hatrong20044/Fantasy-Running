@@ -55,6 +55,11 @@ public class PlayerCollision : MonoBehaviour
     IEnumerator ShowWarning()
     {
         yield return new WaitForSeconds(1f);
+<<<<<<< HEAD
         EventManager.Instance.PlayerCollided(gameObject);
     } ////
+=======
+        //canvas.SetActive(true);
+    }
+>>>>>>> 95f33d4af547a6379a833ca5e06c531fa933a318
 }
