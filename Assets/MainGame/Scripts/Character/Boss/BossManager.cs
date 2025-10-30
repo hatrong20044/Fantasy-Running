@@ -57,12 +57,10 @@ public class BossManager : MonoBehaviour
     }
 
     private IEnumerator SpawnBossRoutine(BossSpawnInfo info)
-    {
-        isSpawningOrActive = true;
-        
+    {   
         if (info.spawnDelay > 0f)
             yield return new WaitForSeconds(info.spawnDelay);
-
+        isSpawningOrActive = true;
         currentBoss = Instantiate(info.bossPrefab);
         currentBoss.Init(player);
 

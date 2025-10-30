@@ -13,19 +13,22 @@ public class SpawnRocket : BossBase
     public float flightDuration; // thời gian đạn bay, phải đồng bộ với bên Script BulletMovement
     public float laneDistance = 2.5f; // độ rộng của lane, cố định 2.5
     public float timeInterVal = 1.5f; // khoảng thời gian giữa các lần spawn.
-    public ZoneManager zoneManager;
     public static SpawnRocket instance;
-    public bool isSpawnable = true;
+    public bool isSpawnable = false;
 
     private void Start()
     {
         SpawnRocket.instance = this;
-
-        zoneManager = FindAnyObjectByType<ZoneManager>();
         if (player != null)
         {
-            StartCoroutine(SpawnLoop());
+            StartCoroutine(DelaySpawn());
         }
+    }
+
+    private IEnumerator DelaySpawn()
+    {
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(SpawnLoop());
     }
 
     private IEnumerator SpawnLoop()
@@ -77,11 +80,6 @@ public class SpawnRocket : BossBase
 
             //tính toán vị trí đạn rơi trúng người chơi dựa trên tốc độ của người chơi, thời gian đạn bay
             Vector3 targetPos = CalculatePredictedLandingPositions(lanes[laneIndex]);
-
-            //đăng ký bullet với zone manager
-            ObstacleType bulletType = bullet.GetComponent<ObstacleType>();
-            ObstaclePosition bulletPosition = new ObstaclePosition(targetPos, bulletType);
-            zoneManager.RegisterObstacle(bulletPosition);
 
             bulletMovement.Launch(CannonPos.position, targetPos); // khởi tạo vị trí spawn và target
             bulletMovement.StartMoving(); // bullet di chuyển đến vị trí target

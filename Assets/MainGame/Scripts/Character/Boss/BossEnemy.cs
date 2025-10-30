@@ -57,7 +57,7 @@ public class BossEnemy : MonoBehaviour
     private IEnumerator OnDieAnimation(string animName)
     {
         anim.CrossFade(animName, 0.1f);
-        yield return new WaitForSeconds(1f); // Dự phòng nếu không lấy được
+        yield return new WaitForSeconds(1.5f); // Dự phòng nếu không lấy được
 
         // XÓA SAU KHI ANIMATION XONG
         Destroy(gameObject);
