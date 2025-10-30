@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3131029, g: 0.29383612, b: 0.5141722, a: 1}
+  m_IndirectSpecularColor: {r: 0.3129357, g: 0.29358014, b: 0.5140263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1750,7 +1750,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 454467169}
-  - component: {fileID: 454467168}
+  - component: {fileID: 454467170}
   m_Layer: 0
   m_Name: EventManager
   m_TagString: Untagged
@@ -1758,18 +1758,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &454467168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 454467167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c94f224ed87ad93478a66ab90db405a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &454467169
 Transform:
   m_ObjectHideFlags: 0
@@ -1785,6 +1773,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &454467170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454467167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c94896f6c89a04ea30b64761bf1c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &466210441 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1210003257633688011, guid: 75176da7a36f81943be9356ee73199b2, type: 3}
@@ -5405,8 +5405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bacda669def3343ba3dddfc9cfd772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coin: 0
-  coinDisplay: {fileID: 26287952}
+  gamePlayCoins: 0
 --- !u!4 &1730062733
 Transform:
   m_ObjectHideFlags: 0
