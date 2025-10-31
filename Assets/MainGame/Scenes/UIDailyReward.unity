@@ -490,7 +490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &344901184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1999,7 +1999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eb7ee4d8f95a1549bf15355890040c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coins: 0
+  totalCoins: 15000
 --- !u!114 &1969733874
 MonoBehaviour:
   m_ObjectHideFlags: 0

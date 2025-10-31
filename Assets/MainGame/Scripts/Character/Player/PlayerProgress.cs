@@ -1,11 +1,25 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerProgress : MonoBehaviour
 {
     private Vector3 startPos;
     private float distanceTravelled;
+    public static PlayerProgress Instance;
 
     public float DistanceTravelled => distanceTravelled;
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -16,8 +30,6 @@ public class PlayerProgress : MonoBehaviour
     {
         distanceTravelled = Vector3.Distance(startPos, transform.position);
     }
-
-    public float GetDistance() => distanceTravelled;
 
     public void ResetProgress()
     {
