@@ -35,7 +35,7 @@ public class CoinManager : MonoBehaviour
     {
         coin += mount;
        
-    }
+    }   
     public void DisplayCoin()
     {
         coinDisplay.GetComponent<TMPro.TMP_Text>().text = "Coin: " + coin;
