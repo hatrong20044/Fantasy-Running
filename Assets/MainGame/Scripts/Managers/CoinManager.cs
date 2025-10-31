@@ -1,5 +1,4 @@
 ﻿
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static System.Net.Mime.MediaTypeNames;
@@ -7,7 +6,8 @@ using static System.Net.Mime.MediaTypeNames;
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
-    [SerializeField] private int gamePlayCoins = 0;
+    [SerializeField] private int coin = 0;
+    [SerializeField] GameObject coinDisplay;
     private void Awake()
     {
         if (Instance == null)
@@ -23,25 +23,29 @@ public class CoinManager : MonoBehaviour
     private void Start()
     {
         // Đăng kí sự kiện khi thu thập coin
-        EventManager.Instance.OnCoinCollected += HandleCoinCollected;
+        CoinEvent.Instance.OnCoinCollected += HandleCoinCollected;
     }
 
     private void OnDestroy()
     {
         // Hủy đăng kí sự kiện
-        EventManager.Instance.OnCoinCollected -= HandleCoinCollected;
+        CoinEvent.Instance.OnCoinCollected -= HandleCoinCollected;
     }
-    public void AddCoin(int mount)
+    public void AddCoin(int mount = 1)
     {
-        gamePlayCoins += mount;
+        coin += mount;
        
+    }   
+    public void DisplayCoin()
+    {
+        coinDisplay.GetComponent<TMPro.TMP_Text>().text = "Coin: " + coin;
     }
+
 
     public void HandleCoinCollected(GameObject coin)
     {
-        this.AddCoin(1);
+        this.AddCoin();
+        this.DisplayCoin();
     }
-
-    public int Coins => gamePlayCoins;
 
 }

@@ -1583,6 +1583,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 992551768}
     - target: {fileID: 1463018663509279475, guid: 057880f43eb453f4f8e875fda62e3d10, type: 3}
+      propertyPath: hoverHeight
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463018663509279475, guid: 057880f43eb453f4f8e875fda62e3d10, type: 3}
       propertyPath: chestSpawner
       value: 
       objectReference: {fileID: 989989966}

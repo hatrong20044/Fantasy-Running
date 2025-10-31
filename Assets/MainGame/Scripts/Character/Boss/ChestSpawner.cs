@@ -1,44 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class ChestSpawner : MonoBehaviour
 {
     [Header("📚 Question Database")]
-    [Tooltip("Kéo file QuestionDatabase vào đây")]
     public QuestionDatabase questionDatabase;
 
-    [Header("Pool Settings")]
-    public string chestPoolTag = "Chest";
+    [Header("🧰 Prefabs")]
+    public GameObject chestPrefab;
+    public GameObject questionGatePrefab;
 
-    [Header("Spawn Settings")]
-    public float spawnDistanceZ = 30f;
-    public float chestHeight = 0.5f;
-
-    [Header("🎬 Animation Settings")]
-    [Tooltip("Độ sâu dưới đất khi bắt đầu spawn")]
-    public float undergroundDepth = -2f;
-    [Tooltip("Thời gian chest nổi lên (giây)")]
-    public float riseUpDuration = 1f;
-    [Tooltip("Loại easing cho animation")]
-    public AnimationCurve riseCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-
-    [Header("References")]
+    [Header("👤 References")]
     public Transform player;
 
-    // 3 lanes cố định
-    private static readonly float[] LANE_X = { -2.5f, 0f, 2.5f };
+    [Header("📍 Spawn Distance")]
+    [Tooltip("Khoảng cách Gate luôn cách player")]
+    public float gateDistanceFromPlayer = 15f;
+    [Tooltip("Khoảng cách spawn rương (Chest) tính từ vị trí player")]
+    public float chestSpawnDistanceZ = 25f;
+
+    [Header("📦 Chest Settings")]
+    public float chestHeight = 0.5f;
+    public float undergroundDepth = -2f;
+    public float chestRiseDuration = 1f;
+    public AnimationCurve chestRiseCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    [Header("🚪 Question Gate Settings")]
+    public float gateLeftX = -3.24f;
+    public float gateRightX = 3.24f;
+    public float gateFixedY = 7.36f;
 
     private Question currentQuestion;
+    private QuestionGate leftGate;
+    private QuestionGate rightGate;
+    private bool gatesSpawned = false;
+
+    private static readonly float[] LANE_X = { -2.5f, 0f, 2.5f };
 
     private void Start()
     {
         if (player == null)
-        {
             player = FindObjectOfType<Player>()?.transform;
-        }
 
-        // Initialize database
         if (questionDatabase != null)
         {
             questionDatabase.Initialize();
@@ -50,23 +54,65 @@ public class ChestSpawner : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ✅ FIX: Spawn 3 rương với đáp án đúng duy nhất
-    /// </summary>
+    private void Update()
+    {
+        // 👉 Cập nhật vị trí Gate liên tục theo player
+        if (gatesSpawned && player != null)
+        {
+            float targetZ = player.position.z + gateDistanceFromPlayer;
+
+            if (leftGate != null)
+                leftGate.transform.position = new Vector3(gateLeftX, gateFixedY, targetZ);
+
+            if (rightGate != null)
+                rightGate.transform.position = new Vector3(gateRightX, gateFixedY, targetZ);
+        }
+    }
+
+    // =========================================================
+    // 🟢 1️⃣  SPAWN QUESTION GATES (chỉ gọi 1 lần duy nhất)
+    // =========================================================
+    public void SpawnQuestionGates()
+    {
+        if (gatesSpawned) return; // 👈 Đã spawn rồi thì thôi
+
+        if (!ValidateReferences()) return;
+        if (questionGatePrefab == null)
+        {
+            Debug.LogError("❌ Chưa gán QuestionGate Prefab!");
+            return;
+        }
+
+        float spawnZ = player.position.z + gateDistanceFromPlayer;
+
+        Vector3 leftPos = new Vector3(gateLeftX, gateFixedY, spawnZ);
+        Vector3 rightPos = new Vector3(gateRightX, gateFixedY, spawnZ);
+
+        GameObject leftObj = Instantiate(questionGatePrefab, leftPos, Quaternion.identity);
+        GameObject rightObj = Instantiate(questionGatePrefab, rightPos, Quaternion.identity);
+
+        leftGate = leftObj.GetComponent<QuestionGate>();
+        rightGate = rightObj.GetComponent<QuestionGate>();
+
+        gatesSpawned = true;
+        Debug.Log("✅ Question Gates spawned - sẽ theo player mãi mãi");
+    }
+
+    // =========================================================
+    // 🟡 2️⃣  SPAWN CHESTS
+    // =========================================================
     public void SpawnChestWave()
     {
+        Debug.Log("🟢 SpawnChestWave() called!");
         if (!ValidateReferences()) return;
 
-        // Lấy câu hỏi random từ database
         currentQuestion = questionDatabase.GetRandomQuestion();
-
         if (currentQuestion == null)
         {
             Debug.LogError("❌ Không lấy được câu hỏi!");
             return;
         }
 
-        // ✅ FIX: Tạo danh sách đáp án với flag đúng/sai
         List<AnswerData> answers = new List<AnswerData>
         {
             new AnswerData(0, currentQuestion.answer0, currentQuestion.correctAnswerIndex == 0),
@@ -74,87 +120,76 @@ public class ChestSpawner : MonoBehaviour
             new AnswerData(2, currentQuestion.answer2, currentQuestion.correctAnswerIndex == 2)
         };
 
-        // ✅ FIX: Shuffle cả struct (cả nội dung và flag đúng/sai)
         ShuffleAnswersList(answers);
+        float spawnZ = player.position.z + chestSpawnDistanceZ;
 
-        float spawnZ = player.position.z + spawnDistanceZ;
-
-        // Debug log để kiểm tra
-        Debug.Log($"📝 Question: {currentQuestion.questionText}");
-        Debug.Log($"   Correct Answer Index in Question: {currentQuestion.correctAnswerIndex}");
-        Debug.Log($"   After Shuffle:");
-        for (int i = 0; i < answers.Count; i++)
+        for (int i = 0; i < 3; i++)
         {
-            Debug.Log($"      Lane {i}: {answers[i].content} (Correct: {answers[i].isCorrect})");
-        }
+            Vector3 startPos = new Vector3(LANE_X[i], undergroundDepth, spawnZ);
+            Vector3 endPos = new Vector3(LANE_X[i], chestHeight, spawnZ);
 
-        // Spawn 3 chest với đáp án đã shuffle
-        for (int laneIndex = 0; laneIndex < 3; laneIndex++)
-        {
-            // ✅ Vị trí bắt đầu: dưới đất
-            Vector3 startPos = new Vector3(LANE_X[laneIndex], undergroundDepth, spawnZ);
-            // ✅ Vị trí kết thúc: trên mặt đất
-            Vector3 endPos = new Vector3(LANE_X[laneIndex], chestHeight, spawnZ);
+            GameObject chestObj = ObjectPool.Instance.GetFromPoolQuynh("Chest");
 
-            GameObject chestObj = ObjectPool.Instance.GetFromPoolQuynh(chestPoolTag);
-            if (chestObj == null)
+            if (chestObj != null)
             {
-                Debug.LogWarning($"⚠️ Pool '{chestPoolTag}' hết chest!");
-                continue;
+                chestObj.transform.position = startPos;
+                chestObj.transform.rotation = Quaternion.identity;
+
+                Chest chest = chestObj.GetComponent<Chest>();
+                if (chest != null)
+                {
+                    chest.SetupAnswer(i, answers[i].content, answers[i].isCorrect);
+                }
+
+                StartCoroutine(AnimateChestRiseUp(chestObj, startPos, endPos));
             }
-
-            // ✅ Đặt chest ở vị trí dưới đất trước
-            chestObj.transform.position = startPos;
-            chestObj.transform.rotation = Quaternion.identity;
-
-            // ✅ FIX: Lấy đáp án đã shuffle
-            AnswerData answerData = answers[laneIndex];
-
-            // Setup chest với data đúng
-            Chest chestScript = chestObj.GetComponent<Chest>();
-            if (chestScript != null)
+            else
             {
-                chestScript.SetupAnswer(
-                    laneIndex,                  // Lane index (0=Trái, 1=Giữa, 2=Phải)
-                    answerData.content,         // Nội dung đáp án
-                    answerData.isCorrect        // Flag đúng/sai
-                );
+                Debug.LogWarning($"⚠️ Pool 'Chest' hết object ở lane {i}");
             }
-
-            // ✅ Bắt đầu animation nổi lên
-            StartCoroutine(AnimateChestRiseUp(chestObj, startPos, endPos));
         }
-
-        Debug.Log($"   Remaining: {questionDatabase.GetRemainingCount()} questions");
     }
 
-    /// <summary>
-    /// 🎬 Animation cho chest nổi lên từ dưới đất
-    /// </summary>
     private IEnumerator AnimateChestRiseUp(GameObject chest, Vector3 startPos, Vector3 endPos)
     {
         float elapsed = 0f;
 
-        while (elapsed < riseUpDuration)
+        while (elapsed < chestRiseDuration)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / riseUpDuration);
-
-            // ✅ Dùng curve để có animation mượt hơn
-            float curveValue = riseCurve.Evaluate(t);
-
+            float t = Mathf.Clamp01(elapsed / chestRiseDuration);
+            float curveValue = chestRiseCurve.Evaluate(t);
             chest.transform.position = Vector3.Lerp(startPos, endPos, curveValue);
-
             yield return null;
         }
 
-        // ✅ Đảm bảo chest ở đúng vị trí cuối
         chest.transform.position = endPos;
     }
 
-    /// <summary>
-    /// ✅ FIX: Shuffle list AnswerData (Fisher-Yates)
-    /// </summary>
+    // =========================================================
+    // 🔵 3️⃣  HIỂN THỊ / ẨN CÂU HỎI TRÊN GATE
+    // =========================================================
+    public void ShowQuestion()
+    {
+        string questionText = GetCurrentQuestionText();
+        if (leftGate != null) leftGate.ShowQuestion(questionText);
+        if (rightGate != null) rightGate.ShowQuestion(questionText);
+    }
+
+    public void HideQuestionGates()
+    {
+        if (leftGate != null) leftGate.HideQuestion();
+        if (rightGate != null) rightGate.HideQuestion();
+    }
+
+    // =========================================================
+    // 🔧 UTILITIES
+    // =========================================================
+    private string GetCurrentQuestionText()
+    {
+        return currentQuestion?.questionText ?? "";
+    }
+
     private void ShuffleAnswersList(List<AnswerData> list)
     {
         for (int i = list.Count - 1; i > 0; i--)
@@ -166,20 +201,11 @@ public class ChestSpawner : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Validate references
-    /// </summary>
     private bool ValidateReferences()
     {
         if (player == null)
         {
             Debug.LogError("❌ Player reference null!");
-            return false;
-        }
-
-        if (ObjectPool.Instance == null)
-        {
-            Debug.LogError("❌ ObjectPool chưa khởi tạo!");
             return false;
         }
 
@@ -192,26 +218,33 @@ public class ChestSpawner : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// Get current question text (để hiển thị UI nếu cần)
-    /// </summary>
-    public string GetCurrentQuestionText()
+    public void DestroyQuestionGates()
     {
-        return currentQuestion?.questionText ?? "";
+        if (leftGate != null)
+        {
+            Destroy(leftGate.gameObject);
+            leftGate = null;
+        }
+
+        if (rightGate != null)
+        {
+            Destroy(rightGate.gameObject);
+            rightGate = null;
+        }
+
+        gatesSpawned = false;
+        Debug.Log("🗑️ Question Gates đã bị destroy");
     }
 
-    /// <summary>
-    /// ✅ Struct để lưu thông tin đáp án
-    /// </summary>
     private struct AnswerData
     {
-        public int originalIndex;   // Index gốc trong question (0,1,2)
-        public string content;      // Nội dung đáp án
-        public bool isCorrect;      // Flag đúng/sai
+        public int index;
+        public string content;
+        public bool isCorrect;
 
-        public AnswerData(int index, string text, bool correct)
+        public AnswerData(int idx, string text, bool correct)
         {
-            originalIndex = index;
+            index = idx;
             content = text;
             isCorrect = correct;
         }
