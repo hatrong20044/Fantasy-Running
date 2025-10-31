@@ -72,7 +72,6 @@ public class BossTeacherControl : BossBase
     // =========================================================
     protected override IEnumerator SpawnBehavior()
     {
-        gameplayUI?.ShowWarning();
         yield return new WaitForSeconds(preSpawnWarningTime);
         StartCoroutine(RiseUpSmooth());
     }
