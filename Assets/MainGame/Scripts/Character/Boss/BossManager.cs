@@ -35,13 +35,11 @@ public class BossManager : MonoBehaviour
         instance = this;
         if (player != null)
             progress = player.GetComponent<PlayerProgress>();
-
-        UpdateNextBoss();
     }
 
     private void Start()
     {
-        
+        UpdateNextBoss();
     }
 
     private void Update()

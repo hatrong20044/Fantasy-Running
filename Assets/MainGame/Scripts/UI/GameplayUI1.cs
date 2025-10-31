@@ -1,7 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-public class GameplayUI : MonoBehaviour
+public class GameplayUI1 : MonoBehaviour
 {
     public static event System.Action OnPlayPressed;
     [Header("Boss Warning")]

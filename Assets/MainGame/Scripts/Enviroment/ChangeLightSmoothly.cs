@@ -8,7 +8,7 @@ public class ChangeLightSmoothly : MonoBehaviour
     public Color targetColor = Color.red; // Màu đích
     public float duration = 2f;           // Thời gian chuyển: 2 giây
 
-    private Color startColor;
+    public Color startColor;
     private bool isTransitioning = false;
     public Player player;
     private bool hasTriggered = false;
@@ -27,6 +27,29 @@ public class ChangeLightSmoothly : MonoBehaviour
         }
     }
 
+    private IEnumerator ChangeLightColorBack()
+    {
+        float elapsed = 0f;
+        Color current = directionalLight.color;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            directionalLight.color = Color.Lerp(current, startColor, t);
+            yield return null;
+        }
+
+        directionalLight.color = startColor;
+        hasTriggered = false;
+    }
+
+    public void StartColorChangeBack()
+    {
+        if (!isTransitioning)
+            StartCoroutine(ChangeLightColorBack());
+    }
+
     private void OnStartChangeLight()
     {
         if (hasTriggered) return;
@@ -42,7 +65,7 @@ public class ChangeLightSmoothly : MonoBehaviour
             StartCoroutine(ChangeColorOverTime());
     }
 
-    IEnumerator ChangeColorOverTime()
+    private IEnumerator ChangeColorOverTime()
     {
         isTransitioning = true;
         float elapsedTime = 0f;

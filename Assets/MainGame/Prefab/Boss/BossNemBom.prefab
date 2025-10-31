@@ -634,8 +634,8 @@ MonoBehaviour:
   CannonPos: {fileID: 2589821478511603596}
   flightDuration: 1.25
   laneDistance: 2.5
-  timeInterVal: 1.5
-  zoneManager: {fileID: 0}
+  timeInterVal: 2.5
+  isSpawnable: 1
 --- !u!114 &1855162061379069107
 MonoBehaviour:
   m_ObjectHideFlags: 0

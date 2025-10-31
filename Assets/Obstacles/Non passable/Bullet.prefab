@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e95f0f6aa06b7549adc9617f163ec2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flightDuration: 1.25
+  flightDuration: 2
   height: 3
 --- !u!114 &2548299477847126779
 MonoBehaviour:
