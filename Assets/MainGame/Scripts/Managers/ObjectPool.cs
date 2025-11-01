@@ -29,7 +29,6 @@ public class ObjectPool : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Không hủy ObjectPool khi chuyển scene;
         }
         else
         {

@@ -6,9 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerCollision : MonoBehaviour
 {
-    [SerializeField]private GameObject  canvas;
     private Player player;
-
     private void Start()
     {
         player = this.GetComponent<Player>();
@@ -22,7 +20,7 @@ public class PlayerCollision : MonoBehaviour
         }
         else if (other.gameObject.name == "Activation")
         {
-            float timeWarning = (1/2f)*(30 / player.forwardSpeed);
+            float timeWarning = (4 / 7f)*(30 / player.forwardSpeed);
             Debug.Log(timeWarning + " " + 30/player.forwardSpeed);
             RunWarnning runWarning = other.gameObject.GetComponentInParent<RunWarnning>();
             Movement obstacleMovement = other.gameObject.GetComponentInParent<Movement>();
@@ -46,7 +44,7 @@ public class PlayerCollision : MonoBehaviour
     {
         this.GameOver();
     }
-
+        
     public void GameOver()
     {
         player.Die();
@@ -55,7 +53,9 @@ public class PlayerCollision : MonoBehaviour
 
     IEnumerator ShowWarning()
     {
+        
         yield return new WaitForSeconds(1f);
-        //canvas.SetActive(true);
-    }
+        UIManager.Instance.ShowUI(UIName.GameOver);
+    } 
+     
 }

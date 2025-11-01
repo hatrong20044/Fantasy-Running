@@ -12,17 +12,16 @@ namespace DailyRewardSystem {
     public class DailyRewards : MonoBehaviour
     {
         [Header("Main Menu UI")]
-        [SerializeField] private TMPro.TMP_Text coinsText;
+        [SerializeField] private TMPro.TMP_Text totalCoins;
 
         [Space]
         [Header("Reward UI")]
-        [SerializeField] private GameObject rewardCanvas;
+        [SerializeField] private GameObject rewardPanel;
         [SerializeField] private Button openRewardButton;
         [SerializeField] private Button closeRewardButton;
         [SerializeField] private Button claimButton;
-        [SerializeField] private GameObject rewardNotification;
+        [SerializeField] private GameObject notification;
         
-
         [Space]
         [Header("Reward Database")]
         [SerializeField] private RewardsDatabase rewardsDB;
@@ -33,14 +32,11 @@ namespace DailyRewardSystem {
         [SerializeField] private float nextRewardDelay = 20f;
         [SerializeField] public float checkInterval = 2f;
        
-
-        [Space]
-        [Header("FX")]
-        [SerializeField] ParticleSystem fxCoins;
         private int nextRewardIndex;
 
         private void Start()
         {
+            this.rewardPanel.gameObject.SetActive(false);
             this.Initialize();
             InvokeRepeating(nameof(CheckForReward), 0f, checkInterval);
         }
@@ -54,9 +50,6 @@ namespace DailyRewardSystem {
             this.LoadAllReward();
             this.LoadPreviousReward();
 
-            // Update Menu UI
-            this.UpdateCoinsTextUI();
-
             //Add event click
             this.AddEventClick();
 
@@ -64,27 +57,23 @@ namespace DailyRewardSystem {
             this.SetDateTimeFirstTime();
         }
             
-        private void UpdateCoinsTextUI()
-        { 
-                coinsText.text = GameData.Instance.Coins.ToString();
-        }
-
         //Open/Close UI
         private void OnOpenRewardButtonClick()
         {
-            rewardCanvas.SetActive(true);
+            rewardPanel.SetActive(true);
+           
         }
         
         private void OnCloseRewardButtonClick()
         {
            
-            rewardCanvas.SetActive(false);
+            rewardPanel.SetActive(false);
         }
 
         private void OnClaimButtonClick()
         {
             Reward reward = rewardsDB.GetReward(nextRewardIndex);
-            GameData.Instance.Coins += reward.Amount;
+            GameData.Instance.ToTalCoins += reward.Amount;
             this.UpdateCoinsTextUI();
             DeactiveReward();
             Debug.Log("<color=yelow>" + reward.Amount + " index: " + nextRewardIndex);
@@ -95,16 +84,19 @@ namespace DailyRewardSystem {
             {
                 this.nextRewardIndex = 0;
             }
-            fxCoins.Play();
             
             PlayerPrefs.SetString(GameSetting.TIMEDATE_REWARD_DELAY, DateTime.Now.ToString());
             PlayerPrefs.SetInt(GameSetting.NEXT_REWARD_INDEX, nextRewardIndex);
+        }
+        public void UpdateCoinsTextUI()
+        {
+            this.totalCoins.text = GameData.Instance.ToTalCoins.ToString();
         }
 
         private void ActivateReward()
         {
             claimButton.interactable = true;
-            rewardNotification.SetActive(true);
+            notification.SetActive(true);
         }
 
        
@@ -126,7 +118,7 @@ namespace DailyRewardSystem {
         private void DeactiveReward()
         {
             claimButton.interactable = false;
-            rewardNotification.SetActive(false);
+            notification.SetActive(false);
         }
 
         private void AddEventClick()
