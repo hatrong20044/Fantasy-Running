@@ -316,7 +316,7 @@ public class Player : MonoBehaviour,IPausable
     {
         isAttacking = true;
         ChangeAnim("Attack");
-        Invoke(nameof(BackToRunAfterAttack), 0.5f);
+        Invoke(nameof(BackToRunAfterAttack), 0.75f);
     }
 
     private void BackToRunAfterAttack()

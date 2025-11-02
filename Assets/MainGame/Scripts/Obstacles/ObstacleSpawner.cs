@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,8 @@ public class ObstacleSpawner : MonoBehaviour
     public List<string> nonPassableObstacleTags; // include the name of non passable obstacles
     public GameObject obstaclePrefab; // obstcale prefab
     public ZoneManager zoneManager;
+    public float minDistanceObstacle = 30f;
+    public float maxDistanceObstacle = 50f;
     public float distanceObtacle = 30f; // distance between obsatcles when we spawn
     public int maxSystemObstacle = 10; // max obstacle system we have
     public float laneDistance = 2.5f; // distance between lanes (Left, Middle, Right)
@@ -33,13 +36,13 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void Awake()
     {
-        this.obstaclePrefab = GameObject.Find("ObstaclePrefab");
         this.zoneManager = transform.GetComponent<ZoneManager>();
         this.curentSeason = "Summer";
     }
 
-    private void Start()
+    IEnumerator Start()
     {
+        yield return null;
         AssetCollector.instance.LoadSeason(this.curentSeason);
         this.Spawn();
     }
@@ -48,10 +51,12 @@ public class ObstacleSpawner : MonoBehaviour
     public List<GameObject> GenerateSystemObstacle()
     {
         List<GameObject> obstacles = new List<GameObject>();
+        int randomNumNonPassObs = Random.Range(1, 3);
+        int randomNumPassObs = 3 - randomNumNonPassObs;
         int randomBaseObstacle = 0;
         int randomApperanceObstacle = 0;
-        //create and add 2 random non passable obstacle and add to list
-        for (int i = 0; i < 2; i++)
+        //create and random non passable obstacle and add to list
+        for (int i = 0; i < randomNumNonPassObs; i++)
         {
             randomBaseObstacle = UnityEngine.Random.Range(0, this.nonPassableObstacleTags.Count);
             GameObject nonPassableObstacle = ObjectPool.Instance.GetFromPoolQuynh(this.nonPassableObstacleTags[randomBaseObstacle]);
@@ -64,18 +69,21 @@ public class ObstacleSpawner : MonoBehaviour
                 this.ApplyMeshAndMeshRenderer(nonPassableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, nonPassableObstacleAssets);
             }
             obstacles.Add(nonPassableObstacle);
-        } 
-        //create a passable obstacle and add to list
-        randomBaseObstacle = UnityEngine.Random.Range(0, this.passableObstacleTags.Count);
-        GameObject passableObstacle = ObjectPool.Instance.GetFromPoolQuynh(this.passableObstacleTags[randomBaseObstacle]);
-        ObstacleType passableObstacleType = passableObstacle.GetComponent<ObstacleType>();
-        if (passableObstacleType.subType != ObstacleType.ObstacleSubType.Empty)
-        {
-            List<ObstacleAsset> passableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(true, passableObstacleType.subType);
-            randomApperanceObstacle = UnityEngine.Random.Range(0, passableObstacleAssets.Count);
-            this.ApplyMeshAndMeshRenderer(passableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, passableObstacleAssets);
         }
-        obstacles.Add(passableObstacle);
+        //create and random passable obstacle and add to list
+        for(int i = 0; i < randomNumPassObs; i++)
+        {
+            randomBaseObstacle = UnityEngine.Random.Range(0, this.passableObstacleTags.Count);
+            GameObject passableObstacle = ObjectPool.Instance.GetFromPoolQuynh(this.passableObstacleTags[randomBaseObstacle]);
+            ObstacleType passableObstacleType = passableObstacle.GetComponent<ObstacleType>();
+            if (passableObstacleType.subType != ObstacleType.ObstacleSubType.Empty)
+            {
+                List<ObstacleAsset> passableObstacleAssets = AssetCollector.instance.GetAssetsBySubType(true, passableObstacleType.subType);
+                randomApperanceObstacle = UnityEngine.Random.Range(0, passableObstacleAssets.Count);
+                this.ApplyMeshAndMeshRenderer(passableObstacle.transform.Find("Appearance").gameObject, randomApperanceObstacle, passableObstacleAssets);
+            }
+            obstacles.Add(passableObstacle);
+        }
 
         return obstacles;
     }
@@ -120,6 +128,8 @@ public class ObstacleSpawner : MonoBehaviour
                 List<GameObject> obstacles = this.GenerateSystemObstacle();
                 SetPosObstacleSystem(obstacles);
             }
+            this.distanceObtacle = Random.Range(this.minDistanceObstacle, this.maxDistanceObstacle);
+            Debug.Log(distanceObtacle);
             this.currentObstaclePosZ += this.distanceObtacle;
         }
     }
@@ -134,6 +144,8 @@ public class ObstacleSpawner : MonoBehaviour
                 List<GameObject> obstacles = this.GenerateSystemObstacle();
                 SetPosObstacleSystem(obstacles);
             }
+            this.distanceObtacle = Random.Range(this.minDistanceObstacle, this.maxDistanceObstacle);
+            Debug.Log(distanceObtacle);
             this.currentResetPosZ += this.distanceObtacle;
             this.currentObstaclePosZ += this.distanceObtacle;
         }

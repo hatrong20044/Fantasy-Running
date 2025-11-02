@@ -25,16 +25,28 @@ public class CameraFollow : MonoBehaviour
         EventManager.Instance.OnGameStarted -= HandlePlayPressed;
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return null;
+
         if (target)
         {
-            
-            Vector3 introPos = target.position + target.transform.forward * introOffset.z + Vector3.up * introOffset.y;
-            transform.position = introPos;
-
-            transform.LookAt(target.position + Vector3.up * 1.5f);
+            SetIntroPosition();
         }
+    }
+
+    private void SetIntroPosition()
+    {
+        if (target == null) return;
+
+        // 1. Lấy vị trí introOffset
+        Vector3 localOffset = new Vector3(introOffset.x, introOffset.y, introOffset.z);
+
+        // 2. Đặt vị trí
+        transform.position = localOffset;
+
+        // 3. Đặt góc quay tự do (x, y, z)
+        transform.rotation = Quaternion.Euler(10f, 51f, 0f);
     }
 
 

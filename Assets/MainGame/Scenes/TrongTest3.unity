@@ -2748,6 +2748,8 @@ MonoBehaviour:
   - Obstacle6
   obstaclePrefab: {fileID: 0}
   zoneManager: {fileID: 0}
+  minDistanceObstacle: 30
+  maxDistanceObstacle: 50
   distanceObtacle: 30
   maxSystemObstacle: 5
   laneDistance: 2.5
@@ -3794,7 +3796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5161729235021019848, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: forwardSpeed
-      value: 15
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5299053448440431430, guid: ddf3faf3ea9de4b47909bf34134bcea1, type: 3}
       propertyPath: m_LocalPosition.y
