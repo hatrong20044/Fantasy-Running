@@ -1,5 +1,4 @@
 ﻿
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static System.Net.Mime.MediaTypeNames;
@@ -7,7 +6,8 @@ using static System.Net.Mime.MediaTypeNames;
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
-    [SerializeField] private int gamePlayCoins = 0;
+    [SerializeField] private int coins = 0;
+  
     private void Awake()
     {
         if (Instance == null)
@@ -33,15 +33,18 @@ public class CoinManager : MonoBehaviour
     }
     public void AddCoin(int mount)
     {
-        gamePlayCoins += mount;
+        coins += mount;
        
-    }
+    }   
 
     public void HandleCoinCollected(GameObject coin)
     {
         this.AddCoin(1);
     }
 
-    public int Coins => gamePlayCoins;
+    public int Coins
+    {
+        get { return coins; }
+    }
 
 }

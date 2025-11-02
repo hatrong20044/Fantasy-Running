@@ -20,6 +20,11 @@ public class Chest : MonoBehaviour
     private float spawnTime;
     private bool hasBeenSelected = false;
     private static bool isAnyChestSelected = false;
+    [SerializeField] private GetCoins getCoins;
+
+
+
+
 
     // 🔧 FIX: Public method để reset flag
     public static void ResetSelectionFlag()
@@ -100,7 +105,12 @@ public class Chest : MonoBehaviour
         Debug.Log($"💥 Player chọn: {answerContent} (Lane: {GetLaneName()})");
 
         if (isCorrectAnswer)
+        {     
             OnCorrectAnswer(player);
+            getCoins.RewardCoins(); 
+
+
+        }
         else
             OnWrongAnswer(player);
 
@@ -109,7 +119,7 @@ public class Chest : MonoBehaviour
 
     private void OnCorrectAnswer(GameObject player)
     {
-        Debug.Log($"✅ Đúng - {answerContent}");
+        Debug.Log($"Đúng - {answerContent}");
 
         BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
         if (boss != null)
@@ -118,7 +128,7 @@ public class Chest : MonoBehaviour
 
     private void OnWrongAnswer(GameObject player)
     {
-        Debug.Log($"❌ Sai - {answerContent}");
+        Debug.Log($" Sai - {answerContent}");
 
         BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
         if (boss != null)
