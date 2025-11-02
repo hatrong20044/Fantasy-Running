@@ -10,6 +10,9 @@ public enum UIName
     Pause,
     Setting,
     GameOver,
+    HighScore,
+    Introduction,
+    Exit,
     DailyRewards
 }
 

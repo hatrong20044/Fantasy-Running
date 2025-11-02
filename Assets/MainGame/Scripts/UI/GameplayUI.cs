@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameplayUI : MonoBehaviour
 {
-    public static event System.Action OnPlayPressed;
+
     [Header("Boss Warning")]
     [SerializeField] private Image warningImage;
     
@@ -87,6 +87,7 @@ public class GameplayUI : MonoBehaviour
     public void PauseButton()
     {
         PauseManager.Instance.PauseAll();
+        UIManager.Instance.ShowUI(UIName.Pause);
     }
     public void OnClickResumeButton()
     {

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b26d6e1157a9f94bac2acd75baf66af, type: 3}
+  m_Name: HighScoreDB
+  m_EditorClassIdentifier: 
+  infor:
+  - userName: abc
+    highScore: 9999
+  - userName: uio
+    highScore: 6510
+  - userName: njh
+    highScore: 3012
+  - userName: bululu
+    highScore: 1203
+  - userName: ahihi
+    highScore: 931
+  - userName: ahehe
+    highScore: 560
+  - userName: bululu
+    highScore: 285
+  - userName: chubedan
+    highScore: 230
+  - userName: Manh
+    highScore: 80
+  - userName: bululu
+    highScore: 66
+  maxCount: 10

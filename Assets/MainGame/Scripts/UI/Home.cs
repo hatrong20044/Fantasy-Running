@@ -19,6 +19,7 @@ public class Home : MonoBehaviour
             playButton.onClick.AddListener(HandlePlayButton);
         if (totalCoinsBox)
             totalCoinsBox.gameObject.SetActive(true);
+        
 
         ///////////////////////////////
 
@@ -26,11 +27,12 @@ public class Home : MonoBehaviour
     }
     private void Start()
     {
+        SoundManager.Instance.PlayMusic(SoundType.Background);
         this.UpdateTotalCoins();
     }
     private void HandlePlayButton()
     {
-        SoundManager.Instance.PlaySFX(SoundType.ButtonClick);
+       
         OnPlayPressed?.Invoke();
         UIManager.Instance.ShowUI(UIName.GameplayUI);
         UIManager.Instance.HideUI(UIName.MainMenu);

@@ -5,7 +5,13 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     private Dictionary<UIName, GameObject> activeUIs = new Dictionary<UIName, GameObject>();
-    [SerializeField] private Transform uiRoot; 
+    [SerializeField] private Transform uiRoot;
+    public bool check = true;
+    public bool Check
+    {
+        get => check;          // Lấy giá trị (giống getter)
+        set => check = value;  // Gán giá trị mới (giống setter)
+    }
     protected override void Awake()
     {
         base.Awake();

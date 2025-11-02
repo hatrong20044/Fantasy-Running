@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.2, z: 3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.15, y: 1.15, z: 1.15}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6322303746499158863}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995308c1d5f24ff49ac0dbcb055b5344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 1
+  rotateSpeed: 2
   coinFX: {fileID: 0}
 --- !u!1001 &5780348955368440996
 PrefabInstance:
@@ -185,6 +185,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 0be988bdf3c6bc240b6d75e184ce2890, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 30f70d7abb2ff924ba3fa8fbc76bc0dd, type: 2}
     - target: {fileID: 919132149155446097, guid: 0be988bdf3c6bc240b6d75e184ce2890, type: 3}
       propertyPath: m_Name
       value: Coin

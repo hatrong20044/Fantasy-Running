@@ -52,6 +52,10 @@ public class SoundManager : Singleton<SoundManager>
             sfxSource.PlayOneShot(clip);
         else
             Debug.LogWarning($"[SoundManager] Sound not found: {type}");
+        if (PlayerPrefs.HasKey(GameSetting.SFX_VOLUME))
+        {
+            this.SetSFXVolume(PlayerPrefs.GetFloat(GameSetting.SFX_VOLUME));
+        }
     }
 
     // --- Play Music ---
@@ -65,6 +69,20 @@ public class SoundManager : Singleton<SoundManager>
         }
         else
             Debug.LogWarning($"[SoundManager] Music not found: {type}");
+        if (PlayerPrefs.HasKey(GameSetting.MUSIC_VOLUME))
+        {
+            this.SetMusicVolume(PlayerPrefs.GetFloat(GameSetting.MUSIC_VOLUME));
+        }
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        this.musicSource.volume = Mathf.Clamp01(volume);
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        this.sfxSource.volume = Mathf.Clamp01(volume);
     }
 
 

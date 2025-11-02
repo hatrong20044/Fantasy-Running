@@ -61,16 +61,26 @@ public class Player : MonoBehaviour,IPausable
     }
     private void OnEnable()
     {
-        Home.OnPlayPressed += StartRunFromUI;
-        Home.OnPlayPressed += RotateToForward; 
+        //Home.OnPlayPressed += StartRunFromUI;
+        //Home.OnPlayPressed += RotateToForward; 
+       
+        Home.OnPlayPressed += HandleStartGame;
+        EventManager.Instance.OnGameStarted += HandleStartGame;
         if (PauseManager.Instance != null)
             PauseManager.Instance.Register(this);
     }
-
+    public void HandleStartGame()
+    {
+        this.StartRunFromUI();
+        this.RotateToForward();
+        
+    }
     private void OnDisable()
     {
-        Home.OnPlayPressed -= StartRunFromUI;
-        Home.OnPlayPressed -= RotateToForward;
+        //Home.OnPlayPressed -= StartRunFromUI;
+        //Home.OnPlayPressed -= RotateToForward;
+        Home.OnPlayPressed -= HandleStartGame;
+        EventManager.Instance.OnGameStarted -= HandleStartGame;
         if(PauseManager.Instance != null)
             PauseManager.Instance.Unregister(this);
     }
@@ -78,6 +88,7 @@ public class Player : MonoBehaviour,IPausable
 
     private void Start()
     {
+        
         controller = GetComponent<CharacterController>();
         capsuleCollider = GetComponent<CapsuleCollider>();
 
@@ -373,7 +384,7 @@ public class Player : MonoBehaviour,IPausable
         currentAnim = animName;
         Anim.CrossFadeInFixedTime(animName, 0.1f);
     }
-    public void OnPause()
+    public void OnPause()   
     {
         isPaused = true;
         if (Anim != null) Anim.speed = 0;
