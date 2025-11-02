@@ -8,7 +8,7 @@ public class GetCoins : MonoBehaviour
     [SerializeField] private RectTransform coinStartPosition;
     [SerializeField] private RectTransform coinEndPosition;
     [SerializeField] private GameObject coinPrefab;
-    [SerializeField] private GameObject coinParticalEffect;
+    //[SerializeField] private GameObject coinParticalEffect;
     [SerializeField] private CoinManager coinManager;
 
     private ParticleSystem coinParticle;
@@ -35,9 +35,9 @@ public class GetCoins : MonoBehaviour
             null,
             out worldPos
         );
-        coinParticalEffect.transform.position = worldPos;
+        //coinParticalEffect.transform.position = worldPos;
         Debug.Log("Set particle effect position to: " + endPos); 
-        coinParticle = coinParticalEffect.GetComponent<ParticleSystem>();
+        //coinParticle = coinParticalEffect.GetComponent<ParticleSystem>();
 
         for (int i = 0; i < coinCount; i++)
         {

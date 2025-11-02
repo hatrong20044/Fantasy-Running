@@ -54,7 +54,6 @@ public class PlayerCollision : MonoBehaviour
 
     IEnumerator ShowWarning()
     {
-        
         yield return new WaitForSeconds(1f);
         UIManager.Instance.ShowUI(UIName.GameOver);
     } 

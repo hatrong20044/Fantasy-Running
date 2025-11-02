@@ -108,8 +108,6 @@ public class Chest : MonoBehaviour
         {     
             OnCorrectAnswer(player);
             getCoins.RewardCoins(); 
-
-
         }
         else
             OnWrongAnswer(player);
