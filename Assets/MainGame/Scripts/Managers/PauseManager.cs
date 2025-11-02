@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ public class PauseManager : Singleton<PauseManager>
     }
     public void Register(IPausable obj)
     {
-        if (!pausables.Contains(obj))
+        if (!pausables.Contains(obj))   
             pausables.Add(obj);
     }
 
@@ -38,7 +37,7 @@ public class PauseManager : Singleton<PauseManager>
 
         IsPaused = false;
         Time.timeScale = 1f;
-
+            
         foreach (var p in pausables)
             p.OnResume();
     }

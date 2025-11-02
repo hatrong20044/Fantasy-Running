@@ -11,6 +11,7 @@ public class EventManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            
         }
         else
         {
@@ -20,6 +21,8 @@ public class EventManager : MonoBehaviour
     public event Action<GameObject> OnCoinCollected;
 
     public event Action<GameObject> OnPlayerCollided;
+
+    public event Action OnGameStarted;
     public void CoinCollected(GameObject coin)
     {
         OnCoinCollected?.Invoke(coin);
@@ -28,6 +31,11 @@ public class EventManager : MonoBehaviour
     public void PlayerCollided(GameObject player)
     {
         OnPlayerCollided?.Invoke(player);
+    }
+
+    public void GameStarted()
+    {
+        OnGameStarted?.Invoke();
     }
 
     

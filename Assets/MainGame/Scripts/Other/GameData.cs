@@ -9,6 +9,9 @@ public class GameData : MonoBehaviour
 
     [Header("Coin")]
     [SerializeField] private int totalCoins = 15000;
+
+    [Header("UserName")]
+    [SerializeField] private string userName = "You";
     private void Awake()
     {
         if (Instance == null)
@@ -24,10 +27,12 @@ public class GameData : MonoBehaviour
     private void LoadData()
     {
         totalCoins = PlayerPrefs.GetInt(GameSetting.COINS_KEY, 0);
+        userName = PlayerPrefs.GetString(GameSetting.USER_NAME);
     }
     private void Reset()
     {
         PlayerPrefs.SetInt(GameSetting.COINS_KEY, totalCoins);
+        PlayerPrefs.SetString(GameSetting.USER_NAME, userName);
     }
     public int ToTalCoins
     {
@@ -39,5 +44,17 @@ public class GameData : MonoBehaviour
             PlayerPrefs.Save();
 
         }
+    }
+
+    public string UserName
+    {
+        get => this.userName;
+        set
+        {
+            userName = value;
+            PlayerPrefs.SetString (GameSetting.USER_NAME, userName);
+            PlayerPrefs.Save();
+        }
+
     }
 }

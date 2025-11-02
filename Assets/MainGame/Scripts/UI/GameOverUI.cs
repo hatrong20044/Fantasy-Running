@@ -1,15 +1,17 @@
 ﻿
+using HighScoreSaving;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
 {
-    public static event System.Action OnPlayPressed;
+
     [SerializeField] private Image gameOverBox;
     [SerializeField] private Button closeBtn;
     [SerializeField] private TMPro.TMP_Text score;
     [SerializeField] private TMPro.TMP_Text coins;
+    [SerializeField] private HighScoreUI table;
 
     private void Awake()
     {
@@ -26,17 +28,26 @@ public class GameOverUI : MonoBehaviour
 
     public void HandleCloseButton()
     {
-        OnPlayPressed?.Invoke();
+
         GameData.Instance.ToTalCoins += CoinManager.Instance.Coins;
         // ✅ Load lại scene hiện tại
         UIManager.Instance.HideAllUI();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        PauseManager.Instance.ResumeAll();
         
+    }
+
+    public void OpneGameOverUI()
+    {
+        UIManager.Instance.ShowUI(UIName.GameOver);
     }
 
     public void DisplayResult()
     {
-        this.score.text = "Score: " + Mathf.FloorToInt(PlayerProgress.Instance.DistanceTravelled).ToString();
+        int scoreCur = Mathf.FloorToInt(PlayerProgress.Instance.DistanceTravelled);
+        this.score.text = "Score: " + scoreCur.ToString();
         this.coins.text = "Coins: " + CoinManager.Instance.Coins.ToString();
+        this.table.UpdateTable(scoreCur);
+        this.table.DisplayTable();
     }
 }

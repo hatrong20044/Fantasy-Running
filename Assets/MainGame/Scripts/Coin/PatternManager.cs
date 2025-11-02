@@ -49,12 +49,12 @@ public class PatternManager : MonoBehaviour
         }
     }
 
-    public Vector3[] VerticalPosition(int index)
+    public Vector3[] VerticalPosition(float lane, int index)
     {
         Vector3[] pos = new Vector3[index];
         for(int i = 0; i < index; i++)
         {
-            pos[i] = new Vector3(0,1, i * coinSpacing);
+            pos[i] = new Vector3(lane, 1, i * coinSpacing);
         }
         return pos;
     }
@@ -64,8 +64,12 @@ public class PatternManager : MonoBehaviour
         for (int i = minVertical; i <= maxVertical; i++)
         {
             string namePattern = "Vertical" + i;
-            Vector3[] pos = VerticalPosition(i);
-            patterns.Add(new CoinPattern { namePattern = namePattern, positions = pos });
+            Vector3[] posLeft = VerticalPosition(-laneDistance,i);
+            Vector3[] posMid = VerticalPosition(0, i);
+            Vector3[] posRight = VerticalPosition(laneDistance, i);
+            patterns.Add(new CoinPattern { namePattern = namePattern, positions = posLeft});
+            patterns.Add(new CoinPattern { namePattern = namePattern, positions = posMid });
+            patterns.Add(new CoinPattern { namePattern = namePattern, positions = posRight });
         }    
     }
 
@@ -102,12 +106,23 @@ public class PatternManager : MonoBehaviour
         patterns.Add(new CoinPattern
         {
             namePattern = "Parabola5",
-            positions = CalculateParabolaPositions(6, false)
+            positions = CalculateParabolaPositions(6, laneDistance)
         });
+        patterns.Add(new CoinPattern
+        {
+            namePattern = "Parabola5",
+            positions = CalculateParabolaPositions(6, 0)
+        });
+        patterns.Add(new CoinPattern
+        {
+            namePattern = "Parabola5",
+            positions = CalculateParabolaPositions(6, -laneDistance)
+        });
+
     }
 
     // Tính tọa độ coin theo quỹ đạo parabol khớp với nhảy của player
-    private Vector3[] CalculateParabolaPositions(int coinCount, bool zigzagLanes = false)
+    private Vector3[] CalculateParabolaPositions(int coinCount, float lane)
     {
         Vector3[] pos = new Vector3[coinCount];
 
@@ -128,7 +143,7 @@ public class PatternManager : MonoBehaviour
             float z = forwardSpeedWithBoost * t;
 
             // Tính X: Cố định X = 0 hoặc xen kẽ các lane (-laneDistance, 0, laneDistance)
-            float x = zigzagLanes ? (i % 3 == 0 ? -laneDistance : i % 3 == 1 ? 0 : laneDistance) : 0;
+            float x = lane;
 
             pos[i] = new Vector3(x, y, z);
         }

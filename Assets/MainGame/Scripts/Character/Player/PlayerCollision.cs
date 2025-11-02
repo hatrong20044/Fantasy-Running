@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerCollision : MonoBehaviour
 {
+    public float warningDuration; // 1.0f
     private Player player;
     private void Start()
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class GameSetting : MonoBehaviour
@@ -17,6 +18,9 @@ public class GameSetting : MonoBehaviour
  public const string COINS_KEY = "Coins";
  public const string NEXT_REWARD_INDEX = "Next_Reward_Index";
     public const string TIMEDATE_REWARD_DELAY = "TimeDate_Reward_Delay";
+    public const string MUSIC_VOLUME = "Music_Volume";
+    public const string SFX_VOLUME = "Sfx_Volume";
+    public const string USER_NAME = "User_Name";
 
     [Header("Slide Settings")]
     public float slideDuration = 1f;
@@ -54,4 +58,5 @@ public class GameSetting : MonoBehaviour
     public float SlideCenter => slideCenter;
     public List<string> ActiveObstacles => this.activeObstacles;
 
+   
 }
