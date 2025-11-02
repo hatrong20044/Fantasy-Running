@@ -105,7 +105,6 @@ GameObject:
   - component: {fileID: 7258221776863671040}
   - component: {fileID: 1433692796841414018}
   - component: {fileID: 566065662889741552}
-  - component: {fileID: 1967155986706910148}
   m_Layer: 0
   m_Name: wooden winter house (1)
   m_TagString: Untagged
@@ -180,27 +179,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1967155986706910148
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7993167480630494627}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 6.7940216, y: 6.013757, z: 7.293303}
-  m_Center: {x: -0.008659363, y: 3.0068786, z: -0.03447938}
 --- !u!1001 &5849112060511018761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -257,7 +235,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: garland
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1322604427845131369, guid: 52286ccdc1a3ac249b351fcec07eb088, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

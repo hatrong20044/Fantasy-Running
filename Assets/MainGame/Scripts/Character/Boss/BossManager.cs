@@ -35,13 +35,11 @@ public class BossManager : MonoBehaviour
         instance = this;
         if (player != null)
             progress = player.GetComponent<PlayerProgress>();
-
-        UpdateNextBoss();
     }
 
     private void Start()
     {
-        
+        UpdateNextBoss();
     }
 
     private void Update()
@@ -57,12 +55,10 @@ public class BossManager : MonoBehaviour
     }
 
     private IEnumerator SpawnBossRoutine(BossSpawnInfo info)
-    {
-        isSpawningOrActive = true;
-        
+    {   
         if (info.spawnDelay > 0f)
             yield return new WaitForSeconds(info.spawnDelay);
-
+        isSpawningOrActive = true;
         currentBoss = Instantiate(info.bossPrefab);
         currentBoss.Init(player);
 
@@ -120,7 +116,6 @@ public class BossManager : MonoBehaviour
                 }
                 float dist = player.transform.position.z;
                 triggerDistance = bossList[currentIndex].nextBossDistance + dist;
-                Debug.Log(triggerDistance);
                 SkillSpawner.Instance.setZ(triggerDistance);
             }
         }

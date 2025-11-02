@@ -40,4 +40,9 @@ public class RunWarnning : MonoBehaviour
             yield return new WaitForSeconds(blinkInterval); // Chờ thời gian được tính
         }
     }
+
+    public void SetTimeWarning(float time)
+    {
+        warningDuration = time;
+    }
 }

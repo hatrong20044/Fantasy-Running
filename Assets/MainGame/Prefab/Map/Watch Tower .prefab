@@ -105,7 +105,6 @@ GameObject:
   - component: {fileID: 919478573351389125}
   - component: {fileID: 8194915622281382030}
   - component: {fileID: 2278233321342732923}
-  - component: {fileID: 4219637444504515521}
   m_Layer: 0
   m_Name: 'Watch Tower '
   m_TagString: Untagged
@@ -184,28 +183,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4219637444504515521
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3398594803707656948}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3617646653054846261, guid: 593d4f7dc5f444843b2b02f101b56b8c, type: 3}
 --- !u!1 &5527125822983603787
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +476,6 @@ GameObject:
   - component: {fileID: 5753675344323922841}
   - component: {fileID: 8551563122849000567}
   - component: {fileID: 2713693638913223635}
-  - component: {fileID: 4329024726284900332}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -572,27 +548,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4329024726284900332
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8005793142016855389}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &620762594508861689
 PrefabInstance:
   m_ObjectHideFlags: 0

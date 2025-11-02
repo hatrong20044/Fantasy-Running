@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3977550762127369647}
-  - component: {fileID: 5209467254968255994}
   m_Layer: 0
   m_Name: UCP_Tree_01_winter_Mesh_1
   m_TagString: Untagged
@@ -32,29 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4140088513819049356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &5209467254968255994
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802995268289955994}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.99999964
-  m_Height: 4.4354744
-  m_Direction: 1
-  m_Center: {x: 0.00000032782555, y: 1.2177373, z: 0.00000032782555}
 --- !u!1 &3342453201300255808
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +209,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5159532347924885726}
-  - component: {fileID: -1688470140510572834}
   m_Layer: 0
   m_Name: UCP_Tree_01_winter_Mesh_2
   m_TagString: Untagged
@@ -256,26 +231,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4140088513819049356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &-1688470140510572834
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6466508344282842215}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.9999996
-  m_Height: 3.900046
-  m_Direction: 1
-  m_Center: {x: 0.00000032782552, y: 0.9500231, z: 0.00000032782552}

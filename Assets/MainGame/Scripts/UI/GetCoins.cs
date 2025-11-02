@@ -1,21 +1,21 @@
 ﻿using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-
 public class GetCoins : MonoBehaviour
 {
-    [SerializeField] private Camera UICamera;
+    [Header("UI References")]
     [SerializeField] private RectTransform coinStartPosition;
     [SerializeField] private RectTransform coinEndPosition;
-    [SerializeField] private RectTransform coinBox;
-    [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private GameObject coinPrefab;
     [SerializeField] private GameObject coinParticalEffect;
+    [SerializeField] private CoinManager coinManager;
 
     private ParticleSystem coinParticle;
+    //void Start()
+    //{
+    //   RewardCoins();
+    //}
 
     public void RewardCoins()
     {
@@ -23,59 +23,71 @@ public class GetCoins : MonoBehaviour
         float delayIncrement = 0.1f;
         float incrementZ = -1;
 
-        Vector3 startPos = ConvertUIToWorldPosition(coinStartPosition);
-        Vector3 endPos = ConvertUIToWorldPosition(coinEndPosition);
+        // ✅ Canvas Overlay không có camera → dùng trực tiếp position trong canvas space
+        Vector3 startPos = coinStartPosition.position;
+        Vector3 endPos = coinEndPosition.position;
 
-        coinParticalEffect.transform.position = endPos;
+        // Hiệu ứng hạt
+        Vector3 worldPos;
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(
+            coinEndPosition,
+            RectTransformUtility.WorldToScreenPoint(null, coinEndPosition.position),
+            null,
+            out worldPos
+        );
+        coinParticalEffect.transform.position = worldPos;
+        Debug.Log("Set particle effect position to: " + endPos); 
         coinParticle = coinParticalEffect.GetComponent<ParticleSystem>();
+
         for (int i = 0; i < coinCount; i++)
         {
-            SpawnCoin(startPos,endPos,ref delayIncrement, ref incrementZ);
+            SpawnCoin(startPos, endPos, ref delayIncrement, ref incrementZ);
         }
     }
 
     private void SpawnCoin(Vector3 startPos, Vector3 endPos, ref float delayIncrement, ref float incrementZ)
     {
-        GameObject coin = Instantiate(coinPrefab, startPos, Quaternion.identity);
+        GameObject coin = Instantiate(coinPrefab, startPos, Quaternion.identity, transform);
         Vector3 prefabOriginalScale = coinPrefab.transform.localScale;
-        Vector3 spawnPosition = startPos + new Vector3(Random.Range(-0.6f, 0.6f), Random.Range(-0.7f, 0.7f), incrementZ);
+
+        Vector3 spawnPosition = startPos + new Vector3(Random.Range(-60f, 60f), Random.Range(-70f, 70f), 0);
         coin.transform.localScale = Vector3.zero;
-        coin.transform.DORotate(new Vector3(0, 360, 0), 0.8f,RotateMode.FastBeyond360)
-            .SetEase(Ease.Flash).SetLoops(-1, LoopType.Incremental).SetDelay(delayIncrement);
+
+        // ✅ Vì đang trong UI nên đảm bảo có RectTransform
+        RectTransform coinRect = coin.GetComponent<RectTransform>();
+        if (coinRect == null)
+            coinRect = coin.AddComponent<RectTransform>();
+
+        // Animation bay
         Sequence coinSequence = DOTween.Sequence();
-        coinSequence.Append(coin.transform.DOScale(prefabOriginalScale, 0.5f).SetEase(Ease.OutQuad).SetDelay(delayIncrement))
-        .Join(coin.transform.DOMove(spawnPosition, 0.5f).SetEase(Ease.InSine).SetDelay(delayIncrement))
-        .Append(coin.transform.DOMove(endPos, 0.2f).SetEase(Ease.InQuad))
-        .AppendCallback(() => OnCoinReached(coin));
+        coinSequence.Append(coinRect.DOScale(prefabOriginalScale, 0.5f).SetEase(Ease.OutQuad).SetDelay(delayIncrement))
+                    .Join(coinRect.DOMove(spawnPosition, 0.5f).SetEase(Ease.InSine).SetDelay(delayIncrement))
+                    .Append(coinRect.DOMove(endPos, 0.3f).SetEase(Ease.InQuad))
+                    .AppendCallback(() => OnCoinReached(coin));
+
         delayIncrement += 0.04f;
         incrementZ -= 0.02f;
-
-
     }
 
     private void OnCoinReached(GameObject coin)
     {
         if (coin == null) return;
-        Transform coinboxTranform = coin.transform;
+
+        if (coinParticle != null)
+        Debug.Log("Play coin particle effect not null");
         coinParticle.Play();
-        coinboxTranform.DOKill();
-        
-        coinboxTranform.localScale = Vector3.one;
-        coinboxTranform.DOPunchScale(Vector3.one * -0.2f, 0.2f, 10, 1).SetEase(Ease.OutBounce)
-            .OnComplete(() => coinboxTranform.localScale = Vector3.one);
 
-        //int coins = int.Parse(coi)
-        //CoinEvent.Instance.OnCoinCollected.Invoke(coin);
+        Transform coinTransform = coin.transform;
+        coinTransform.DOKill();
 
-        // 👉 Destroy coin sau khi animation xong
+        coinTransform.localScale = Vector3.one;
+        coinTransform.DOPunchScale(Vector3.one * -0.2f, 0.2f, 10, 1)
+                     .SetEase(Ease.OutBounce)
+                     .OnComplete(() => coinTransform.localScale = Vector3.one);
+
+        if (coinManager != null)
+            coinManager.AddCoin(1);
+
         Destroy(coin);
     }
-    private Vector3 ConvertUIToWorldPosition(RectTransform uiElement)
-    {
-        Vector3 screenPos = UICamera.WorldToScreenPoint(uiElement.position);
-        Vector3 worldPos = UICamera.ScreenToWorldPoint(screenPos);
-        worldPos.z = -1;
-        return worldPos;
-    }
-
 }

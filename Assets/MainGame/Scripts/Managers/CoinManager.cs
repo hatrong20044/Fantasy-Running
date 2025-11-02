@@ -6,8 +6,8 @@ using static System.Net.Mime.MediaTypeNames;
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
-    [SerializeField] private int coin = 0;
-    [SerializeField] GameObject coinDisplay;
+    [SerializeField] private int coins = 0;
+  
     private void Awake()
     {
         if (Instance == null)
@@ -23,29 +23,28 @@ public class CoinManager : MonoBehaviour
     private void Start()
     {
         // Đăng kí sự kiện khi thu thập coin
-        CoinEvent.Instance.OnCoinCollected += HandleCoinCollected;
+        EventManager.Instance.OnCoinCollected += HandleCoinCollected;
     }
 
     private void OnDestroy()
     {
         // Hủy đăng kí sự kiện
-        CoinEvent.Instance.OnCoinCollected -= HandleCoinCollected;
+        EventManager.Instance.OnCoinCollected -= HandleCoinCollected;
     }
-    public void AddCoin(int mount = 1)
+    public void AddCoin(int mount)
     {
-        coin += mount;
+        coins += mount;
        
     }   
-    public void DisplayCoin()
-    {
-        coinDisplay.GetComponent<TMPro.TMP_Text>().text = "Coin: " + coin;
-    }
-
 
     public void HandleCoinCollected(GameObject coin)
     {
-        this.AddCoin();
-        this.DisplayCoin();
+        this.AddCoin(1);
+    }
+
+    public int Coins
+    {
+        get { return coins; }
     }
 
 }

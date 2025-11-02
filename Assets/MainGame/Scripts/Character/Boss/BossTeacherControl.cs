@@ -9,7 +9,7 @@ public class BossTeacherControl : BossBase
     public float hoverHeight = 2f;
     public float spawnDistanceAhead = 25f;
     public float followDistance = 10f;
-    public float riseUpSmoothTime = 0.8f;
+    public float riseUpSmoothTime = 0.2f;
     public float preSpawnWarningTime = 1f;
     public float followSmooth = 5f;
 
@@ -102,7 +102,7 @@ public class BossTeacherControl : BossBase
             transform.position = fixedSpawnPosition + Vector3.up * currentY;
             transform.LookAt(player.position + Vector3.up * 1.5f);
 
-            if (Mathf.Abs(currentY - hoverHeight) < 0.05f)
+            if (Mathf.Abs(currentY - hoverHeight) < 1f)
             {
                 currentY = hoverHeight;
                 hasRisen = true;
@@ -128,8 +128,9 @@ public class BossTeacherControl : BossBase
             transform.LookAt(player.position + Vector3.up * 1.5f);
             yield return null;
         }
-    }
 
+    }
+   
     // =========================================================
     // 🎯 BOSS ATTACK LOOP
     // =========================================================

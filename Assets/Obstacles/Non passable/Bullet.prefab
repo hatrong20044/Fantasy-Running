@@ -94,8 +94,8 @@ GameObject:
   - component: {fileID: 8130343213799928183}
   - component: {fileID: 6441102266169362526}
   - component: {fileID: 2548299477847126779}
-  - component: {fileID: 8974495507075150881}
   - component: {fileID: 5296155286238977173}
+  - component: {fileID: 8974495507075150881}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e95f0f6aa06b7549adc9617f163ec2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flightDuration: 1.25
+  flightDuration: 2
   height: 3
 --- !u!114 &2548299477847126779
 MonoBehaviour:
@@ -148,6 +148,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subType: 0
+--- !u!114 &5296155286238977173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5435836295063818219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c65ffc9de3805e84992e6272c9e0678b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefab: {fileID: 2433282508523890284, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
 --- !u!54 &8974495507075150881
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -175,19 +188,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5296155286238977173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5435836295063818219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c65ffc9de3805e84992e6272c9e0678b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectPrefab: {fileID: 2433282508523890284, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
 --- !u!1 &6911010566670498363
 GameObject:
   m_ObjectHideFlags: 0
