@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.08035561, g: 0.09974871, b: 0.3011409, a: 1}
+  m_IndirectSpecularColor: {r: 0.08046272, g: 0.09985325, b: 0.30124953, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6141,16 +6141,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossList:
+  - bossPrefab: {fileID: 356409367}
+    nextBossDistance: 100
+    spawnDelay: 0
+    activeTime: 10000
+    persistUntilDefeated: 0
   - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
     nextBossDistance: 100
     spawnDelay: 0
     activeTime: 50
     persistUntilDefeated: 1
-  - bossPrefab: {fileID: 356409367}
-    nextBossDistance: 100
-    spawnDelay: 0
-    activeTime: 10
-    persistUntilDefeated: 0
   - bossPrefab: {fileID: 3514484034724958994, guid: 56314a6aca78b92478b6d56ca8d690e5, type: 3}
     nextBossDistance: 100
     spawnDelay: 0

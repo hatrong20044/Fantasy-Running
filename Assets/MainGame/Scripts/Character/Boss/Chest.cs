@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class Chest : MonoBehaviour
 {
@@ -20,11 +21,9 @@ public class Chest : MonoBehaviour
     private float spawnTime;
     private bool hasBeenSelected = false;
     private static bool isAnyChestSelected = false;
+
+    [Header("Coin Reward")]
     [SerializeField] private GetCoins getCoins;
-
-
-
-
 
     // 🔧 FIX: Public method để reset flag
     public static void ResetSelectionFlag()
@@ -105,28 +104,63 @@ public class Chest : MonoBehaviour
         Debug.Log($"💥 Player chọn: {answerContent} (Lane: {GetLaneName()})");
 
         if (isCorrectAnswer)
-        {     
+        {
             OnCorrectAnswer(player);
-            getCoins.RewardCoins(); 
         }
         else
+        {
             OnWrongAnswer(player);
+        }
 
         DisableAllChestsInWave();
     }
 
     private void OnCorrectAnswer(GameObject player)
     {
-        Debug.Log($"Đúng - {answerContent}");
+        Debug.Log($"✅ Đúng - {answerContent}");
 
         BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
         if (boss != null)
             boss.OnChestSelected();
+
+        // 🔧 FIX: Tìm GetCoins nếu chưa có reference
+        if (getCoins == null)
+        {
+            getCoins = FindObjectOfType<GetCoins>();
+            if (getCoins == null)
+            {
+                Debug.LogError("❌ Không tìm thấy GetCoins trong scene!");
+                return;
+            }
+        }
+
+        // ⏱️ Delay để đảm bảo UI đã sẵn sàng
+        StartCoroutine(SpawnCoinsDelayed());
+    }
+
+    private IEnumerator SpawnCoinsDelayed()
+    {
+        yield return new WaitForSeconds(0.1f); // Chờ 1 frame
+
+        if (getCoins == null)
+        {
+            getCoins = FindObjectOfType<GetCoins>();
+        }
+
+        if (getCoins != null)
+        {
+            Debug.Log("🪙 Calling RewardCoins...");
+            getCoins.RewardCoins();
+        }
+        else
+        {
+            Debug.LogError("❌ GetCoins not found after search!");
+        }
     }
 
     private void OnWrongAnswer(GameObject player)
     {
-        Debug.Log($" Sai - {answerContent}");
+        Debug.Log($"❌ Sai - {answerContent}");
 
         BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
         if (boss != null)
