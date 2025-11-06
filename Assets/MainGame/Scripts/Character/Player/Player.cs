@@ -135,8 +135,19 @@ public class Player : MonoBehaviour,IPausable
             {
                 ChangeAnim("Run");
             }
+            if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || swipeUp))
+            {
+                if (isSliding)
+                {
+                    
+                    EndSlide();
+                }
 
-           
+                verticalVelocity = jumpForce;
+                isJumping = true;
+                ChangeAnim("Jump");
+            }
+
             if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || swipeUp) && !isSliding)
             {
                 verticalVelocity = jumpForce;
