@@ -1,8 +1,6 @@
 ﻿
 using System.Collections;
 using UnityEngine;
-
-
 public class GameManager : MonoBehaviour
 {
     private void Start()
@@ -29,6 +27,11 @@ public class GameManager : MonoBehaviour
         yield return null;
         EventManager.Instance.GameStarted();
         
+    }
+
+    public void PlaySFX()
+    {
+        SoundManager.Instance.PlaySFX(SoundType.ButtonClick);
     }
 }
 

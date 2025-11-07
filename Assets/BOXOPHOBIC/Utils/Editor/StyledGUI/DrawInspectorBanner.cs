@@ -83,7 +83,7 @@ namespace Boxophobic.StyledGUI
 
             var fullRect = GUILayoutUtility.GetRect(0, 0, 36, 0);
             var fillRect = new Rect(0, fullRect.position.y, fullRect.xMax + 3, 36);
-            var subRect = new Rect(0, fullRect.position.y - 2, fullRect.xMax, 36);
+            var subRect = new Rect(0, fullRect.position.y, fullRect.xMax - 5, 36);
             var lineRect = new Rect(0, fullRect.position.y, fullRect.xMax + 3, 1);
 
             if (EditorGUIUtility.isProSkin)
@@ -101,7 +101,7 @@ namespace Boxophobic.StyledGUI
             Color guiColor = Constant.ColorDarkGray;
 
             GUI.Label(fullRect, "<size=16><color=#" + ColorUtility.ToHtmlStringRGB(guiColor) + ">" + title + "</color></size>", titleStyle);
-            GUI.Label(subRect, "<size=10><color=#808080>" + subtitle + "</color></size>", subTitleStyle);
+            GUI.Label(subRect, "<b><size=11><color=#" + ColorUtility.ToHtmlStringRGB(guiColor) + ">" + subtitle + "</color></size></b>", subTitleStyle);
 
             GUILayout.Space(10);
         }
@@ -124,7 +124,7 @@ namespace Boxophobic.StyledGUI
 
             var fullRect = GUILayoutUtility.GetRect(0, 0, 36, 0);
             var fillRect = new Rect(0, fullRect.position.y, fullRect.xMax + 3, 36);
-            var subRect = new Rect(0, fullRect.position.y - 2, fullRect.xMax, 36);
+            var subRect = new Rect(0, fullRect.position.y, fullRect.xMax - 5, 36);
             var lineRect = new Rect(0, fullRect.position.y, fullRect.xMax + 3, 1);
 
             Color color;
@@ -145,7 +145,7 @@ namespace Boxophobic.StyledGUI
             EditorGUI.DrawRect(lineRect, Constant.LineColor);
 
             GUI.Label(fullRect, "<size=16><color=#" + ColorUtility.ToHtmlStringRGB(guiColor) + ">" + title + "</color></size>", titleStyle);
-            GUI.Label(subRect, "<size=10><color=#808080>" + subtitle + "</color></size>", subTitleStyle);
+            GUI.Label(subRect, "<b><size=11><color=#" + ColorUtility.ToHtmlStringRGB(guiColor) + ">" + subtitle + "</color></size></b>", subTitleStyle);
 
             GUILayout.Space(10);
         }

@@ -46,7 +46,7 @@ public class CameraFollow : MonoBehaviour
         transform.position = localOffset;
 
         // 3. Đặt góc quay tự do (x, y, z)
-        transform.rotation = Quaternion.Euler(10f, 51f, 0f);
+        transform.rotation = Quaternion.Euler(10.67f, 67.1f, -0.289f);
     }
 
 

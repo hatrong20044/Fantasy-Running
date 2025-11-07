@@ -30,7 +30,7 @@ namespace DailyRewardSystem {
         [Space]
         [Header("Timing")]
         [SerializeField] private float nextRewardDelay = 1f;
-        [SerializeField] public float checkInterval = 2f;
+        [SerializeField] public float checkInterval = 300f;
        
         private int nextRewardIndex;
 
@@ -87,6 +87,7 @@ namespace DailyRewardSystem {
             
             PlayerPrefs.SetString(GameSetting.TIMEDATE_REWARD_DELAY, DateTime.Now.ToString());
             PlayerPrefs.SetInt(GameSetting.NEXT_REWARD_INDEX, nextRewardIndex);
+            PlayerPrefs.Save();
         }
         public void UpdateCoinsTextUI()
         {
@@ -171,6 +172,7 @@ namespace DailyRewardSystem {
             if (string.IsNullOrEmpty(PlayerPrefs.GetString(GameSetting.TIMEDATE_REWARD_DELAY)))
             {
                 PlayerPrefs.SetString(GameSetting.TIMEDATE_REWARD_DELAY, DateTime.Now.ToString());
+                PlayerPrefs.Save();
             }
         }
     }

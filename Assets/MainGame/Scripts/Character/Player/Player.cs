@@ -363,7 +363,7 @@ public class Player : MonoBehaviour,IPausable
     private void StartRunFromUI()
     {
         SetCanRun(true);
-        currentLane = 0;
+        currentLane = 1;
 
         
         Vector3 pos = transform.position;

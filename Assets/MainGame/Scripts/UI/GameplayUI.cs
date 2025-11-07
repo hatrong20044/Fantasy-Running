@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class GameplayUI : MonoBehaviour
 {
-
     [Header("Boss Warning")]
     [SerializeField] private Image warningImage;
     
@@ -26,7 +25,6 @@ public class GameplayUI : MonoBehaviour
         ///////////////////////////////
 
         baseRight = coinBox.GetComponent<RectTransform>().offsetMax.x;
-
     }
 
     private void Update()
@@ -52,12 +50,6 @@ public class GameplayUI : MonoBehaviour
         if (warningImage != null)
             warningImage.gameObject.SetActive(false);
     }
-    public void OpenShop()
-    {
-        UIManager.Instance.ShowUI(UIName.Shop);
-        UIManager.Instance.HideUI(UIName.GameplayUI);
-    }
-
     public void UpdateGamePlayCoins()
     {
         int coinTmp = CoinManager.Instance.Coins;

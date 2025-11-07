@@ -6,14 +6,12 @@ using UnityEngine.UI;
 
 public class PauseUI : MonoBehaviour
 {
-
-
     [SerializeField] private Image pauseBox;
     [SerializeField] private Image notifiBox;
 
     [SerializeField] private Button yesRestart;
 
-    private void Awake()
+    public void Start()
     {
         pauseBox.gameObject.SetActive(true);
         notifiBox.gameObject.SetActive(false);
@@ -22,31 +20,37 @@ public class PauseUI : MonoBehaviour
     public void OpenPauseUI()
     {
         UIManager.Instance.ShowUI(UIName.Pause);
-    }
-
+    }   
     public void ClosePauseUI()
     {
-        pauseBox.gameObject.SetActive(false);
-        UIManager.Instance.ShowUI(UIName.GameOver);
-    }
+        
+        UIManager.Instance.HideUI(UIName.Pause);
 
+    }
     public void OnClickRestartButton()
     {
         pauseBox.gameObject.SetActive(false);
         notifiBox.gameObject.SetActive(true);  
     }
-    public void HideNotifyBox()
+
+    public void ResumeGame()
     {
-        notifiBox.gameObject.SetActive(false);
+        PauseManager.Instance.ResumeAll();
     }
 
     public void RestartGame()
     {
-        this.HideNotifyBox();
+        this.ClosePauseUI();
         PauseManager.Instance.ResumeAll();
         UIManager.Instance.HideAllUI();
         UIManager.Instance.Check = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void OnResumeButtonClick()
+    {
+        this.ResumeGame();
+        this.ClosePauseUI();
     }
    
 }

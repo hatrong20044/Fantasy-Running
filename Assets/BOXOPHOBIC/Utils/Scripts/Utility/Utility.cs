@@ -319,8 +319,7 @@ namespace Boxophobic.Utility
                 {
                     material.SetVector(internalProp, value);
                 }
-
-                if (mode == 1)
+                else if (mode == 1)
                 {
                     material.SetVector(internalProp, new Vector4(1 / value.x, 1 / value.y, value.z, value.w));
                 }
@@ -358,18 +357,15 @@ namespace Boxophobic.Utility
                 {
                     material.SetVector(valueProp, new Vector4(1, 0, 0, 0));
                 }
-
-                if (mode == 1)
+                else if (mode == 1)
                 {
                     material.SetVector(valueProp, new Vector4(0, 1, 0, 0));
                 }
-
-                if (mode == 2)
+                else if (mode == 2)
                 {
                     material.SetVector(valueProp, new Vector4(0, 0, 1, 0));
                 }
-
-                if (mode == 3)
+                else if (mode == 3)
                 {
                     material.SetVector(valueProp, new Vector4(0, 0, 0, 1));
                 }
@@ -421,6 +417,50 @@ namespace Boxophobic.Utility
                 {
                     material.SetVector(valuePropA, Vector4.zero);
                     material.SetVector(valuePropB, new Vector4(0, 0, 0, 1));
+                }
+            }
+        }
+
+        public static void SetMaterialBackface(Material material, string modeProp, string valueProp)
+        {
+            if (material.HasProperty(modeProp))
+            {
+                // None 0 / Flip 1 / Mirror 2
+                var mode = material.GetInt(modeProp);
+
+                if (mode == 0)
+                {
+                    material.SetVector(valueProp, new Vector4(1, 1, 1, 0));
+                }
+                else if (mode == 1)
+                {
+                    material.SetVector(valueProp, new Vector4(-1, -1, -1, 0));
+                }
+                else if (mode == 2)
+                {
+                    material.SetVector(valueProp, new Vector4(1, 1, -1, 0));
+                }
+            }
+        }
+
+        public static void SetMaterialBackfaceLegacy(Material material, string modeProp, string valueProp)
+        {
+            if (material.HasProperty(modeProp))
+            {
+                // Flip 0 / Mirror 1 / None 2
+                var mode = material.GetInt(modeProp);
+
+                if (mode == 0)
+                {
+                    material.SetVector(valueProp, new Vector4(-1, -1, -1, 0));
+                }
+                else if (mode == 1)
+                {
+                    material.SetVector(valueProp, new Vector4(1, 1, -1, 0));
+                }
+                else if (mode == 2)
+                {
+                    material.SetVector(valueProp, new Vector4(1, 1, 1, 0));
                 }
             }
         }
@@ -751,6 +791,18 @@ namespace Boxophobic.Utility
             }
         }
 
+        public static void SetMaterialKeywordByTexture(Material material, string property, string keyword)
+        {
+            if (IsMaterialTextureUsed(material, property))
+            {
+                material.EnableKeyword(keyword);
+            }
+            else
+            {
+                material.DisableKeyword(keyword);
+            }
+        }
+
         public static float GetMaterialFloat(Material material, string property, float defaultValue)
         {
             float value = defaultValue;
@@ -783,6 +835,33 @@ namespace Boxophobic.Utility
         public static int GetMaterialInt(Material material, string property)
         {
             return GetMaterialInt(material, property, 0);
+        }
+
+        public static Texture GetMaterialTexture(Material material, string property)
+        {
+            Texture value = null;
+
+            if (material.HasTexture(property))
+            {
+                value = material.GetTexture(property);
+            }
+
+            return value;
+        }
+
+        public static bool IsMaterialTextureUsed(Material material, string property)
+        {
+            bool value = false;
+
+            if (material.HasTexture(property))
+            {
+                if (material.GetTexture(property) != null)
+                {
+                    value = true;
+                }
+            }
+
+            return value;
         }
 
         // Math Utils

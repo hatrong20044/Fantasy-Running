@@ -13,20 +13,17 @@ public class HighScoreData : ScriptableObject
             infor.Add(user);
             return;
         }
-        if(user.highScore > infor[infor.Count - 1].highScore)
-        {
-            infor[infor.Count -1] = user;
-            infor.Sort((a, b) => b.highScore.CompareTo(a.highScore));
-        }
-        else
-        {
-            return;
-        }
+        infor.Add(user);
+        infor.Sort((a, b) => b.highScore.CompareTo(a.highScore));
         if(infor.Count > maxCount)
         {
             infor.RemoveRange(maxCount, infor.Count - maxCount);
         }
+    }
 
+    public int count()
+    {
+        return infor.Count;
     }
 
 }

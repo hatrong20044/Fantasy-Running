@@ -19,8 +19,7 @@ public class Home : MonoBehaviour
             playButton.onClick.AddListener(HandlePlayButton);
         if (totalCoinsBox)
             totalCoinsBox.gameObject.SetActive(true);
-        
-
+       
         ///////////////////////////////
 
         baseRight = boxTmp.GetComponent<RectTransform>().offsetMax.x;
@@ -32,7 +31,6 @@ public class Home : MonoBehaviour
     }
     private void HandlePlayButton()
     {
-       
         OnPlayPressed?.Invoke();
         UIManager.Instance.ShowUI(UIName.GameplayUI);
         UIManager.Instance.HideUI(UIName.MainMenu);

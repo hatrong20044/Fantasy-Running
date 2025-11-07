@@ -28,16 +28,15 @@ public class GameOverUI : MonoBehaviour
 
     public void HandleCloseButton()
     {
-
         GameData.Instance.ToTalCoins += CoinManager.Instance.Coins;
         // ✅ Load lại scene hiện tại
+        PauseManager.Instance.ResumeAll();
         UIManager.Instance.HideAllUI();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        PauseManager.Instance.ResumeAll();
         
     }
 
-    public void OpneGameOverUI()
+    public void OpenGameOverUI()
     {
         UIManager.Instance.ShowUI(UIName.GameOver);
     }
@@ -48,6 +47,6 @@ public class GameOverUI : MonoBehaviour
         this.score.text = "Score: " + scoreCur.ToString();
         this.coins.text = "Coins: " + CoinManager.Instance.Coins.ToString();
         this.table.UpdateTable(scoreCur);
-        this.table.DisplayTable();
+        this.table.DisplayContent();
     }
 }
