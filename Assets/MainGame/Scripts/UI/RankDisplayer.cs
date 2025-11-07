@@ -15,7 +15,7 @@ public class RankDisplayer : MonoBehaviour
     public void DisplayResult()
     {
 
-        this.table.DisplayTable();
+        this.table.DisplayContent();    
     }
 
 

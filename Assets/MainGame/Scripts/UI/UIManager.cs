@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
-    private Dictionary<UIName, GameObject> activeUIs = new Dictionary<UIName, GameObject>();
+    [SerializeField] private Dictionary<UIName, GameObject> activeUIs = new Dictionary<UIName, GameObject>();
     [SerializeField] private Transform uiRoot;
     public bool check = true;
     public bool Check

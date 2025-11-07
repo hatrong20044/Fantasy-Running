@@ -15,19 +15,15 @@ MonoBehaviour:
   rewards:
   - Amount: 250
     Day: 1
-    Canvas: {fileID: 1194992548216382100, guid: d153b0e183b5c2940a9008d69aa28ad6, type: 3}
   - Amount: 200
     Day: 2
-    Canvas: {fileID: 6200824287311701521, guid: 3d91235dbc3e55d4599befad56fddd63, type: 3}
   - Amount: 700
     Day: 3
-    Canvas: {fileID: 1449724384106051458, guid: ea6946c6734b7f54897fef89ffee6f50, type: 3}
   - Amount: 250
     Day: 4
-    Canvas: {fileID: 5203171294789000601, guid: 6c224afd1fcbab74087a34ca6cc99561, type: 3}
   - Amount: 500
     Day: 5
-    Canvas: {fileID: 1230440045049029941, guid: 20bacd9ef14ae5742b0f27ade5759679, type: 3}
+  - Amount: 750
+    Day: 6
   - Amount: 1000
     Day: 6
-    Canvas: {fileID: 2528856502372282649, guid: 190f9f1f46ae687408c90f3714717d39, type: 3}

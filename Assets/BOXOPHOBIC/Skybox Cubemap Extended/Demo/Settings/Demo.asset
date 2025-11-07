@@ -156,7 +156,6 @@ MonoBehaviour:
   - {fileID: 114232185289346146}
   - {fileID: 114288678441462590}
   - {fileID: 114964227162046496}
-  - {fileID: -5996071343239400065}
 --- !u!114 &114059884413532516
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1508,6 +1507,9 @@ MonoBehaviour:
   thicknessModifier:
     overrideState: 1
     value: 1
+  zBias:
+    overrideState: 0
+    value: 0.0001
   directLightingStrength:
     overrideState: 1
     value: 0
@@ -1607,13 +1609,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   intensity:
     overrideState: 1
-    value: 2
+    value: 0.28
   threshold:
     overrideState: 1
     value: 1
@@ -1641,7 +1643,7 @@ MonoBehaviour:
     defaultState: 1
   dirtIntensity:
     overrideState: 1
-    value: 1000
+    value: 0
 --- !u!114 &114905349723521868
 MonoBehaviour:
   m_ObjectHideFlags: 3

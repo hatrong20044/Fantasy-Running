@@ -15,8 +15,8 @@ public class GameSetting : MonoBehaviour
     [SerializeField] private float gravity = -20f; 
     [SerializeField] private float jumpForwardBoost = 2f;
     [SerializeField] private List<string> activeObstacles = new List<string>(){"Obstacle", "Obstacle1", "Obstacle2", "Obstacle3", "Obstacle4"};
- public const string COINS_KEY = "Coins";
- public const string NEXT_REWARD_INDEX = "Next_Reward_Index";
+    public const string COINS_KEY = "Coins";
+    public const string NEXT_REWARD_INDEX = "Next_Reward_Index";
     public const string TIMEDATE_REWARD_DELAY = "TimeDate_Reward_Delay";
     public const string MUSIC_VOLUME = "Music_Volume";
     public const string SFX_VOLUME = "Sfx_Volume";
