@@ -14,18 +14,15 @@ public class GetCoins : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"🔍 GetCoins initialized:");
-        Debug.Log($"  - coinStartPosition: {(coinStartPosition != null ? "OK" : "NULL")}");
-        Debug.Log($"  - coinEndPosition: {(coinEndPosition != null ? "OK" : "NULL")}");
-        Debug.Log($"  - coinPrefab: {(coinPrefab != null ? "OK" : "NULL")}");
-        Debug.Log($"  - coinManager: {(coinManager != null ? "OK" : "NULL")}");
+        if (coinManager == null)
+            coinManager = FindObjectOfType<CoinManager>();
     }
 
     public void RewardCoins()
     {
         Debug.Log($"🪙 RewardCoins called - Start: {coinStartPosition?.name}, End: {coinEndPosition?.name}");
 
-        // ✅ KIỂM TRA NULL CHO TẤT CẢ UI REFERENCES TRƯỚC KHI DÙNG
+        // ✅ Kiểm tra null thật sự
         if (coinStartPosition == null)
         {
             Debug.LogError("❌ coinStartPosition is NULL!");
@@ -44,43 +41,30 @@ public class GetCoins : MonoBehaviour
             return;
         }
 
-        // ✅ KIỂM TRA CANVAS
+        // ✅ Kiểm tra Canvas, nhưng KHÔNG return nếu disable (để tránh mất logic khi scene reload)
         Canvas canvas = coinStartPosition.GetComponentInParent<Canvas>();
-        if (canvas == null || !canvas.enabled)
+        if (canvas == null)
         {
-            Debug.LogError("❌ Canvas is disabled or not found!");
-            return;
+            Debug.LogWarning("⚠️ Canvas not found, continue anyway");
+        }
+        else if (!canvas.enabled)
+        {
+            Debug.LogWarning("⚠️ Canvas disabled, continue anyway");
         }
 
-        // ✅ KIỂM TRA GAMEOBJECT CÒN ACTIVE
+        // ✅ Kiểm tra UI active — chỉ cảnh báo, KHÔNG return
         if (!coinStartPosition.gameObject.activeInHierarchy)
-        {
-            Debug.LogWarning("⚠️ coinStartPosition is not active!");
-            return;
-        }
+            Debug.LogWarning("⚠️ coinStartPosition inactive (ignored check)");
 
         if (!coinEndPosition.gameObject.activeInHierarchy)
-        {
-            Debug.LogWarning("⚠️ coinEndPosition is not active!");
-            return;
-        }
+            Debug.LogWarning("⚠️ coinEndPosition inactive (ignored check)");
 
-        int coinCount = Random.Range(10, 12);
+        int coinCount = 10;
         float delayIncrement = 0.1f;
         float incrementZ = -1;
 
-        // Canvas Overlay không có camera → dùng trực tiếp position trong canvas space
         Vector3 startPos = coinStartPosition.position;
         Vector3 endPos = coinEndPosition.position;
-
-        // Hiệu ứng hạt
-        Vector3 worldPos;
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(
-            coinEndPosition,
-            RectTransformUtility.WorldToScreenPoint(null, coinEndPosition.position),
-            null,
-            out worldPos
-        );
 
         Debug.Log($"✅ Spawning {coinCount} coins from {startPos} to {endPos}");
 
@@ -92,7 +76,6 @@ public class GetCoins : MonoBehaviour
 
     private void SpawnCoin(Vector3 startPos, Vector3 endPos, ref float delayIncrement, ref float incrementZ)
     {
-        // ✅ KIỂM TRA TRANSFORM CÒN TỒN TẠI
         if (this == null || transform == null)
         {
             Debug.LogWarning("⚠️ GetCoins transform is destroyed - cannot spawn coin!");
@@ -113,16 +96,13 @@ public class GetCoins : MonoBehaviour
         }
 
         Vector3 prefabOriginalScale = coinPrefab.transform.localScale;
-
         Vector3 spawnPosition = startPos + new Vector3(Random.Range(-60f, 60f), Random.Range(-70f, 70f), 0);
         coin.transform.localScale = Vector3.zero;
 
-        // Vì đang trong UI nên đảm bảo có RectTransform
         RectTransform coinRect = coin.GetComponent<RectTransform>();
         if (coinRect == null)
             coinRect = coin.AddComponent<RectTransform>();
 
-        // Animation bay
         Sequence coinSequence = DOTween.Sequence();
         coinSequence.Append(coinRect.DOScale(prefabOriginalScale, 0.5f).SetEase(Ease.OutQuad).SetDelay(delayIncrement))
                     .Join(coinRect.DOMove(spawnPosition, 0.5f).SetEase(Ease.InSine).SetDelay(delayIncrement))
@@ -139,7 +119,6 @@ public class GetCoins : MonoBehaviour
 
         if (coinParticle != null)
         {
-            Debug.Log("Play coin particle effect");
             coinParticle.Play();
         }
 
@@ -151,7 +130,6 @@ public class GetCoins : MonoBehaviour
         }
 
         coinTransform.DOKill();
-
         coinTransform.localScale = Vector3.one;
         coinTransform.DOPunchScale(Vector3.one * -0.2f, 0.2f, 10, 1)
                      .SetEase(Ease.OutBounce)
@@ -160,13 +138,25 @@ public class GetCoins : MonoBehaviour
                              coinTransform.localScale = Vector3.one;
                      });
 
-        if (coinManager != null)
-            coinManager.AddCoin(1);
+        // ✅ Đảm bảo coinManager tồn tại thật sự
+        if (coinManager == null || coinManager.Equals(null))
+        {
+            coinManager = FindObjectOfType<CoinManager>();
+            if (coinManager == null)
+            {
+                Debug.LogError("❌ Không tìm thấy CoinManager trong scene!");
+                Destroy(coin);
+                return;
+            }
+        }
+
+        Debug.Log("Adding 1 coin to CoinManager");
+        Debug.Log("🧩 CoinManager ref: " + coinManager);
+        coinManager.AddCoin(1);
 
         Destroy(coin);
     }
 
-    // ✅ CLEANUP KHI OBJECT BỊ DESTROY/DISABLE
     private void OnDestroy()
     {
         DOTween.Kill(transform);
