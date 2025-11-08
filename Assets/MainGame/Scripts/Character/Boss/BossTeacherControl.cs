@@ -14,7 +14,7 @@ public class BossTeacherControl : BossBase
     public float followSmooth = 5f;
 
     [Header("Attack Settings")]
-    public ChestSpawner chestSpawner;   // 👉 Tất cả spawn nằm trong đây
+    public ChestSpawner chestSpawner;
     public float firstAttackDelay = 1f;
     public float idleTimeAfterAttack = 15f;
 
@@ -47,7 +47,6 @@ public class BossTeacherControl : BossBase
     private Vector3 fixedSpawnPosition;
     private bool hasSetSpawnPosition = false;
 
-    // 🔧 Lấy GameplayUI an toàn
     private GameplayUI gameplayUI
     {
         get
@@ -67,9 +66,6 @@ public class BossTeacherControl : BossBase
         remainingQuestions = numberQ;
     }
 
-    // =========================================================
-    // 🧍 BOSS RISE BEHAVIOR
-    // =========================================================
     protected override IEnumerator SpawnBehavior()
     {
         yield return new WaitForSeconds(preSpawnWarningTime);
@@ -90,12 +86,10 @@ public class BossTeacherControl : BossBase
             transform.position = fixedSpawnPosition + Vector3.up * undergroundDepth;
         }
 
-        // Hiệu ứng xuất hiện
         ParticleSystem fx = Instantiate(spawnEffect, fixedSpawnPosition, Quaternion.identity);
         fx.Play();
         Destroy(fx.gameObject, 2f);
 
-        // Boss từ từ trồi lên
         while (!hasRisen)
         {
             currentY = Mathf.SmoothDamp(currentY, hoverHeight, ref yVelocity, riseUpSmoothTime);
@@ -117,7 +111,6 @@ public class BossTeacherControl : BossBase
             yield return null;
         }
 
-        // Boss bắt đầu theo dõi player
         while (true)
         {
             Vector3 targetPos = player.position + player.forward * followDistance;
@@ -128,12 +121,8 @@ public class BossTeacherControl : BossBase
             transform.LookAt(player.position + Vector3.up * 1.5f);
             yield return null;
         }
-
     }
-   
-    // =========================================================
-    // 🎯 BOSS ATTACK LOOP
-    // =========================================================
+
     private IEnumerator BossActivity()
     {
         yield return new WaitForSeconds(firstAttackDelay);
@@ -144,7 +133,6 @@ public class BossTeacherControl : BossBase
             Chest.ResetSelectionFlag();
             yield return StartCoroutine(PerformAttack());
 
-            // Chờ player chọn chest
             waitingForChestSelection = true;
             chestWasSelected = false;
 
@@ -163,31 +151,25 @@ public class BossTeacherControl : BossBase
         EndBoss();
     }
 
-    // =========================================================
-    // 💥 TẤN CÔNG: Gọi ChestSpawner để spawn từng phần
-    // =========================================================
-  private IEnumerator PerformAttack()
-{
-    if (isAttacking) yield break;
-    isAttacking = true;
-    ChangeAnim("Spawn");
+    private IEnumerator PerformAttack()
+    {
+        if (isAttacking) yield break;
+        isAttacking = true;
+        ChangeAnim("Spawn");
 
-    Debug.Log("🎯 Boss bắt đầu attack!");
-    
-    chestSpawner.SpawnQuestionGates();
-    chestSpawner.SpawnChestWave();
-    chestSpawner.ShowQuestion();
-    
-    Debug.Log("✅ Đã gọi spawn chest");
+        Debug.Log("🎯 Boss bắt đầu attack!");
 
-    yield return new WaitForSeconds(GetAnimationLength("Spawn"));
-    isAttacking = false;
-    ChangeAnim("Idle");
-}
+        chestSpawner.SpawnQuestionGates();
+        chestSpawner.SpawnChestWave();
+        chestSpawner.ShowQuestion();
 
-    // =========================================================
-    // ✅ KHI PLAYER CHỌN ĐÚNG / SAI
-    // =========================================================
+        Debug.Log("✅ Đã gọi spawn chest");
+
+        yield return new WaitForSeconds(GetAnimationLength("Spawn"));
+        isAttacking = false;
+        ChangeAnim("Idle");
+    }
+
     public void OnChestSelected()
     {
         if (waitingForChestSelection)
@@ -205,9 +187,6 @@ public class BossTeacherControl : BossBase
         chestWasSelected = true;
     }
 
-    // =========================================================
-    // ⚡ HIỆU ỨNG GIẬT ĐIỆN
-    // =========================================================
     public void ElectricShockPlayer(GameObject playerObj)
     {
         Debug.Log("⚡ GIẬT ĐIỆN!");
@@ -239,9 +218,6 @@ public class BossTeacherControl : BossBase
         }
     }
 
-    // =========================================================
-    // 🧩 TIỆN ÍCH & KẾT THÚC
-    // =========================================================
     private IEnumerator ShowGameOverAfterDelay(GameObject playerObj, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -288,7 +264,6 @@ public class BossTeacherControl : BossBase
         canAttack = false;
         StopAllCoroutines();
 
-        // 👉 Destroy gates khi boss kết thúc
         if (chestSpawner != null)
             chestSpawner.DestroyQuestionGates();
 
