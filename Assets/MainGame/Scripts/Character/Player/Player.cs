@@ -47,6 +47,12 @@ public class Player : MonoBehaviour,IPausable
     private Vector2 touchStart;
     private Vector2 touchEnd;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown;
+    [Header("Speed Increase Settings")]
+    public float speedIncreaseRate = 0.1f;   
+    public float distancePerSpeedUp = 50f;   
+    private float nextSpeedUpDistance = 0f;
+    public float maxSpeed = 15f;             
+
     private void Reset()
     {
         forwardSpeed = GameSetting.Instance.ForwardSpeed;
@@ -202,6 +208,18 @@ public class Player : MonoBehaviour,IPausable
 
         moveDirection.y = verticalVelocity;
         controller.Move(moveDirection * Time.deltaTime);
+        // Increase speed over distance
+        if (PlayerProgress.Instance != null && canRun)
+        {
+            float distance = PlayerProgress.Instance.DistanceTravelled;
+
+            if (distance >= nextSpeedUpDistance)
+            {
+                nextSpeedUpDistance += distancePerSpeedUp;
+                forwardSpeed = Mathf.Min(forwardSpeed + speedIncreaseRate, maxSpeed);
+            }
+        }
+
     }
 
     private void HandleSwipe()
