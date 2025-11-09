@@ -12,17 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b26d6e1157a9f94bac2acd75baf66af, type: 3}
   m_Name: HighScoreDB
   m_EditorClassIdentifier: 
-  infor:
-  - userName: You
-    highScore: 426
-  - userName: You
-    highScore: 148
-  - userName: Ongbagiataolo
-    highScore: 72
-  - userName: You
-    highScore: 45
-  - userName: You
-    highScore: 45
-  - userName: You
-    highScore: 38
+  infor: []
   maxCount: 10

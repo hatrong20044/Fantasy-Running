@@ -3232,8 +3232,8 @@ MonoBehaviour:
   - {fileID: 8569289708155696984}
   - {fileID: 5864328924737147103}
   - {fileID: 2351340517740340556}
-  nextRewardDelay: 5
-  checkInterval: 2
+  nextRewardDelay: 1
+  checkInterval: 300
 --- !u!1 &5250945505118757847
 GameObject:
   m_ObjectHideFlags: 0
