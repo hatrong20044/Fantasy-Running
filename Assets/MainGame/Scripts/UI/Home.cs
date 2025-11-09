@@ -34,9 +34,12 @@ public class Home : MonoBehaviour
         OnPlayPressed?.Invoke();
         UIManager.Instance.ShowUI(UIName.GameplayUI);
         UIManager.Instance.HideUI(UIName.MainMenu);
+
+        EventManager.Instance.LockGameplayInput(); 
     }
 
-    
+
+
     public void OpenShop()
     {
         UIManager.Instance.ShowUI(UIName.Shop);

@@ -84,5 +84,7 @@ public class GameplayUI : MonoBehaviour
     public void OnClickResumeButton()
     {
         PauseManager.Instance.ResumeAll();
+        EventManager.Instance.LockGameplayInput(); 
     }
+
 }

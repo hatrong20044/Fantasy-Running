@@ -51,7 +51,10 @@ public class Player : MonoBehaviour,IPausable
     public float speedIncreaseRate = 0.1f;   
     public float distancePerSpeedUp = 50f;   
     private float nextSpeedUpDistance = 0f;
-    public float maxSpeed = 15f;             
+    public float maxSpeed = 15f;
+
+    private float inputLockTimer;
+    private const float INPUT_LOCK_DURATION = 0.2f;
 
     private void Reset()
     {
@@ -69,7 +72,7 @@ public class Player : MonoBehaviour,IPausable
     {
         //Home.OnPlayPressed += StartRunFromUI;
         //Home.OnPlayPressed += RotateToForward; 
-       
+        EventManager.Instance.OnGameplayInputLocked += HandleInputLock;
         Home.OnPlayPressed += HandleStartGame;
         EventManager.Instance.OnGameStarted += HandleStartGame;
         if (PauseManager.Instance != null)
@@ -86,6 +89,7 @@ public class Player : MonoBehaviour,IPausable
         //Home.OnPlayPressed -= StartRunFromUI;
         //Home.OnPlayPressed -= RotateToForward;
         Home.OnPlayPressed -= HandleStartGame;
+        EventManager.Instance.OnGameplayInputLocked -= HandleInputLock;
         EventManager.Instance.OnGameStarted -= HandleStartGame;
         if(PauseManager.Instance != null)
             PauseManager.Instance.Unregister(this);
@@ -115,6 +119,11 @@ public class Player : MonoBehaviour,IPausable
         if (isDead) return;
         if (!canRun) return;
         if (isAttacking) return;
+        if (inputLockTimer > 0f)
+        {
+            inputLockTimer -= Time.deltaTime;
+            return; 
+        }
         HandleSwipe();
         HandleSlide();
 
@@ -221,7 +230,10 @@ public class Player : MonoBehaviour,IPausable
         }
 
     }
-
+    private void HandleInputLock()
+    {
+        inputLockTimer = INPUT_LOCK_DURATION;
+    }
     private void HandleSwipe()
     {
         swipeLeft = swipeRight = swipeUp = swipeDown = false;
