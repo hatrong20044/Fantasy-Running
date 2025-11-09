@@ -29,8 +29,8 @@ namespace DailyRewardSystem {
 
         [Space]
         [Header("Timing")]
-        [SerializeField] private float nextRewardDelay = 1f;
-        [SerializeField] public float checkInterval = 300f;
+        [SerializeField] private double nextRewardDelay = 1f;
+        [SerializeField] private float checkInterval = 300f;
        
         private int nextRewardIndex;
 
@@ -106,13 +106,16 @@ namespace DailyRewardSystem {
             DateTime current = DateTime.Now;
             DateTime lastClaimTime = DateTime.Parse(PlayerPrefs.GetString(GameSetting.TIMEDATE_REWARD_DELAY.ToString()));
             double elapsed = (current - lastClaimTime).TotalDays;
-            if(elapsed > nextRewardDelay)
+         //   Debug.Log("current: " + current + " lasttime: " + lastClaimTime + " elap: " + elapsed + "day: " + nextRewardDelay);
+            if(elapsed >= nextRewardDelay)
             {
                 this.ActivateReward();
+               // Debug.Log("Active");
             }
             else
             {
                 this.DeactiveReward();
+              //  Debug.Log("Deactive");
             }
         }
 

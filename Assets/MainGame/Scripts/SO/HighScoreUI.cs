@@ -25,7 +25,11 @@ namespace HighScoreSaving
         [Header("High Score Data")]
         [SerializeField] private HighScoreData data;
         [SerializeField] private List<GameObject> displayer;
- 
+
+        private void Awake()
+        {
+            data.LoadScores();
+        }
         public void UpdateTable(int score)
         {
             Infor user = new(GameData.Instance.UserName, score);
