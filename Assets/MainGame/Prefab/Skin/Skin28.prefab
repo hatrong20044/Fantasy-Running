@@ -459,6 +459,10 @@ PrefabInstance:
         by Humanoid clips.\n\tTransform 'head'\n\tTransform 'head'\n\tFrom animation
         clip 'RunLeft'\n\tFrom animation clip 'RunRight'\n\tFrom animation clip 'Die'"
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 78f96db9601fc9042acedb885675b143, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6016349230849131448, guid: 78f96db9601fc9042acedb885675b143, type: 3}
       propertyPath: m_Layer
       value: 3
