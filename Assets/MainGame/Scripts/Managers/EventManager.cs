@@ -21,6 +21,9 @@ public class EventManager : MonoBehaviour
     public event Action<GameObject> OnCoinCollected;
 
     public event Action<GameObject> OnPlayerCollided;
+    public event Action OnGameplayInputLocked;
+    public void LockGameplayInput() => OnGameplayInputLocked?.Invoke();
+
 
     public event Action OnGameStarted;
     public void CoinCollected(GameObject coin)

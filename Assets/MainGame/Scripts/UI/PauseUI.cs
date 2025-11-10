@@ -25,6 +25,7 @@ public class PauseUI : MonoBehaviour
     {
         
         UIManager.Instance.HideUI(UIName.Pause);
+        EventManager.Instance.LockGameplayInput();
 
     }
     public void OnClickRestartButton()

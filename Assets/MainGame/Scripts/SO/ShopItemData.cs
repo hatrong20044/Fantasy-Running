@@ -5,5 +5,6 @@ public class ShopItemData : ScriptableObject
 {
     public string itemName;
     public int price;
-    public GameObject prefab;  
+    public GameObject prefab;
+    public bool isPurchased;
 }
