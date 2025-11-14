@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
@@ -24,6 +24,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             if (_instance == null)
             {
                 _instance = this as T;
+                Debug.Log($"[Singleton] {typeof(T)} được khởi tạo từ Awake.");
                 DontDestroyOnLoad(gameObject);
             }
             else if (_instance != this)
