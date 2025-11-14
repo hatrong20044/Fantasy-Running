@@ -29,6 +29,10 @@ public class EndTriggerHandler : MonoBehaviour
             {
                 ObjectPool.Instance.ReturnToPool(mapTag, tile);
             }
+            else
+            {
+                GameObject.Destroy(tile);
+            }
         }
     }
 
