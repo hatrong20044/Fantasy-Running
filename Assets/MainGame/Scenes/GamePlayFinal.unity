@@ -6324,12 +6324,12 @@ MonoBehaviour:
   - bossPrefab: {fileID: 356409367}
     nextBossDistance: 100
     spawnDelay: 0
-    activeTime: 10
+    activeTime: 1000
     persistUntilDefeated: 0
   - bossPrefab: {fileID: 3514484034724958994, guid: 56314a6aca78b92478b6d56ca8d690e5, type: 3}
     nextBossDistance: 100
     spawnDelay: 0
-    activeTime: 10
+    activeTime: 50
     persistUntilDefeated: 0
   player: {fileID: 316005487}
   isFirstBoss: 1
