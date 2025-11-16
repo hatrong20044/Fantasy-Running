@@ -129,7 +129,6 @@ public class ObstacleSpawner : MonoBehaviour
                 SetPosObstacleSystem(obstacles);
             }
             this.distanceObtacle = Random.Range(this.minDistanceObstacle, this.maxDistanceObstacle);
-            Debug.Log(distanceObtacle);
             this.currentObstaclePosZ += this.distanceObtacle;
         }
     }
@@ -145,7 +144,6 @@ public class ObstacleSpawner : MonoBehaviour
                 SetPosObstacleSystem(obstacles);
             }
             this.distanceObtacle = Random.Range(this.minDistanceObstacle, this.maxDistanceObstacle);
-            Debug.Log(distanceObtacle);
             this.currentResetPosZ += this.distanceObtacle;
             this.currentObstaclePosZ += this.distanceObtacle;
         }

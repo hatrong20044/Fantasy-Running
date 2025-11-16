@@ -2652,7 +2652,7 @@ MonoBehaviour:
   - Obstacle6
   obstaclePrefab: {fileID: 507443123}
   zoneManager: {fileID: 0}
-  minDistanceObstacle: 30
+  minDistanceObstacle: 40
   maxDistanceObstacle: 50
   distanceObtacle: 30
   maxSystemObstacle: 5
@@ -6317,23 +6317,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossList:
   - bossPrefab: {fileID: -8515879188404313477, guid: 1e13dc01f53c62f48832170e4d1c0281, type: 3}
-    nextBossDistance: 100
+    nextBossDistance: 800
     spawnDelay: 0
     activeTime: 50
     persistUntilDefeated: 1
   - bossPrefab: {fileID: 356409367}
-    nextBossDistance: 100
+    nextBossDistance: 800
     spawnDelay: 0
     activeTime: 1000
     persistUntilDefeated: 0
   - bossPrefab: {fileID: 3514484034724958994, guid: 56314a6aca78b92478b6d56ca8d690e5, type: 3}
-    nextBossDistance: 100
+    nextBossDistance: 800
     spawnDelay: 0
     activeTime: 50
     persistUntilDefeated: 0
   player: {fileID: 316005487}
   isFirstBoss: 1
-  triggerDistance: 100
+  triggerDistance: 800
   isSpawningOrActive: 0
   currentBoss: {fileID: 0}
 --- !u!4 &1965728245
