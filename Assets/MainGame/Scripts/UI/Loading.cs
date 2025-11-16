@@ -14,13 +14,24 @@ public class Loading : MonoBehaviour
     void Start()
     {
         // Play video
-        introVid.Play();
+        this.PlayVideo();
 
         // Đăng ký event khi video kết thúc
         introVid.loopPointReached += OnVideoFinished;
 
         // Bắt đầu pre-load scene ngay
         StartCoroutine(PreloadScene());
+
+    }
+    public void PlayVideo()
+    {
+        if (introVid)
+        {
+            string videoPath = System.IO.Path.Combine(Application.streamingAssetsPath, "IntroLogo.mp4");
+            Debug.Log(videoPath);
+            introVid.url = videoPath;
+            introVid.Play();
+        }
 
     }
 

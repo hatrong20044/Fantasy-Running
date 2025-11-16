@@ -59,7 +59,7 @@ public class GameplayUI : MonoBehaviour
         RectTransform rect = coinBox.GetComponent<RectTransform>();
         float newRight = baseRight + digits * 30f;
 
-        // Giới hạn để không quá dài
+        // Giới hạn để không quá dài    
         newRight = Mathf.Clamp(newRight, baseRight, baseRight + 155f);
 
         rect.offsetMax = new Vector2(newRight,rect.offsetMax.y);
