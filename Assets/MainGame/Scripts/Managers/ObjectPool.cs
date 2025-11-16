@@ -55,7 +55,6 @@ public class ObjectPool : MonoBehaviour
                 objectsPool.Enqueue(obj);
             }
             poolDictionary.Add(pool.tag, objectsPool);
-            Debug.Log($"Create {pool.tag} pool");
         }
     }
 
