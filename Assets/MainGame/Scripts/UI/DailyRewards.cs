@@ -106,7 +106,7 @@ namespace DailyRewardSystem {
             DateTime current = DateTime.Now;
             DateTime lastClaimTime = DateTime.Parse(PlayerPrefs.GetString(GameSetting.TIMEDATE_REWARD_DELAY.ToString()));
             double elapsed = (current - lastClaimTime).TotalDays;
-         //   Debug.Log("current: " + current + " lasttime: " + lastClaimTime + " elap: " + elapsed + "day: " + nextRewardDelay);
+            Debug.Log("current: " + current + " lasttime: " + lastClaimTime + " elap: " + elapsed + "day: " + nextRewardDelay);
             if(elapsed >= nextRewardDelay)
             {
                 this.ActivateReward();

@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour
         }
         zoneManager.UpdateWithCameraPosition(cameraTransf.position.z);
     }
-
+ 
     private void Reset()
     {
         this.LoadComponents();
