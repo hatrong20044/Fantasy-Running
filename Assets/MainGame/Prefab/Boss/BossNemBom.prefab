@@ -632,7 +632,7 @@ MonoBehaviour:
   hoverHeight: 8
   maxBullet: 2
   CannonPos: {fileID: 2589821478511603596}
-  flightDuration: 1.25
+  flightDuration: 2
   laneDistance: 2.5
   timeInterVal: 2.5
   isSpawnable: 1
@@ -648,9 +648,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c54cda2a6d37ab94d8c7444d9900900f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 5
   HealthBar: {fileID: 2146886306902818165}
-  maxHealth: 1
+  maxHealth: 5
   anim: {fileID: 1925522423304251164}
 --- !u!4 &5501420335429631334 stripped
 Transform:
