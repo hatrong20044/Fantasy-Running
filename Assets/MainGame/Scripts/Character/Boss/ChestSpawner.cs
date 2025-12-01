@@ -46,11 +46,6 @@ public class ChestSpawner : MonoBehaviour
         if (questionDatabase != null)
         {
             questionDatabase.Initialize();
-            Debug.Log($"✅ QuestionDatabase initialized with {questionDatabase.allQuestions.Count} questions");
-        }
-        else
-        {
-            Debug.LogError("❌ QuestionDatabase chưa được gán!");
         }
     }
 
@@ -79,7 +74,6 @@ public class ChestSpawner : MonoBehaviour
         if (!ValidateReferences()) return;
         if (questionGatePrefab == null)
         {
-            Debug.LogError("❌ Chưa gán QuestionGate Prefab!");
             return;
         }
 
@@ -95,7 +89,6 @@ public class ChestSpawner : MonoBehaviour
         rightGate = rightObj.GetComponent<QuestionGate>();
 
         gatesSpawned = true;
-        Debug.Log("✅ Question Gates spawned - sẽ theo player mãi mãi");
     }
 
     // =========================================================
@@ -103,13 +96,11 @@ public class ChestSpawner : MonoBehaviour
     // =========================================================
     public void SpawnChestWave()
     {
-        Debug.Log("🟢 SpawnChestWave() called!");
         if (!ValidateReferences()) return;
 
         currentQuestion = questionDatabase.GetRandomQuestion();
         if (currentQuestion == null)
         {
-            Debug.LogError("❌ Không lấy được câu hỏi!");
             return;
         }
 
@@ -142,10 +133,6 @@ public class ChestSpawner : MonoBehaviour
                 }
 
                 StartCoroutine(AnimateChestRiseUp(chestObj, startPos, endPos));
-            }
-            else
-            {
-                Debug.LogWarning($"⚠️ Pool 'Chest' hết object ở lane {i}");
             }
         }
     }
@@ -205,13 +192,11 @@ public class ChestSpawner : MonoBehaviour
     {
         if (player == null)
         {
-            Debug.LogError("❌ Player reference null!");
             return false;
         }
 
         if (questionDatabase == null)
         {
-            Debug.LogError("❌ QuestionDatabase chưa được gán!");
             return false;
         }
 
@@ -233,7 +218,6 @@ public class ChestSpawner : MonoBehaviour
         }
 
         gatesSpawned = false;
-        Debug.Log("🗑️ Question Gates đã bị destroy");
     }
 
     private struct AnswerData

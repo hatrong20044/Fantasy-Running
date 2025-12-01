@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class PlayerCollision : MonoBehaviour
 {
-    public float warningDuration; // 1.0f
     private Player player;
     private void Start()
     {
@@ -22,7 +21,6 @@ public class PlayerCollision : MonoBehaviour
         else if (other.gameObject.name == "Activation")
         {
             float timeWarning = (4 / 7f)*(30 / player.forwardSpeed);
-            Debug.Log(timeWarning + " " + 30/player.forwardSpeed);
             RunWarnning runWarning = other.gameObject.GetComponentInParent<RunWarnning>();
             Movement obstacleMovement = other.gameObject.GetComponentInParent<Movement>();
             runWarning.SetTimeWarning(timeWarning);
@@ -57,5 +55,4 @@ public class PlayerCollision : MonoBehaviour
         yield return new WaitForSeconds(1f);
         UIManager.Instance.ShowUI(UIName.GameOver);
     } 
-     
 }

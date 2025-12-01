@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour,IPausable
@@ -160,6 +161,15 @@ public class Player : MonoBehaviour,IPausable
 
                 verticalVelocity = jumpForce;
                 isJumping = true;
+                int number = int.Parse(new string(Anim.name.Where(char.IsDigit).ToArray()));
+                if (number < 20)
+                {
+                    SoundManager.Instance.PlaySFX2("Jump");
+                }
+                else
+                {
+                    SoundManager.Instance.PlaySFX2("Jump_anime");
+                }
                 ChangeAnim("Jump");
             }
 
@@ -349,8 +359,16 @@ public class Player : MonoBehaviour,IPausable
         moveDirection = Vector3.zero;
         verticalVelocity = 0f;
         ChangeAnim("Die");
-        controller.enabled = false;
-        Debug.Log("Player Died!");
+        int number = int.Parse(new string(Anim.name.Where(char.IsDigit).ToArray()));
+        if (number < 20)
+        {
+            SoundManager.Instance.PlaySFX2("Lose");
+        }
+        else
+        {
+            SoundManager.Instance.PlaySFX2("Lose_anime");
+        }
+            controller.enabled = false;
     }
 
     public void CastSkill()
@@ -373,8 +391,8 @@ public class Player : MonoBehaviour,IPausable
     public void ReverseInput(bool reversed)
     {
         isDirectionReversed = reversed;
-        Debug.Log("Reverse Input: " + reversed);
     }
+
     public void SetCanRun(bool value)
     {
         canRun = value;

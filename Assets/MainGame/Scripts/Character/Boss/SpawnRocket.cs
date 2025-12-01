@@ -22,7 +22,6 @@ public class SpawnRocket : BossBase
         SpawnRocket.instance = this;
         if (player != null)
         {
-            Debug.Log("player not null");
             StartCoroutine(DelaySpawn());
         }
     }

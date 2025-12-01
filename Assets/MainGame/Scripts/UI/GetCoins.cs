@@ -20,24 +20,19 @@ public class GetCoins : MonoBehaviour
 
     public void RewardCoins()
     {
-        Debug.Log($"🪙 RewardCoins called - Start: {coinStartPosition?.name}, End: {coinEndPosition?.name}");
-
         // ✅ Kiểm tra null thật sự
         if (coinStartPosition == null)
         {
-            Debug.LogError("❌ coinStartPosition is NULL!");
             return;
         }
 
         if (coinEndPosition == null)
         {
-            Debug.LogError("❌ coinEndPosition is NULL!");
             return;
         }
 
         if (coinPrefab == null)
         {
-            Debug.LogError("❌ coinPrefab is NULL!");
             return;
         }
 
@@ -66,8 +61,6 @@ public class GetCoins : MonoBehaviour
         Vector3 startPos = coinStartPosition.position;
         Vector3 endPos = coinEndPosition.position;
 
-        Debug.Log($"✅ Spawning {coinCount} coins from {startPos} to {endPos}");
-
         for (int i = 0; i < coinCount; i++)
         {
             SpawnCoin(startPos, endPos, ref delayIncrement, ref incrementZ);
@@ -78,20 +71,17 @@ public class GetCoins : MonoBehaviour
     {
         if (this == null || transform == null)
         {
-            Debug.LogWarning("⚠️ GetCoins transform is destroyed - cannot spawn coin!");
             return;
         }
 
         if (coinPrefab == null)
         {
-            Debug.LogWarning("⚠️ coinPrefab became null!");
             return;
         }
 
         GameObject coin = Instantiate(coinPrefab, startPos, Quaternion.identity, transform);
         if (coin == null)
         {
-            Debug.LogWarning("⚠️ Failed to instantiate coin!");
             return;
         }
 
@@ -144,14 +134,11 @@ public class GetCoins : MonoBehaviour
             coinManager = FindObjectOfType<CoinManager>();
             if (coinManager == null)
             {
-                Debug.LogError("❌ Không tìm thấy CoinManager trong scene!");
                 Destroy(coin);
                 return;
             }
         }
 
-        Debug.Log("Adding 1 coin to CoinManager");
-        Debug.Log("🧩 CoinManager ref: " + coinManager);
         coinManager.AddCoin(1);
 
         Destroy(coin);

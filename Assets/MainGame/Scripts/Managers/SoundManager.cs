@@ -10,7 +10,8 @@ public enum SoundType
     Background,
     Boss,
     Jump,
-
+    Jump_anime,
+    Lose_anime
 }
 
 public class SoundManager : Singleton<SoundManager>
@@ -55,6 +56,26 @@ public class SoundManager : Singleton<SoundManager>
         if (PlayerPrefs.HasKey(GameSetting.SFX_VOLUME))
         {
             this.SetSFXVolume(PlayerPrefs.GetFloat(GameSetting.SFX_VOLUME));
+        }
+    }
+
+    public void PlaySFX2(string input)
+    {
+        if (input == "Jump")
+        {
+            SoundManager.Instance.PlaySFX(SoundType.Jump);
+        }
+        else if (input == "Lose")
+        {
+            SoundManager.Instance.PlaySFX(SoundType.Lose);
+        }
+        else if (input == "Lose_anime")
+        {
+            SoundManager.Instance.PlaySFX(SoundType.Lose_anime);
+        }
+        else if (input == "Jump_anime")
+        {
+            SoundManager.Instance.PlaySFX(SoundType.Jump_anime);
         }
     }
 

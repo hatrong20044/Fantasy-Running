@@ -11,7 +11,7 @@ public class CoinSpawner : MonoBehaviour
     [SerializeField] private int limitCoins = 10;
     private void Awake()
     {
-        lastSpawnZ = levelManager.GetCameraTransform().z;
+        lastSpawnZ = levelManager.GetCameraTransform().z + 10f;
     }
     private void Start()
     {
@@ -33,7 +33,7 @@ public class CoinSpawner : MonoBehaviour
         }
         PatternManager.CoinPattern pattern = patternManager.GetRandomPattern();
         // Tính vị trí Z bắt đầu của pattern
-        randomSpacePattern = Random.Range(25f, 50f);
+        randomSpacePattern = Random.Range(20f, 40f);
         float startZ = lastSpawnZ + randomSpacePattern;
         Vector3[] patternPositions = pattern.positions;
         Vector3 spawnPos = new Vector3();

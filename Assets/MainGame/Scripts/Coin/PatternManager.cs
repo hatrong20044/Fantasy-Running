@@ -44,9 +44,59 @@ public class PatternManager : MonoBehaviour
         {
             patterns = new List<CoinPattern>();
             CreateVerticalPos();
-            CreateHorizontalPos();
+            CreateZigZagPos();
             CreateParabolaPos();
         }
+    }
+
+    public void CreateZigZagPos()
+    {
+        patterns.Add(new CoinPattern
+        {
+            namePattern = "MidRight",
+            positions = new Vector3[]
+                    {
+                    new Vector3(0, 1, 0),
+                    new Vector3(1.25f,1,1),
+                    new Vector3(laneDistance,1,2),
+
+                    }
+
+        });
+
+        patterns.Add(new CoinPattern
+        {
+            namePattern = "MidLeft",
+            positions = new Vector3[]
+                    {
+                    new Vector3(0, 1, 0),
+                    new Vector3(-1.25f,1,1),
+                    new Vector3(-laneDistance,1,2)
+                    }
+
+        });
+
+        patterns.Add(new CoinPattern
+        {
+            namePattern = "LeftMid",
+            positions = new Vector3[]
+                    {
+                    new Vector3(-laneDistance,1,0),
+                    new Vector3(-1.25f,1,1),
+                    new Vector3(0, 1, 2)
+                    }
+        });
+        patterns.Add(new CoinPattern
+        {
+            namePattern = "RightMid",
+            positions = new Vector3[]
+                    {
+                    new Vector3(laneDistance,1,0),
+                    new Vector3(1.25f,1,1),
+                    new Vector3(0, 1, 2)
+                    }
+        });
+
     }
 
     public Vector3[] VerticalPosition(float lane, int index)

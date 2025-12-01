@@ -24,7 +24,7 @@ public class HighScoreData : ScriptableObject
         {
             infor = new List<Infor>();
         }
-      //  Debug.Log("Save path =>" + SavePath);
+        Debug.Log("Save path =>" + SavePath);
     }
 
     public void SaveScores()

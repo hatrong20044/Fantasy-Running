@@ -8,13 +8,17 @@ public class Setting : MonoBehaviour
     [SerializeField] private Slider sfx;
 
     [SerializeField] private TMPro.TMP_InputField nameInput;
+
     private void Start()
     {
-        if (PlayerPrefs.HasKey(GameSetting.MUSIC_VOLUME) && PlayerPrefs.HasKey(GameSetting.SFX_VOLUME)){
+        if (PlayerPrefs.HasKey(GameSetting.MUSIC_VOLUME) && PlayerPrefs.HasKey(GameSetting.SFX_VOLUME))
+        {
             this.LoadVolume();
         }
         else
         {
+            PlayerPrefs.SetFloat(GameSetting.MUSIC_VOLUME, 0.738f);
+            PlayerPrefs.SetFloat(GameSetting.SFX_VOLUME, 1f);
             music.value = PlayerPrefs.GetFloat(GameSetting.MUSIC_VOLUME);
             sfx.value = PlayerPrefs.GetFloat(GameSetting.SFX_VOLUME);
         }
@@ -26,6 +30,7 @@ public class Setting : MonoBehaviour
     {
         UIManager.Instance.ShowUI(UIName.Setting);
     }
+
     public void CloseSettingUI()
     {
         UIManager.Instance.HideUI(UIName.Setting);
@@ -46,10 +51,11 @@ public class Setting : MonoBehaviour
     public void LoadVolume()
     {
         music.value = PlayerPrefs.GetFloat(GameSetting.MUSIC_VOLUME);
-        sfx.value = PlayerPrefs.GetFloat (GameSetting.SFX_VOLUME);
-        
+        sfx.value = PlayerPrefs.GetFloat(GameSetting.SFX_VOLUME);
+
         this.ChangeMusic();
         this.ChangeSfx();
+        PlayerPrefs.Save();
     }
 
     public void GetName(string name)

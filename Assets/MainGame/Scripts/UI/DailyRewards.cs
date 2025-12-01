@@ -2,9 +2,11 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-namespace DailyRewardSystem {
+namespace DailyRewardSystem
+{
 
-    [Serializable] public struct Reward
+    [Serializable]
+    public struct Reward
     {
         public int Amount;
         public int Day;
@@ -21,7 +23,7 @@ namespace DailyRewardSystem {
         [SerializeField] private Button closeRewardButton;
         [SerializeField] private Button claimButton;
         [SerializeField] private GameObject notification;
-        
+
         [Space]
         [Header("Reward Database")]
         [SerializeField] private RewardsDatabase rewardsDB;
@@ -31,7 +33,7 @@ namespace DailyRewardSystem {
         [Header("Timing")]
         [SerializeField] private double nextRewardDelay = 1f;
         [SerializeField] private float checkInterval = 300f;
-       
+
         private int nextRewardIndex;
 
         private void Start()
@@ -54,19 +56,19 @@ namespace DailyRewardSystem {
             this.AddEventClick();
 
             // Check the first time
-            this.SetDateTimeFirstTime();
+            // this.SetDateTimeFirstTime();
         }
-            
+
         //Open/Close UI
         private void OnOpenRewardButtonClick()
         {
             rewardPanel.SetActive(true);
-           
+
         }
-        
+
         private void OnCloseRewardButtonClick()
         {
-           
+
             rewardPanel.SetActive(false);
         }
 
@@ -78,14 +80,14 @@ namespace DailyRewardSystem {
             DeactiveReward();
             Debug.Log("<color=yelow>" + reward.Amount + " index: " + nextRewardIndex);
             this.GetNoRewardPanel(nextRewardIndex).SetActive(true);
-      
+
             this.nextRewardIndex++;
-            if(nextRewardIndex >= rewardsDB.Count)
+            if (nextRewardIndex >= rewardsDB.Count)
             {
                 this.nextRewardIndex = 0;
             }
-            
-            PlayerPrefs.SetString(GameSetting.TIMEDATE_REWARD_DELAY, DateTime.Now.ToString());
+
+            PlayerPrefs.SetString(GameSetting.TIMEDATE_REWARD_DELAY, DateTime.UtcNow.ToString("o"));
             PlayerPrefs.SetInt(GameSetting.NEXT_REWARD_INDEX, nextRewardIndex);
             PlayerPrefs.Save();
         }
@@ -100,23 +102,34 @@ namespace DailyRewardSystem {
             notification.SetActive(true);
         }
 
-       
+
         private void CheckForReward()
         {
-            DateTime current = DateTime.Now;
-            DateTime lastClaimTime = DateTime.Parse(PlayerPrefs.GetString(GameSetting.TIMEDATE_REWARD_DELAY.ToString()));
-            double elapsed = (current - lastClaimTime).TotalDays;
-            Debug.Log("current: " + current + " lasttime: " + lastClaimTime + " elap: " + elapsed + "day: " + nextRewardDelay);
-            if(elapsed >= nextRewardDelay)
+            if (string.IsNullOrEmpty(PlayerPrefs.GetString(GameSetting.TIMEDATE_REWARD_DELAY)))
             {
                 this.ActivateReward();
-               // Debug.Log("Active");
+                return;
             }
-            else
+            string lastClaimStr = PlayerPrefs.GetString(GameSetting.TIMEDATE_REWARD_DELAY);
+            if (DateTime.TryParseExact(lastClaimStr, "o", null,
+                System.Globalization.DateTimeStyles.RoundtripKind, out DateTime lastClaimTime))
             {
-                this.DeactiveReward();
-              //  Debug.Log("Deactive");
+                DateTime current = DateTime.UtcNow;
+
+                double elapsed = (current - lastClaimTime).TotalDays;
+                Debug.Log("current: " + current + " lasttime: " + lastClaimTime + " elap: " + elapsed + " day: " + nextRewardDelay);
+                if (elapsed >= nextRewardDelay)
+                {
+                    this.ActivateReward();
+                    Debug.Log("Active");
+                }
+                else
+                {
+                    this.DeactiveReward();
+                    Debug.Log("Deactive");
+                }
             }
+
         }
 
         private void DeactiveReward()
@@ -145,9 +158,9 @@ namespace DailyRewardSystem {
 
         private void LoadAllReward()
         {
-            if(nextRewardIndex == 0)
+            if (nextRewardIndex == 0)
             {
-                for(int i = 0; i < rewardsDB.Count; i++)
+                for (int i = 0; i < rewardsDB.Count; i++)
                 {
                     this.GetNoRewardPanel(i).SetActive(false);
                 }
@@ -174,10 +187,9 @@ namespace DailyRewardSystem {
         {
             if (string.IsNullOrEmpty(PlayerPrefs.GetString(GameSetting.TIMEDATE_REWARD_DELAY)))
             {
-                PlayerPrefs.SetString(GameSetting.TIMEDATE_REWARD_DELAY, DateTime.Now.ToString());
+                PlayerPrefs.SetString(GameSetting.TIMEDATE_REWARD_DELAY, DateTime.UtcNow.ToString("o"));
                 PlayerPrefs.Save();
             }
         }
     }
 }
-

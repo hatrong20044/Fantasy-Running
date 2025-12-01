@@ -34,7 +34,6 @@ namespace HighScoreSaving
         {
             Infor user = new(GameData.Instance.UserName, score);
             data.IsHighScore(user);
-            Debug.Log("Them user");
         }
 
         public void DisplayContent()

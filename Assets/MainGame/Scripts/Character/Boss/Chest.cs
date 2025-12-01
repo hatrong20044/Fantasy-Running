@@ -29,7 +29,6 @@ public class Chest : MonoBehaviour
     public static void ResetSelectionFlag()
     {
         isAnyChestSelected = false;
-        Debug.Log("🔄 Reset chest selection flag");
     }
 
     private void OnEnable()
@@ -63,7 +62,6 @@ public class Chest : MonoBehaviour
         if (answerText != null)
             answerText.text = content;
 
-        Debug.Log($"Chest setup: Lane={GetLaneName()} | Answer={content} | Correct={correct}");
     }
 
     private void Update()
@@ -101,8 +99,6 @@ public class Chest : MonoBehaviour
         if (col != null)
             col.enabled = false;
 
-        Debug.Log($"💥 Player chọn: {answerContent} (Lane: {GetLaneName()})");
-
         if (isCorrectAnswer)
         {
             OnCorrectAnswer(player);
@@ -117,8 +113,6 @@ public class Chest : MonoBehaviour
 
     private void OnCorrectAnswer(GameObject player)
     {
-        Debug.Log($"✅ Đúng - {answerContent}");
-
         BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
         if (boss != null)
             boss.OnChestSelected();
@@ -129,7 +123,6 @@ public class Chest : MonoBehaviour
             getCoins = FindObjectOfType<GetCoins>();
             if (getCoins == null)
             {
-                Debug.LogError("❌ Không tìm thấy GetCoins trong scene!");
                 return;
             }
         }
@@ -149,19 +142,12 @@ public class Chest : MonoBehaviour
 
         if (getCoins != null)
         {
-            Debug.Log("🪙 Calling RewardCoins...");
             getCoins.RewardCoins();
-        }
-        else
-        {
-            Debug.LogError("❌ GetCoins not found after search!");
         }
     }
 
     private void OnWrongAnswer(GameObject player)
     {
-        Debug.Log($"❌ Sai - {answerContent}");
-
         BossTeacherControl boss = FindObjectOfType<BossTeacherControl>();
         if (boss != null)
             boss.ElectricShockPlayer(player);
