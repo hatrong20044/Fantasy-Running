@@ -11,12 +11,13 @@ public class CoinCollect : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            collectEffect.transform.SetParent(null);
-            collectEffect.Play();
+            ParticleSystem collectEffectInstance = Instantiate(collectEffect, transform.position, Quaternion.identity);
+            collectEffectInstance.Play();
             EventManager.Instance.CoinCollected(gameObject);
+            Destroy(collectEffectInstance.gameObject, collectEffectInstance.main.duration);
         }
-       
     }
+
     void Update()
     {
         transform.Rotate(0, rotateSpeed, 0, Space.World);

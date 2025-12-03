@@ -451,7 +451,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 78f96db9601fc9042acedb885675b143, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 70fa34a766101c746be1febcfcb9b860, type: 2}
+      objectReference: {fileID: 9100000, guid: 8ee6b16624eccb8468d57cb0d36f1bde, type: 2}
     - target: {fileID: 5866666021909216657, guid: 78f96db9601fc9042acedb885675b143, type: 3}
       propertyPath: m_WarningMessage
       value: "\nBinding warning: Some generic clip(s) animate transforms that are
