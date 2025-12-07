@@ -5947,6 +5947,8 @@ MonoBehaviour:
   followOffset: {x: 0, y: 4, z: -6}
   introOffset: {x: -2.31, y: 3.2, z: 3.48}
   smoothTime: 0.1
+  followXSpeed: 2
+  lockLookAt: 1
 --- !u!20 &1842685088
 Camera:
   m_ObjectHideFlags: 0
